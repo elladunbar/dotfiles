@@ -1,0 +1,18 @@
+{{
+    "version": "1.0.0",
+    "appearance": "dark",
+    "name": "wal",
+    "description": "Colors from the wal program",
+    "palette": {{
+        "background": "{background}",
+        "foreground": "{foreground}",
+        "blue": "{color4}",
+        "green": "{color2}",
+        "magenta": "{color13}",
+        "orange": "{color3}",
+        "purple": "{color5}",
+        "red": "{color1}",
+        "yellow": "{color11}",
+        "cyan": "{color6}"
+    }}
+}}
