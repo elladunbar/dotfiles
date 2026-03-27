@@ -44,5 +44,14 @@ return {
 			end,
 			desc = "Manpage entries",
 		},
+
+		-- Treesitter Pickers
+		{
+			"<leader>ft",
+			function()
+				return require("telescope.builtin").treesitter()
+			end,
+			desc = "Names from Treesitter",
+		},
 	},
 }
