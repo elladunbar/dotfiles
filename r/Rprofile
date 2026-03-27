@@ -1,0 +1,12 @@
+options(browser = "safari", verbose = FALSE, startupMessages = FALSE)
+local({
+  n <- max(parallel::detectCores() - 2L, 1L)
+  Sys.setenv(MAKEFLAGS = paste0("-j", n))
+  options(Ncpus = n)
+  options(mc.cores = n)
+  Sys.setenv(CHROMOTE_CHROME = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome")
+})
+error <- quote(dump.frames("${R_HOME_USER}/testdump", TRUE))
+.Last <- function() {
+  if(interactive()) try(savehistory("~/.local/state/r/Rhistory"))
+}

@@ -1,0 +1,5 @@
+HOME = /Users/ella/
+R_HISTFILE = /Users/ella/.local/state/r/Rhistory
+R_HOME_USER = /Users/ella/Code/R
+R_LIBS_USER = /Users/ella/Code/lib/R
+R_PROFILE_USER = /Users/ella/.config/r/Rprofile
