@@ -1,0 +1,21 @@
+config-file = keys
+command = /run/current-system/sw/bin/fish
+
+font-family = Berkeley Mono
+font-size = 14.5
+freetype-load-flags = no-hinting
+
+theme = light:/Users/ella/.local/share/nvim/lazy/nightfox.nvim/extra/dayfox/dayfox.ghostty,dark:/Users/ella/.local/share/nvim/lazy/nightfox.nvim/extra/duskfox/duskfox.ghostty
+background-opacity = 0.7
+background-blur-radius = 30
+minimum-contrast = 1
+
+macos-titlebar-style = hidden
+window-padding-x = 6
+window-padding-y = 6,0
+confirm-close-surface = false
+focus-follows-mouse = true
+
+copy-on-select = clipboard
+clipboard-read = allow
+clipboard-write = allow
