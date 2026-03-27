@@ -1,0 +1,39 @@
+"$schema" = 'https://starship.rs/config-schema.json'
+
+add_newline = false
+
+format = """[  ](fg:black bg:bright-yellow)\
+$directory\
+[](fg:bright-yellow bg:bright-purple)\
+$git_branch$git_status\
+[](fg:bright-purple bg:bright-green)\
+${custom.python}\
+[](fg:bright-green) """
+
+continuation_prompt = "[](fg:bright-yellow) "
+
+[directory]
+style = "fg:black bg:bright-yellow"
+format = "[$path]($style)"
+truncation_length = 1
+truncate_to_repo = false
+
+[git_branch]
+symbol = "  "
+style = "fg:black bg:bright-purple"
+format = "[$symbol$branch]($style)"
+
+[git_status]
+style = "fg:black bg:bright-purple"
+format = "[$staged$deleted$modified]($style)"
+staged = " +$count"
+deleted = " -$count"
+modified = " ~$count"
+
+[custom.python]
+command = 'if [ -z "$VIRTUAL_ENV" ]; then echo "\$"; else echo " "; fi'
+when = true
+shell = ["/bin/dash"]
+unsafe_no_escape = true
+style = "fg:black bg:bright-green"
+format = "[ $output]($style)"
