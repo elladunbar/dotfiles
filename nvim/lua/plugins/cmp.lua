@@ -74,6 +74,7 @@ return {
 						c = cmp.mapping.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = true }),
 					}),
 				}),
+				preselect = cmp.PreselectMode.None,
 				sources = cmp.config.sources({
 					{
 						name = "nvim_lsp",
@@ -116,6 +117,12 @@ return {
 							luasnip = "[snip]",
 						},
 					}),
+				},
+				window = {
+					documentation = {
+						max_width = 0,
+						max_height = 0,
+					},
 				},
 				experimental = {
 					native_menu = false,

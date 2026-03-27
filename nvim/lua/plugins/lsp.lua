@@ -69,6 +69,7 @@ return {
 							},
 						},
 					})
+				else
 					vim.lsp.config(server, {
 						capabilities = capabilities,
 						on_attach = REGISTER_SERVER(server),

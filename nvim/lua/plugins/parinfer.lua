@@ -1,5 +1,5 @@
 return {
 	"eraserhd/parinfer-rust",
 	build = "cargo build --release",
-	ft = { "clojure", "lisp", "hy", "racket" },
+	ft = { "clojure", "hy", "lisp", "racket" },
 }

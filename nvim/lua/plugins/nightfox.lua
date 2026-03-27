@@ -14,13 +14,5 @@ return {
 				},
 			},
 		})
-
-		-- if vim.o.background == "light" then
-		-- 	vim.cmd("colo dayfox")
-		-- 	COLOR_THEME = "dayfox"
-		-- else
-		-- 	vim.cmd("colo duskfox")
-		-- 	COLOR_THEME = "duskfox"
-		-- end
 	end,
 }

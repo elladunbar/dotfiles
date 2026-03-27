@@ -19,7 +19,6 @@ end
 
 return {
 	"nvim-lualine/lualine.nvim",
-	-- enabled = false,
 	dependencies = "nvim-tree/nvim-web-devicons",
 	lazy = false,
 	config = function()
