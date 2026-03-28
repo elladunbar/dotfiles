@@ -1,6 +1,6 @@
 command = /bin/fish
 
-config-file = dark
+config-file = light
 
 font-family = Berkeley Mono
 font-size = 12
