@@ -1,0 +1,39 @@
+@import url("/home/ella/.cache/wal/colors-waybar.css");
+
+* {
+    font-family: "SF Pro Display", "Symbols Nerd Font";
+    font-size: 15px;
+    color: @color15;
+}
+
+window#waybar {
+    border: 4px solid @color10;
+    border-radius: 16px;
+    background-color: @color0Alpha;
+}
+
+#clock {
+    padding-top: 10px;
+    font-weight: bold;
+}
+
+#workspaces * {
+    font-size: 20px;
+}
+
+#tray {
+    padding-bottom: 21px;
+}
+
+#wireplumber {
+    font-size: 23px;
+}
+
+#custom-notifications {
+    font-size: 20px;
+}
+
+#network {
+    font-size: 25px;
+    padding-bottom: 10px;
+}

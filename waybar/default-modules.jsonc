@@ -1,0 +1,62 @@
+{
+    "position": "left",
+    "modules-left": [
+        "clock"
+    ],
+    "modules-center": [
+        "hyprland/workspaces"
+    ],
+    "modules-right": [
+        "tray",
+        "wireplumber",
+        "custom/notifications",
+        "network"
+    ],
+    "clock": {
+        "interval": 1,
+        "format": "󰃭\n{:%a\n%y\n%m\n%d\n\n󰅐\n%H\n%M}",
+        "timezone": "",
+        "tooltip": false,
+        "justify": "center"
+    },
+    "hyprland/workspaces": {
+        "format": "{icon}",
+        "format-icons": {
+            "active": "",
+            "default": ""
+        },
+        "justify": "center"
+    },
+    "tray": {
+        "show-passive-items": true,
+        "icon-size": 25,
+        "spacing": 5
+    },
+    "wireplumber": {
+        "format": "{icon}",
+        "format-muted": "󰝟",
+        "format-icons": [
+            "󰕿",
+            "󰖀",
+            "󰕾"
+        ],
+        "tooltip-format": "{volume}%",
+        "on-click": "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle",
+        "justify": "center"
+    },
+    "custom/notifications": {
+        "exec": "~/Code/sh/waybar/notifications.sh 󰍪 󱙎",
+        "interval": 1,
+        "justify": "center",
+        "on-click": "makoctl mode -t do-not-disturb",
+        "tooltip": false
+    },
+    "network": {
+        "format": "",
+        "format-ethernet": "󰈁",
+        "format-wifi": "󰖩",
+        "format-disconnected": "󰞃",
+        "tooltip-format": "{ipaddr}",
+        "justify": "center"
+    }
+}
