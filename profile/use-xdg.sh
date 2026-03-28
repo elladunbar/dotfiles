@@ -1,0 +1,14 @@
+export CARGO_HOME="$XDG_DATA_HOME"/cargo
+export GEM_HOME="$XDG_DATA_HOME"/gem
+export GEM_SPEC_CACHE="$XDG_CACHE_HOME"/gem
+export GHCUP_USE_XDG_DIRS="yes"
+export GNUPGHOME="$XDG_DATA_HOME"/gnupg
+export INPUTRC="$XDG_CONFIG_HOME"/readline/inputrc
+export LESSHISTFILE="$XDG_STATE_HOME"/less/history
+export NIMBLE_DIR="$XDG_DATA_HOME/nimble"
+export NVM_DIR="$XDG_DATA_HOME/nvm"
+export OLLAMA_MODELS="$XDG_DATA_HOME/ollama/models"
+export RUSTUP_HOME="$XDG_DATA_HOME"/rustup
+export R_ENVIRON_USER="$XDG_CONFIG_HOME/r/Renviron"
+export STACK_XDG="yes"
+export WORKON_HOME="$XDG_DATA_HOME/virtualenvs"
