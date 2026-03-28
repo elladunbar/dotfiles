@@ -1,0 +1,16 @@
+set editing-mode vi
+set keyseq-timeout 50
+set show-all-if-ambiguous on
+set show-mode-in-prompt on
+set skip-completed-text on
+
+$if term=linux
+set show-mode-in-prompt off
+$else
+$if bash
+set vi-cmd-mode-string "\1\033[96m\2\1\033[0m\033[30;106m\2\1\033[0m\033[96;103m\2\1\033[0m\2"
+set vi-ins-mode-string "\1\033[94m\2\1\033[0m\033[30;104m\2\1\033[0m\033[94;103m\2\1\033[0m\2"
+$else
+set vi-cmd-mode-string "^"
+set vi-ins-mode-string ">"
+$endif
