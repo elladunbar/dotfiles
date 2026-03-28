@@ -1,3 +1,6 @@
 [submodule "tmux/plugins/tpm"]
 	path = tmux/plugins/tpm
 	url = https://github.com/tmux-plugins/tpm
+[submodule "mpv/scripts"]
+	path = mpv/scripts
+	url = https://github.com/po5/mpv_sponsorblock.git
