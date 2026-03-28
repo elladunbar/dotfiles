@@ -76,4 +76,8 @@ hyprctl reload >> "$outputs" 2>> "$errors"
 killall -SIGUSR2 waybar >> "$outputs" 2>> "$errors"
 
 
+# pi
+sed --in-place "s/$old_lowercase/$new_lowercase/" "$XDG_CONFIG_HOME/pi/agent/settings.json" >> "$outputs" 2>> "$errors"
+
+
 unset old_lowercase old_uppercase new_lowercase new_uppercase
