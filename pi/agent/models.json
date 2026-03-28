@@ -1,0 +1,38 @@
+{
+    "providers": {
+        "llama.cpp (ginkgo)": {
+            "baseUrl": "http://ginkgo.nodes.elladunbar.com:5678/v1",
+            "api": "openai-completions",
+            "apiKey": "llama.cpp",
+            "models": [
+                {
+                    "id": "unsloth/Qwen3.5-35B-A3B",
+                    "contextWindow": 65536,
+                    "maxTokens": 65536
+                }
+            ]
+        },
+        "llama.cpp (dogwood)": {
+            "baseUrl": "http://dogwood.nodes.elladunbar.com:5678/v1",
+            "api": "openai-completions",
+            "apiKey": "llama.cpp",
+            "models": [
+                {
+                    "id": "unsloth/Qwen3.5-2B",
+                    "contextWindow": 32768,
+                    "maxTokens": 32768
+                },
+                {
+                    "id": "unsloth/Qwen3.5-4B",
+                    "contextWindow": 32768,
+                    "maxTokens": 32768
+                },
+                {
+                    "id": "unsloth/Qwen3.5-9B",
+                    "contextWindow": 16384,
+                    "maxTokens": 16384
+                }
+            ]
+        }
+    }
+}

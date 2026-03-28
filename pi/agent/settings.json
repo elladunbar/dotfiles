@@ -1,0 +1,15 @@
+{
+  "lastChangelogVersion": "0.63.1",
+  "theme": "light",
+  "compaction": {
+    "enabled": false
+  },
+  "editorPaddingX": 3,
+  "packages": [
+    "npm:pi-vim",
+    "npm:@rhedbull/pi-permissions",
+    "npm:@aliou/pi-guardrails"
+  ],
+  "defaultProvider": "llama.cpp (ginkgo)",
+  "defaultModel": "unsloth/Qwen3.5-35B-A3B"
+}
