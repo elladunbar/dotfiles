@@ -1,0 +1,6 @@
+HOME = /home/ella/
+R_HISTFILE = /home/ella/.local/state/r/Rhistory
+R_HOME_USER = /home/ella/Code/R
+R_LIBS_USER = /home/ella/Code/lib/R
+R_PDFVIEWER = /usr/bin/zathura
+R_PROFILE_USER = /home/ella/.config/r/Rprofile

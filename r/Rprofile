@@ -1,0 +1,20 @@
+# Set default browser
+options(browser = "firefox")
+local({
+    # Detect the number of cores available for use in parallelisation
+    n <- max(parallel::detectCores() - 2L, 1L)
+    # Compile the different sources of a single package in parallel
+    Sys.setenv(MAKEFLAGS = paste0("-j",n))
+    # Install different packages passed to a single install.packages() call in parallel
+    options(Ncpus = n)
+    # Parallel apply-type functions via 'parallel' package
+    options(mc.cores =  n)
+
+    # Set chrome location for 'chromote' package
+    Sys.setenv(CHROMOTE_CHROME = "/usr/bin/chromium")
+})
+# Post-mortem debugging facilities
+error <- quote(dump.frames("${R_HOME_USER}/testdump", TRUE))
+.Last <- function() {
+  if(interactive()) try(savehistory("~/.local/state/r/Rhistory"))
+}
