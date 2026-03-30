@@ -65,6 +65,21 @@ if status is-interactive
     function ,h
         $argv --help | bat --plain --language=help
     end
+    function ,j
+        set fulldate $(string split " " $(date +%Y\ %m\ %d))
+        set journalpath $HOME/Documents/journal/$fulldate[1]/$fulldate[2]
+        set journalfile $journalpath/$fulldate[3].dj
+
+        if not test -f $journalfile
+            mkdir -p $journalpath
+            touch $journalfile
+        end
+
+        pushd $HOME/Documents/journal
+        $EDITOR $journalfile
+        popd
+    end
+
     function ,sz
         du -h -d 1 $argv | sort --human-numeric-sort --reverse
     end
