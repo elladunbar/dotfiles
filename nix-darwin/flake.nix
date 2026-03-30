@@ -65,6 +65,7 @@
         socat
         sqlcmd
         starship
+        stow
         tailscale
         tealdeer
         texinfo
