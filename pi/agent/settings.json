@@ -11,5 +11,6 @@
     "npm:@aliou/pi-guardrails"
   ],
   "defaultProvider": "llama.cpp (ginkgo)",
-  "defaultModel": "unsloth/Qwen3.5-35B-A3B"
+  "defaultModel": "unsloth/Qwen3.5-35B-A3B",
+  "hideThinkingBlock": true
 }
