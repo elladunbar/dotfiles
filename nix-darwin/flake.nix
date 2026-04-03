@@ -121,6 +121,7 @@
           "lm-studio"
           "localsend"
           "mactex"
+          "microsoft-office"
           "moonlight"
           "netnewswire"
           "obs"
