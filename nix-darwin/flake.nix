@@ -173,6 +173,8 @@
                 "--kv-unified"
                 "--cache-type-k" "q8_0"
                 "--cache-type-v" "q8_0"
+                "--cache-type-k-draft" "q8_0"
+                "--cache-type-v-draft" "q8_0"
                 "--batch-size" "2048"
                 "--ubatch-size" "2048"
                 "--jinja"
