@@ -204,10 +204,71 @@ in
 
   programs.git = {
     enable = true;
-    settings.user = {
-      name = "Ella Dunbar";
-      email = "git@elladunbar.com";
+    settings = {
+      alias = {
+        a = "add";
+        aa = "add .";
+        b = "branch";
+        c = "commit";
+        ca = "commit -a";
+        cam = "commit -am";
+        cl = "clone";
+        cm = "commit -m";
+        co = "checkout";
+        db = "diff HEAD^ HEAD";
+        fgt = "update-index --skip-worktree";
+        lg = "log --graph --abbrev-commit --decorate --date=relative --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(auto)%s%C(reset) %C(dim black)- %an%C(reset)%C(bold yellow)%d%C(reset)' --all";
+        pl = "pull";
+        ps = "push";
+        s = "status";
+        sw = "switch";
+      };
+      branch.sort = "-committerdate";
+      column.ui = "auto";
+      commit.verbose = true;
+      core.pager = "bat --style plain";
+      diff = {
+        algorithm = "histogram";
+        colorMoved = "plain";
+        mnemonicPrefix = true;
+        renames = true;
+      };
+      fetch = {
+        fsckobjects = true;
+        prune = true;
+        pruneTags = true;
+        all = true;
+      };
+      help.autocorrect = "prompt";
+      init.defaultBranch = "main";
+      merge = {
+        conflictstyle = "zdiff3";
+        tool = "nvimdiff";
+      };
+      push = {
+        default = "simple";
+        autoSetupRemote = true;
+        followTags = true;
+      };
+      rebase = {
+        autoSquash = true;
+        autoStash = true;
+        updateRefs = true;
+      };
+      receive.fsckobjects = true;
+      rerere = {
+        autoupdate = true;
+        enabled = true;
+      };
+      tag.sort = "version:refname";
+      transfer.fsckobjects = true;
+      user = {
+        name = "Ella Dunbar";
+        email = "git@elladunbar.com";
+      };
     };
+
+    lfs.enable = true;
   };
 
   programs.neovim = {
