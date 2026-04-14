@@ -1,5 +1,5 @@
 {
-  "lastChangelogVersion": "0.64.0",
+  "lastChangelogVersion": "0.67.1",
   "theme": "light",
   "compaction": {
     "enabled": false
@@ -8,7 +8,8 @@
   "packages": [
     "npm:pi-vim",
     "npm:@rhedbull/pi-permissions",
-    "npm:@aliou/pi-guardrails"
+    "npm:@aliou/pi-guardrails",
+    "npm:pi-lens"
   ],
   "defaultProvider": "llama.cpp (ginkgo)",
   "defaultModel": "unsloth/Qwen3.5-35B-A3B",
