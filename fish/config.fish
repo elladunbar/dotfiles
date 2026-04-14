@@ -46,6 +46,7 @@ if status is-interactive
     end
 
     # file viewers
+    abbr --add ,img chafa --format kitty --passthrough=tmux
     function ,csv
         column -s, -t < $argv[1] | less -#2 -N -S
     end
