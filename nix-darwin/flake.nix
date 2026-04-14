@@ -54,6 +54,7 @@
         neovim
         nmap
         nodejs_25
+        openconnect
         openssl
         pandoc
         perl
