@@ -11,16 +11,6 @@ PaperWM:bindHotkeys({
 	swap_up = { { "alt", "shift" }, "k" },
 	swap_down = { { "alt", "shift" }, "j" },
 
-	switch_space_1 = { { "alt" }, "1" },
-	switch_space_2 = { { "alt" }, "2" },
-	switch_space_3 = { { "alt" }, "3" },
-	switch_space_4 = { { "alt" }, "4" },
-	switch_space_5 = { { "alt" }, "5" },
-	switch_space_6 = { { "alt" }, "6" },
-	switch_space_7 = { { "alt" }, "7" },
-	switch_space_8 = { { "alt" }, "8" },
-	switch_space_9 = { { "alt" }, "9" },
-
 	move_window_1 = { { "alt", "shift" }, "1" },
 	move_window_2 = { { "alt", "shift" }, "2" },
 	move_window_3 = { { "alt", "shift" }, "3" },
@@ -40,6 +30,14 @@ PaperWM.window_gap = { top = 0, bottom = 20, left = 20, right = 20 }
 PaperWM.swipe_fingers = 3
 PaperWM.swipe_gain = 2.0
 PaperWM:start()
+
+-- other window management hotkeys
+for i = 1, 9 do
+	hs.hotkey.bind({ "alt" }, tostring(i), function()
+		local cmd = "/Applications/InstantSpaceSwitcher.app/Contents/MacOS/ISSCli index " .. tostring(i)
+		os.execute(cmd)
+	end)
+end
 
 -- app hotkeys
 hs.hotkey.bind({ "alt" }, "e", function()
