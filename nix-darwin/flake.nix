@@ -101,6 +101,9 @@
         onActivation.autoUpdate = true;
         onActivation.cleanup = "uninstall";
         onActivation.upgrade = true;
+        taps = [
+          "jurplel/tap"
+        ];
         brews = [
           "ghcup"
           "mpv"
@@ -119,6 +122,7 @@
           "google-chrome"
           "hammerspoon"
           "handy"
+          "instant-space-switcher"
           "lm-studio"
           "localsend"
           "mactex"
