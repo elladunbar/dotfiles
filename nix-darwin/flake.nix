@@ -182,6 +182,7 @@
                 "--cache-type-v-draft" "q8_0"
                 "--batch-size" "2048"
                 "--ubatch-size" "2048"
+                "--spec-default"
                 "--jinja"
             ];
             KeepAlive = true;
