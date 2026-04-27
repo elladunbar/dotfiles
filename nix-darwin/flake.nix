@@ -52,6 +52,7 @@
         minhtml
         mosh
         neovim
+        ninja
         nmap
         nodejs_25
         openconnect
