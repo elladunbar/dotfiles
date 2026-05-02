@@ -46,7 +46,10 @@ end)
 
 -- play video with clipboard content
 hs.hotkey.bind({ "alt" }, "v", function()
-	local cmd = "~/Code/sh/mpv/play.sh " .. hs.pasteboard.getContents()
+	local cmd = 'PATH="/run/current-system/sw/bin:/opt/homebrew/bin:/usr/bin:/bin" '
+		.. "/Users/ella/Code/sh/mpv/play.sh "
+		.. hs.pasteboard.getContents()
+		.. " &"
 	os.execute(cmd)
 end)
 
