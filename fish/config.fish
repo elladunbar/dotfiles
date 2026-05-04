@@ -45,6 +45,9 @@ if status is-interactive
     function ,json
         jq '.[]' $argv[1] | bat --plain --language=json
     end
+    function ,tsv
+        column -s\t -t < $argv[1] | less -#2 -N -S
+    end
     function ,vm # view man
         pandoc -s -t man $argv[1] | man -l -
     end
