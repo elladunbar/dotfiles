@@ -61,7 +61,6 @@ if status is-interactive
     abbr --add ,enx $EDITOR /etc/nix-darwin/flake.nix
     abbr --add ,fc source $XDG_CONFIG_HOME/fish/config.fish
     abbr --add ,g git
-    abbr --add ,m 'nvim "$(mktemp /tmp/scratch-mail.XXXXXX)" -c "set ft=mail"'
     abbr --add ,nx sudo darwin-rebuild switch
     abbr --add ,pd 'pandoc -V geometry:margin=1in'
     abbr --add neofetch fastfetch --config neofetch.jsonc
@@ -81,6 +80,11 @@ if status is-interactive
         pushd $HOME/Documents/journal
         $EDITOR $journalfile
         popd
+    end
+    function ,m
+        set tempname "$(mktemp /tmp/scratch-mail.XXXXXX)"
+        echo "$tempname"
+        nvim "$tempname" -c "set ft=mail"
     end
 
     function ,sz
