@@ -29,6 +29,14 @@ return {
 				end,
 				desc = "Copy & exit",
 			},
+			{
+				"<leader>cd",
+				function()
+					local date = os.date("%Y-%m-%d")
+					vim.api.nvim_put({ date }, "c", false, true)
+				end,
+				desc = "Paste current date",
+			},
 			{ "<leader>ce", "<cmd>!./%<cr>", desc = "Execute current file" },
 			{ "<leader>cp", "<cmd>silent !pandoc -V geometry:margin=1in -i % -o %:r.pdf<cr>", desc = "Convert to PDF" },
 
