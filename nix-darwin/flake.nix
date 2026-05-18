@@ -183,7 +183,6 @@
                 "--cache-type-v-draft" "q8_0"
                 "--batch-size" "2048"
                 "--ubatch-size" "2048"
-                "--spec-default"
                 "--tools" "get_datetime"
                 "--jinja"
             ];
