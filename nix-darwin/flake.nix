@@ -19,6 +19,7 @@
       # List packages installed in system profile. To search by name, run:
       # $ nix-env -qaP | grep wget
       environment.systemPackages = with pkgs; [
+        b2sum
         bash
         bat
         btop
@@ -61,6 +62,7 @@
         perl
         php
         poppler
+        rclone
         ripgrep
         rsync
         rustup
@@ -89,6 +91,18 @@
             gt
             gtExtras
             languageserver
+            reticulate
+            tidyverse
+            webshot2
+          ];
+        })
+        (pkgs.rstudioWrapper.override {
+          packages = with pkgs.rPackages; [
+            ggthemes
+            gt
+            gtExtras
+            languageserver
+            reticulate
             tidyverse
             webshot2
           ];
@@ -139,6 +153,7 @@
           "sioyek"
           "spotify"
           "steam"
+          "transmission"
           "whatsapp"
           "zed"
           "zoom"
@@ -147,6 +162,12 @@
         masApps = {
           Bitwarden = 1352778147;
           "Consent-O-Matic" = 1606897889;
+          Equinox = 1591510203;
+          Keynote = 409183694;
+          Numbers = 409203825;
+          Pages = 409201541;
+          TestFlight = 899247664;
+          Xcode = 497799835;
         };
       };
 
@@ -184,6 +205,7 @@
                 "--batch-size" "2048"
                 "--ubatch-size" "2048"
                 "--tools" "get_datetime"
+                "--spec-default"
                 "--jinja"
             ];
             KeepAlive = true;
