@@ -63,6 +63,7 @@ if status is-interactive
     abbr --add ,g git
     abbr --add ,nx sudo darwin-rebuild switch
     abbr --add ,pd 'pandoc -V geometry:margin=1in'
+    abbr --add batp bat --plain
     abbr --add neofetch fastfetch --config neofetch.jsonc
     function ,h
         $argv --help | bat --plain --language=help
