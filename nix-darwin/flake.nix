@@ -55,7 +55,6 @@
         neovim
         ninja
         nmap
-        nodejs_25
         openconnect
         openssl
         pandoc
@@ -116,6 +115,7 @@
         onActivation.autoUpdate = true;
         onActivation.cleanup = "uninstall";
         onActivation.upgrade = true;
+        onActivation.extraFlags = [ "--force-cleanup" ];
         taps = [
           "jurplel/tap"
         ];
@@ -154,6 +154,7 @@
           "spotify"
           "steam"
           "transmission"
+          "vlc"
           "whatsapp"
           "zed"
           "zoom"
