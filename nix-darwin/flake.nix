@@ -51,6 +51,7 @@
         man
         mas
         minhtml
+        mold
         mosh
         neovim
         ninja
@@ -117,13 +118,22 @@
         onActivation.upgrade = true;
         onActivation.extraFlags = [ "--force-cleanup" ];
         taps = [
-          "jurplel/tap"
+          {
+            name = "jurplel/tap";
+            trusted = true;
+          }
+          {
+            name = "microsoft/mssql-release";
+            trusted = true;
+          }
         ];
         brews = [
           "ghcup"
           "mpv"
+          "msodbcsql18"
           "pi-coding-agent"
           "tree-sitter-cli"
+          "unixodbc"
         ];
         casks = [
           "anki"
@@ -137,7 +147,7 @@
           "google-chrome"
           "hammerspoon"
           "handy"
-          "instant-space-switcher"
+          # "instant-space-switcher"
           "localsend"
           "mactex"
           "microsoft-office"
