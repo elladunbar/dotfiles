@@ -141,30 +141,48 @@
           "calibre"
           "discord"
           "element"
-          "firefox"
+          {
+            name = "firefox";
+            greedy = false;
+          }
           "ghostty"
           "gimp"
-          "google-chrome"
+          {
+            name = "google-chrome";
+            greedy = false;
+          }
           "hammerspoon"
           "handy"
-          # "instant-space-switcher"
+          "instant-space-switcher"
           "localsend"
           "mactex"
           "microsoft-office"
           "moonlight"
           "netnewswire"
-          "obs"
-          "onlyoffice"
+          {
+            name = "obs";
+            greedy = false;
+          }
+          {
+            name = "onlyoffice";
+            greedy = false;
+          }
           "orion"
           "prism"
-          "raycast"
+          {
+            name = "raycast";
+            greedy = false;
+          }
           "readest"
           "sioyek"
           "spotify"
           "steam"
           "transmission"
           "whatsapp"
-          "zed"
+          {
+            name = "zed";
+            greedy = false;
+          }
           "zoom"
           "zotero"
         ];
@@ -209,10 +227,10 @@
                 "--kv-unified"
                 "--cache-type-k" "q8_0"
                 "--cache-type-v" "q8_0"
-                "--cache-type-k-draft" "q8_0"
-                "--cache-type-v-draft" "q8_0"
-                "--batch-size" "2048"
-                "--ubatch-size" "2048"
+                "--cache-type-k-draft" "f16"
+                "--cache-type-v-draft" "f16"
+                "--batch-size" "1024"
+                "--ubatch-size" "512"
                 "--tools" "get_datetime"
                 "--spec-default"
                 "--jinja"
