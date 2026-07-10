@@ -30,6 +30,7 @@
         dash
         docker
         dos2unix
+        exiftool
         eza
         fastfetch
         fd
@@ -85,28 +86,17 @@
         lua51Packages.lua
         lua51Packages.luarocks
 
-        (pkgs.rWrapper.override {
-          packages = with pkgs.rPackages; [
-            ggthemes
-            gt
-            gtExtras
-            languageserver
-            reticulate
-            tidyverse
-            webshot2
-          ];
-        })
-        (pkgs.rstudioWrapper.override {
-          packages = with pkgs.rPackages; [
-            ggthemes
-            gt
-            gtExtras
-            languageserver
-            reticulate
-            tidyverse
-            webshot2
-          ];
-        })
+        # (pkgs.rWrapper.override {
+        #   packages = with pkgs.rPackages; [
+        #     ggthemes
+        #     gt
+        #     gtExtras
+        #     languageserver
+        #     reticulate
+        #     tidyverse
+        #     webshot2
+        #   ];
+        # })
       ];
 
       # Homebrew
@@ -141,16 +131,10 @@
           "calibre"
           "discord"
           "element"
-          {
-            name = "firefox";
-            greedy = false;
-          }
+          "firefox"
           "ghostty"
           "gimp"
-          {
-            name = "google-chrome";
-            greedy = false;
-          }
+          "google-chrome"
           "hammerspoon"
           "handy"
           "instant-space-switcher"
@@ -159,37 +143,24 @@
           "microsoft-office"
           "moonlight"
           "netnewswire"
-          {
-            name = "obs";
-            greedy = false;
-          }
-          {
-            name = "onlyoffice";
-            greedy = false;
-          }
+          "obs"
+          "onlyoffice"
           "orion"
           "prism"
-          {
-            name = "raycast";
-            greedy = false;
-          }
+          "raycast"
           "readest"
           "sioyek"
           "spotify"
           "steam"
           "transmission"
           "whatsapp"
-          {
-            name = "zed";
-            greedy = false;
-          }
+          "zed"
           "zoom"
           "zotero"
         ];
         masApps = {
           Bitwarden = 1352778147;
           "Consent-O-Matic" = 1606897889;
-          Equinox = 1591510203;
           Keynote = 409183694;
           Numbers = 409203825;
           Pages = 409201541;
