@@ -33,7 +33,7 @@ return {
 				"<leader>cd",
 				function()
 					local date = os.date("%Y-%m-%d")
-					vim.api.nvim_put({ date }, "c", false, true)
+					vim.api.nvim_put({ date }, "c", true, true)
 				end,
 				desc = "Paste current date",
 			},
