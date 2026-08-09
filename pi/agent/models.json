@@ -6,18 +6,18 @@
             "apiKey": "llama.cpp",
             "models": [
                 {
-                    "id": "AesSedai/Qwen3.5-35B-A3B",
-                    "contextWindow": 262144,
+                    "id": "AesSedai/Qwen3.6-35B-A3B",
+                    "contextWindow": 131072,
                     "maxTokens": 81920
                 },
                 {
                     "id": "AesSedai/Nemotron-Cascade-2-30B-A3B",
-                    "contextWindow": 262144,
+                    "contextWindow": 131072,
                     "maxTokens": 81920
                 },
                 {
-                    "id": "mradermacher/gemma-4-26B-A4B",
-                    "contextWindow": 262144,
+                    "id": "unsloth/gemma-4-26B-A4B",
+                    "contextWindow": 131072,
                     "maxTokens": 81920
                 }
             ]
