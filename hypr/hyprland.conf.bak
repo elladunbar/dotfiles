@@ -25,6 +25,7 @@ exec-once = uwsm app -- xsettingsd
 
 exec-once=[workspace 1 silent] uwsm app -- firefox
 exec-once=[workspace 1 silent] uwsm app -- element-desktop --password-store=gnome-libsecret
+exec-once=[workspace 1 silent] uwsm app -- com.discordapp.Discord
 exec-once=[workspace 1 silent] uwsm app -- openrgb
 exec-once=[workspace 2 silent] uwsm app -- ghostty
 exec-once=[workspace 2 silent] uwsm app -- ghostty
@@ -120,7 +121,6 @@ group {
 misc {
     disable_hyprland_logo = true
     disable_splash_rendering = true
-    vfr = true
     vrr = 2
     disable_autoreload = true
 }
@@ -147,7 +147,6 @@ ecosystem {
 }
 
 dwindle {
-    pseudotile = true # master switch for pseudotiling
     preserve_split = true # you probably want this
 }
 
@@ -190,7 +189,7 @@ windowrule = match:class (firefox), match:title (Picture-in-Picture), float on
 
 windowrule = match:class ^(com.mitchellh.ghostty)$, opacity 1.0 override 0.85 override
 
-windowrule = match:class ^(com.discordapp.Discord)$, opacity 0.8 override 0.7 override
+windowrule = match:class ^(discord)$, opacity 0.8 override 0.7 override
 windowrule = match:class ^(Element)$, opacity 0.8 override 0.7 override
 windowrule = match:class ^(rstudio)$, opacity 0.8 override 0.7 override
 
