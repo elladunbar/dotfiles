@@ -48,6 +48,7 @@ set -gxp PATH "/run/current-system/sw/bin"
 set -gxp PATH $XDG_DATA_HOME/cargo/bin
 set -gxp PATH $XDG_BIN_HOME
 set -gxp PATH "./node_modules/.bin"
+set -gxp PATH "/Applications/MATLAB_R2026a.app/bin"
 
 # deduplicate path
 set -l tmp_PATH
