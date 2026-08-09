@@ -82,6 +82,7 @@
         yt-dlp
         zellij
         zstd
+        zulu25
 
         lua51Packages.lua
         lua51Packages.luarocks
@@ -129,6 +130,7 @@
           "anki"
           "box-drive"
           "calibre"
+          "citrix-workspace"
           "discord"
           "element"
           "firefox"
@@ -147,6 +149,7 @@
           "onlyoffice"
           "orion"
           "prism"
+          "prismlauncher"
           "raycast"
           "readest"
           "sioyek"
