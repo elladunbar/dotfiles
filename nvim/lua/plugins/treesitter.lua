@@ -30,7 +30,6 @@ return {
 			"nix",
 			"nu",
 			"printf",
-			"prolog",
 			"python",
 			"query",
 			"r",
