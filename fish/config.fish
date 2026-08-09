@@ -10,12 +10,12 @@ if status is-interactive
     # file management
     abbr --add ,cpdirs rsync --archive --include='*/' --exclude='*'
     abbr --add ,rs rsync --archive --compress --human-readable --progress
-    abbr --add la eza --all --hyperlink
-    abbr --add ll eza --all --long --icons=auto --git --hyperlink
-    abbr --add ls eza --hyperlink
-    abbr --add tree eza --tree --icons=auto --hyperlink
+    abbr --add la eza --all --hyperlink auto
+    abbr --add ll eza --all --long --icons=auto --git --hyperlink auto
+    abbr --add ls eza --hyperlink auto
+    abbr --add tree eza --tree --icons=auto --hyperlink auto
     function ,cl
-        cd $argv[1]; and eza --hyperlink
+        cd $argv[1]; and eza --hyperlink auto
     end
     function ,mkcd
         mkdir -p $argv[1]; and cd $argv[1]
@@ -59,6 +59,9 @@ if status is-interactive
 
         jq '.' $file | bat --plain --language=json
     end
+    function ,tsv
+        column -s'\t' -t < $argv[1] | less -#2 -N -S
+    end
     function ,vm # visual man
         pandoc -s -t man $argv[1] | man -l -
     end
@@ -69,10 +72,12 @@ if status is-interactive
     abbr --add ,av source .venv/bin/activate.fish
     abbr --add ,e emacs -nw
     abbr --add ,efc $EDITOR $XDG_CONFIG_HOME/fish/config.fish
-    abbr --add ,ehl $EDITOR $XDG_CONFIG_HOME/hypr/hyprland.conf
+    abbr --add ,ehl $EDITOR $XDG_CONFIG_HOME/hypr/hyprland.lua
     abbr --add ,fc source $XDG_CONFIG_HOME/fish/config.fish
     abbr --add ,g git
     abbr --add ,m 'nvim "$(mktemp /tmp/scratch-mail.XXXXXX)" -c "set ft=mail"'
+    abbr --add ,sc systemctl
+    abbr --add ,scu systemctl --user
     abbr --add ,ug 'run0 grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB --removable; and run0 grub-mkconfig -o /boot/grub/grub.cfg'
     abbr --add batp bat --plain
     abbr --add neofetch fastfetch --config neofetch.jsonc
