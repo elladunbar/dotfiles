@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ... }:
+{ config, pkgs, ... }:
 
 {
   imports =
@@ -61,10 +61,8 @@
     ghostty
     git
     gnumake
-    helix
     iotop
     jq
-    lmstudio
     minhtml
     neovim
     ninja
@@ -76,28 +74,35 @@
     sysstat
     util-linux
     wget
-
-    cudaPackages.cuda_cudart
-    cudaPackages.cuda_nvcc
-    cudaPackages.cudatoolkit
-    cudaPackages.cudnn
-
-    linuxPackages.nvidia_x11
-
-    stdenv.cc
   ];
-  environment.sessionVariables = {
-    CUDA_HOME = "${pkgs.cudaPackages.cudatoolkit}";
-    CUDA_PATH = "${pkgs.cudaPackages.cudatoolkit}";
-    LD_LIBRARY_PATH = lib.makeLibraryPath [
-      "${pkgs.cudaPackages.cudatoolkit}"
-      "${pkgs.cudaPackages.cudatoolkit}/lib64"
-      pkgs.cudaPackages.cudnn
-      pkgs.cudaPackages.cuda_cudart
-      pkgs.stdenv.cc.cc.lib
-    ];
-    CUDA_MODULE_LOADING = "LAZY";
-  };
+  # nixpkgs.overlays = [
+  #   (self: super: {
+  #     cudaPackages = super.cudaPackages_12;
+  #   })
+  # ];
+  nixpkgs.overlays = [
+    (self: super: {
+      cudaPackages = super.cudaPackages_12.overrideScope (final: prev: {
+        cudnn = prev.cudnn.overrideAttrs (old: {
+          meta = old.meta // {
+            badPlatforms = [];
+          };
+        });
+      });
+    })
+    (final: prev: {
+      python3 = prev.python3.override {
+        packageOverrides = pyFinal: pyPrev: {
+          imageio = pyPrev.imageio.overridePythonAttrs (oldAttrs: {
+            disabledTests = (oldAttrs.disabledTests or []) ++ [
+              "test_lagging_video_stream"
+              "test_process_termination"
+            ];
+          });
+        };
+      };
+    })
+  ];
 
   services.tailscale.enable = true;
 
@@ -124,8 +129,6 @@
   networking.firewall.allowedUDPPortRanges = [ { from = 47998; to = 48000; } ];
 
   nix.settings = {
-    # cores = 1;
-    # max-jobs = 1;
     experimental-features = [ "nix-command" "flakes" ];
     substituters = [
       "https://cache.nixos-cuda.org"
@@ -136,6 +139,8 @@
   };
   nixpkgs.config = {
     allowUnfree = true;
+    allowUnsupportedSystem = false;
+    cudaCapabilities = [ "6.1" ];
     cudaSupport = true;
   };
 
@@ -160,7 +165,7 @@
     };
     open = false;
     nvidiaSettings = true;
-    package = config.boot.kernelPackages.nvidiaPackages.stable;
+    package = config.boot.kernelPackages.nvidiaPackages.legacy_580;
   };
   boot.blacklistedKernelModules = [ "nouveau" ];
   boot.extraModprobeConfig = ''
@@ -171,10 +176,10 @@
   boot.kernelModules = [ "e1000e" ];
   boot.kernelParams = [
     "ip=192.168.1.100::::river-birch:eno1::::"
-    # "zswap.enabled=1"
-    # "zswap.compressor=zstd"
-    # "zswap.max_pool_percentage=20"
-    # "zswap.shrinker_enabled=1"
+    "zswap.enabled=1"
+    "zswap.compressor=zstd"
+    "zswap.max_pool_percentage=20"
+    "zswap.shrinker_enabled=1"
   ];
   boot.initrd.network = {
     enable = true;
@@ -196,8 +201,6 @@
       extraConfig = "PermitRootLogin yes";
     };
   };
-
-  swapDevices = lib.mkForce [];
 
   # This option defines the first version of NixOS you have installed on this particular machine,
   # and is used to maintain compatibility with application data (e.g. databases) created on older NixOS versions.

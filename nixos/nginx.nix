@@ -75,7 +75,7 @@ in
 
       "river-birch.nodes.elladunbar.com" = {
         locations."/" = {
-          proxyPass = "http://${llamacppSettings.host}:${toString llamacppSettings.port}";
+          proxyPass = "http://${llamacppSettings.settings.host}:${toString llamacppSettings.settings.port}";
           recommendedProxySettings = true;
         };
         listen = [
