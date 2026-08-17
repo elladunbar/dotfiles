@@ -89,10 +89,14 @@
 
         (pkgs.rWrapper.override {
           packages = with pkgs.rPackages; [
+            colorspace
+            ggh4x
             ggthemes
             gt
             gtExtras
             languageserver
+            patchwork
+            psych
             reticulate
             tidyverse
             webshot2
