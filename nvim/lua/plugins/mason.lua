@@ -3,6 +3,7 @@ return {
 		"WhoIsSethDaniel/mason-tool-installer.nvim",
 		opts = {
 			ensure_installed = {
+				"air",
 				"arduino-language-server",
 				"bash-language-server",
 				"clang-format",
