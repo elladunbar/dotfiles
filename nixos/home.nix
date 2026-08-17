@@ -50,6 +50,7 @@ in
 
     # LSPs
     nixd
+    tree-sitter
 
     # remote x11
     firefox-bin
@@ -140,10 +141,10 @@ in
       # file management
       ",cpdirs" = "rsync --archive --include='*/' --exclude '*'";
       ",rs" = "rsync --archive --compress --human-readable --progress";
-      la = "eza --all --hyperlink";
-      ll = "eza --all --long --icons=auto --git --hyperlink";
-      ls = "eza --hyperlink";
-      tree = "eza --tree --icons=auto --hyperlink";
+      la = "eza --all --hyperlink=auto";
+      ll = "eza --all --long --icons=auto --git --hyperlink=auto";
+      ls = "eza --hyperlink auto";
+      tree = "eza --tree --icons=auto --hyperlink=auto";
 
       # misc
       ",ad" = "cd; and clear";
@@ -155,7 +156,7 @@ in
     functions = {
       # file management
       ",cl" = {
-        body = "cd $argv[1]; and eza --hyperlink";
+        body = "cd $argv[1]; and eza --hyperlink=auto";
       };
       ",mkcd" = {
         body = "mkdir -p $argv[1]; and cd $argv[1]";
