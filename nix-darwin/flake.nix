@@ -87,17 +87,17 @@
         lua51Packages.lua
         lua51Packages.luarocks
 
-        # (pkgs.rWrapper.override {
-        #   packages = with pkgs.rPackages; [
-        #     ggthemes
-        #     gt
-        #     gtExtras
-        #     languageserver
-        #     reticulate
-        #     tidyverse
-        #     webshot2
-        #   ];
-        # })
+        (pkgs.rWrapper.override {
+          packages = with pkgs.rPackages; [
+            ggthemes
+            gt
+            gtExtras
+            languageserver
+            reticulate
+            tidyverse
+            webshot2
+          ];
+        })
       ];
 
       # Homebrew
@@ -156,7 +156,6 @@
           "spotify"
           "steam"
           "transmission"
-          "whatsapp"
           "zed"
           "zoom"
           "zotero"
