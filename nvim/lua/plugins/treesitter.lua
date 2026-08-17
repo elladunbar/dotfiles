@@ -47,7 +47,6 @@ return {
 			"xml",
 			"yaml",
 			"yuck",
-			"zathurarc",
 			"zig",
 		}
 		require("nvim-treesitter").install(filetypes)
