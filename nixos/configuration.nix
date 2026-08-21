@@ -1,5 +1,7 @@
 { config, pkgs, ... }:
-
+let
+  llama-cpp-service-package = config.services.llama-cpp.package;
+in
 {
   imports =
     [
@@ -63,6 +65,7 @@
     gnumake
     iotop
     jq
+    llama-cpp-service-package
     minhtml
     neovim
     ninja
