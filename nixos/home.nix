@@ -330,8 +330,8 @@ in
       end
 
       -- BACKGROUND --
-      vim.g.background = "light"
-      vim.o.background = "light"
+      vim.g.background = "dark"
+      vim.o.background = "dark"
     '';
     plugins = with pkgs.vimPlugins; [
       cmp-buffer
@@ -692,20 +692,21 @@ in
 
   programs.ssh = {
     enable = true;
-    matchBlocks = {
+    enableDefaultConfig = false;
+    settings = {
       "ginkgo" = {
-        hostname = "ginkgo.nodes.elladunbar.com";
-        user = "ella";
-        port = 17227;
+        HostName = "ginkgo.nodes.elladunbar.com";
+        User = "ella";
+        Port = 17227;
       };
       "pine" = {
-        hostname = "pine.nodes.elladunbar.com";
-        user = "ella";
-        port = 17227;
+        HostName = "pine.nodes.elladunbar.com";
+        User = "ella";
+        Port = 17227;
       };
       "*" = {
-        compression = true;
-        extraOptions = { VisualHostKey = "yes"; };
+        Compression = true;
+        VisualHostKey = "yes";
       };
     };
   };
