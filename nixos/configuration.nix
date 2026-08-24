@@ -11,6 +11,7 @@ in
       ./hardware-configuration.nix
       ./immich.nix
       ./llama-cpp.nix
+      ./minecraft.nix
       ./nginx.nix
       ./sops.nix
       ./zfs.nix
@@ -127,7 +128,7 @@ in
     };
   };
 
-  networking.firewall.allowedTCPPorts = [ 17228 17080 17443 18080 18443 19080 19443 47984 47989 48010 ];
+  networking.firewall.allowedTCPPorts = [ 17228 17080 17443 18080 18443 19080 19443 25565 47984 47989 48010 ];
   networking.firewall.allowedUDPPorts = [ 17228 17080 17443 18080 18443 19080 19443 48002 48010 ];
   networking.firewall.allowedUDPPortRanges = [ { from = 47998; to = 48000; } ];
 
@@ -224,4 +225,3 @@ in
   # For more information, see `man configuration.nix` or https://nixos.org/manual/nixos/stable/options#opt-system.stateVersion .
   system.stateVersion = "25.05"; # Did you read the comment?
 }
-

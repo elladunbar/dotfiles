@@ -330,8 +330,8 @@ in
       end
 
       -- BACKGROUND --
-      vim.g.background = "dark"
-      vim.o.background = "dark"
+      vim.g.background = "light"
+      vim.o.background = "light"
     '';
     plugins = with pkgs.vimPlugins; [
       cmp-buffer
