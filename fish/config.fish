@@ -10,12 +10,12 @@ if status is-interactive
     # file management
     abbr --add ,cpdirs rsync --archive --include='*/' --exclude='*'
     abbr --add ,rs rsync --archive --compress --human-readable --progress
-    abbr --add la eza --all --hyperlink auto
-    abbr --add ll eza --all --long --icons=auto --git --hyperlink auto
-    abbr --add ls eza --hyperlink auto
-    abbr --add tree eza --tree --icons=auto --hyperlink auto
+    abbr --add la eza --all --hyperlink=auto
+    abbr --add ll eza --all --long --icons=auto --git --hyperlink=auto
+    abbr --add ls eza --hyperlink=auto
+    abbr --add tree eza --tree --icons=auto --hyperlink=auto
     function ,cl
-        cd $argv[1]; and eza --hyperlink auto
+        cd $argv[1]; and eza --hyperlink=auto
     end
     function ,mkcd
         mkdir -p $argv[1]; and cd $argv[1]
