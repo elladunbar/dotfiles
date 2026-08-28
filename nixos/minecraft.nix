@@ -27,6 +27,9 @@ in
       PACKWIZ_URL = "https://asphodel.cc/packwiz/Ports/Curse/Raspberry-Server/pack.toml";
       MEMORY = "5000M";
       USE_AIKAR_FLAGS = "true";
+      ENABLE_WHITELIST = "TRUE";
+      ICON = "https://d1nhio0ox7pgb.cloudfront.net/_img/g_collection_png/standard/64x64/dog.png";
+      MOTD = "dogcraft :3";
     };
 
     volumes = [
