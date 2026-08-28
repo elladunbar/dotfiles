@@ -79,7 +79,6 @@
         uv
         wget
         yazi
-        yt-dlp
         zellij
         zstd
         zulu25
