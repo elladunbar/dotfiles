@@ -233,7 +233,10 @@
       };
 
       # System settings
-      security.pam.services.sudo_local.touchIdAuth = true;
+      security.pam.services.sudo_local = {
+        touchIdAuth = true;
+        reattach = true;
+      };
       system.defaults.CustomUserPreferences = {
         "org.hammerspoon.Hammerspoon" = {
           MJConfigFile = "~/.config/hammerspoon/init.lua";
