@@ -30,6 +30,7 @@ in
       ENABLE_WHITELIST = "TRUE";
       ICON = "https://d1nhio0ox7pgb.cloudfront.net/_img/g_collection_png/standard/64x64/dog.png";
       MOTD = "dogcraft :3";
+      DIFFICULTY = "normal";
     };
 
     volumes = [
