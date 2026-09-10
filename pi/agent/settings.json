@@ -1,8 +1,8 @@
 {
-  "lastChangelogVersion": "0.84.3",
-  "theme": "light",
+  "lastChangelogVersion": "0.85.1",
+  "theme": "dark",
   "compaction": {
-    "enabled": false
+    "enabled": true
   },
   "editorPaddingX": 3,
   "packages": [

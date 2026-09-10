@@ -912,6 +912,38 @@
         }
       },
       {
+        "id": "deepseek-ai/DeepSeek-V4-Flash-Vision-Exp",
+        "name": "DeepSeek V4 Flash Vision Exp",
+        "api": "openai-completions",
+        "provider": "huggingface",
+        "baseUrl": "https://router.huggingface.co/v1",
+        "reasoning": true,
+        "input": [
+          "text",
+          "image"
+        ],
+        "cost": {
+          "input": 0.44,
+          "output": 1.32,
+          "cacheRead": 0,
+          "cacheWrite": 0
+        },
+        "compat": {
+          "supportsDeveloperRole": false
+        },
+        "contextWindow": 1048576,
+        "maxTokens": 384000,
+        "thinkingLevelMap": {
+          "off": null,
+          "minimal": null,
+          "low": "low",
+          "medium": null,
+          "high": "high",
+          "xhigh": null,
+          "max": "max"
+        }
+      },
+      {
         "id": "deepseek-ai/DeepSeek-V4-Pro",
         "name": "DeepSeek V4 Pro",
         "api": "openai-completions",
@@ -1366,7 +1398,7 @@
           "supportsDeveloperRole": false
         },
         "contextWindow": 262144,
-        "maxTokens": 64000,
+        "maxTokens": 128000,
         "thinkingLevelMap": {
           "off": "none",
           "minimal": null,
@@ -1655,6 +1687,37 @@
         "maxTokens": 131072
       },
       {
+        "id": "zai-org/GLM-5.3",
+        "name": "GLM-5.3",
+        "api": "openai-completions",
+        "provider": "huggingface",
+        "baseUrl": "https://router.huggingface.co/v1",
+        "reasoning": true,
+        "input": [
+          "text"
+        ],
+        "cost": {
+          "input": 1.4,
+          "output": 4.4,
+          "cacheRead": 0,
+          "cacheWrite": 0
+        },
+        "compat": {
+          "supportsDeveloperRole": false
+        },
+        "contextWindow": 1048576,
+        "maxTokens": 131072,
+        "thinkingLevelMap": {
+          "off": null,
+          "minimal": null,
+          "low": "low",
+          "medium": null,
+          "high": "high",
+          "xhigh": null,
+          "max": "max"
+        }
+      },
+      {
         "id": "zai-org/GLM-5.3-Flash",
         "name": "GLM-5.3-Flash",
         "api": "openai-completions",
@@ -1662,7 +1725,8 @@
         "baseUrl": "https://router.huggingface.co/v1",
         "reasoning": true,
         "input": [
-          "text"
+          "text",
+          "image"
         ],
         "cost": {
           "input": 0.15,
@@ -1686,8 +1750,8 @@
         }
       }
     ],
-    "checkedAt": 1787860260528,
-    "lastModified": 1787823117000,
-    "etag": "W/\"e9c32d233a51db8d688077d113d3a5cd\""
+    "checkedAt": 1789011833296,
+    "lastModified": 1788948047000,
+    "etag": "W/\"c1f6e94b634de8948b873721ec37b8d2\""
   }
 }
