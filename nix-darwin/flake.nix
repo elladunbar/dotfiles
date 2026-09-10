@@ -197,7 +197,7 @@
                 "--port" "5678"
                 "--n-gpu-layers" "all"
                 "--flash-attn" "on"
-                "--no-mmap"
+                "--load-mode" "none"
                 "--parallel" "1"
                 "--kv-unified"
                 "--cache-type-k" "q8_0"
