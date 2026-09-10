@@ -22,16 +22,11 @@
                 }
             ]
         },
-        "llama.cpp (dogwood)": {
-            "baseUrl": "http://dogwood.nodes.elladunbar.com:5678/v1",
+        "llama.cpp (river-birch)": {
+            "baseUrl": "http://river-birch.nodes.elladunbar.com:5678/v1",
             "api": "openai-completions",
             "apiKey": "llama.cpp",
             "models": [
-                {
-                    "id": "unsloth/Qwen3.5-2B",
-                    "contextWindow": 32768,
-                    "maxTokens": 32768
-                },
                 {
                     "id": "unsloth/Qwen3.5-4B",
                     "contextWindow": 32768,
@@ -39,8 +34,8 @@
                 },
                 {
                     "id": "unsloth/Qwen3.5-9B",
-                    "contextWindow": 16384,
-                    "maxTokens": 16384
+                    "contextWindow": 32768,
+                    "maxTokens": 32768
                 }
             ]
         }
