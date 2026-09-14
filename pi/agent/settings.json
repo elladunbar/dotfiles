@@ -1,6 +1,6 @@
 {
   "lastChangelogVersion": "0.85.1",
-  "theme": "dark",
+  "theme": "light/dark",
   "compaction": {
     "enabled": true
   },
@@ -8,7 +8,8 @@
   "packages": [
     "npm:@rhedbull/pi-permissions",
     "npm:@aliou/pi-guardrails",
-    "npm:pi-lens"
+    "npm:pi-lens",
+    "npm:@juicesharp/rpiv-ask-user-question"
   ],
   "defaultProvider": "llama.cpp (ginkgo)",
   "defaultModel": "AesSedai/Qwen3.6-35B-A3B",
