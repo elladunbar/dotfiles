@@ -1,0 +1,22 @@
+{
+  "lastChangelogVersion": "0.85.1",
+  "theme": "light/dark",
+  "compaction": {
+    "enabled": false
+  },
+  "defaultProvider": "llama.cpp (ginkgo)",
+  "defaultModel": "AesSedai/Qwen3.6-35B-A3B",
+  "images": {
+    "blockImages": true
+  },
+  "showHardwareCursor": false,
+  "editorPaddingX": 3,
+  "transport": "sse",
+  "collapseChangelog": true,
+  "packages": [
+    "npm:@rhedbull/pi-permissions",
+    "npm:@aliou/pi-guardrails",
+    "npm:pi-lens",
+    "npm:@juicesharp/rpiv-ask-user-question"
+  ]
+}
