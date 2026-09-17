@@ -22,6 +22,7 @@
         b2sum
         bash
         bat
+        bitwarden-cli
         btop
         ccache
         chafa
@@ -37,10 +38,12 @@
         ffmpeg
         fish
         fzf
+        gh
         git
         git-filter-repo
         git-lfs
         git-xet
+        glab
         glow
         gnused
         go
@@ -71,6 +74,7 @@
         sqlcmd
         starship
         stow
+        svgo
         tailscale
         tealdeer
         texinfo
@@ -169,7 +173,6 @@
           Keynote = 409183694;
           Numbers = 409203825;
           Pages = 409201541;
-          Xcode = 497799835;
         };
       };
 
