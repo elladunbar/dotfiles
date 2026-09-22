@@ -3,15 +3,26 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
-    nix-darwin.url = "github:nix-darwin/nix-darwin/master";
-    nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
+    nix-claude-code = {
+      url = "github:ryoppippi/nix-claude-code";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    nix-darwin = {
+      url = "github:nix-darwin/nix-darwin/master";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs = inputs@{ self, nix-darwin, nixpkgs, ... }:
+  outputs = inputs@{ self, nixpkgs, nix-claude-code, nix-darwin, ... }:
   let
     configuration = { pkgs, ... }: {
       # Put config in home folder
       environment.etc.nix-darwin.source = "/Users/ella/.config/nix-darwin";
+
+      # Overlays
+      nixpkgs.overlays = [
+        nix-claude-code.overlays.default
+      ];
 
       # Allow unfree packages
       nixpkgs.config.allowUnfree = true;
@@ -26,6 +37,7 @@
         btop
         ccache
         chafa
+        claude-code
         cmake
         colima
         dash
