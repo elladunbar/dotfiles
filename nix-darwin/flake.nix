@@ -198,6 +198,7 @@
                 "--models-max" "1"
                 "--host" "dogwood.nodes.elladunbar.com"
                 "--port" "5678"
+                "--ui-mcp-proxy"
                 "--n-gpu-layers" "all"
                 "--flash-attn" "on"
                 "--load-mode" "none"
@@ -209,7 +210,6 @@
                 "--cache-type-v-draft" "f16"
                 "--batch-size" "1024"
                 "--ubatch-size" "512"
-                "--tools" "get_datetime"
                 "--spec-default"
                 "--jinja"
             ];
