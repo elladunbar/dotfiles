@@ -47,7 +47,7 @@ const REMOTE_PROVIDERS = [
   "radius",
   "huggingface",
   "vercel-ai-gateway",
-  "github-copilot",
+  // "github-copilot",
   "moonshotai",
   "moonshotai-cn",
 ];
