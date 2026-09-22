@@ -16,6 +16,11 @@
                     "maxTokens": 81920
                 },
                 {
+                    "id": "peculiar-ragdoll/Tiel-Coder-35B-A3B",
+                    "contextWindow": 131072,
+                    "maxTokens": 81920
+                },
+                {
                     "id": "unsloth/gemma-4-26B-A4B",
                     "contextWindow": 131072,
                     "maxTokens": 81920
