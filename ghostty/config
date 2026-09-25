@@ -16,4 +16,3 @@ window-decoration = false
 confirm-close-surface = false
 
 keybind = alt+backspace=text:\x1b\x7f
-keybind = shift+enter=text:\n
