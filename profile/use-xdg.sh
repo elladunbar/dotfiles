@@ -1,4 +1,5 @@
 export CARGO_HOME="$XDG_DATA_HOME"/cargo
+export CLAUDE_CONFIG_DIR="$XDG_CONFIG_HOME"/claude
 export GEM_HOME="$XDG_DATA_HOME"/gem
 export GEM_SPEC_CACHE="$XDG_CACHE_HOME"/gem
 export GHCUP_USE_XDG_DIRS="yes"
@@ -8,6 +9,7 @@ export LESSHISTFILE="$XDG_STATE_HOME"/less/history
 export NIMBLE_DIR="$XDG_DATA_HOME/nimble"
 export NVM_DIR="$XDG_DATA_HOME/nvm"
 export OLLAMA_MODELS="$XDG_DATA_HOME/ollama/models"
+export PI_CODING_AGENT_DIR="$XDG_CONFIG_HOME"/pi/agent
 export RUSTUP_HOME="$XDG_DATA_HOME"/rustup
 export R_ENVIRON_USER="$XDG_CONFIG_HOME/r/Renviron"
 export STACK_XDG="yes"
