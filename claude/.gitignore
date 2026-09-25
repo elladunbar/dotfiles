@@ -1,0 +1,16 @@
+# Ignore everything by default; Claude Code writes lots of state, caches,
+# transcripts, and credentials here. Only allowlist hand-written config.
+/*
+!.gitignore
+
+!settings.json
+!keybindings.json
+!CLAUDE.md
+!hooks/
+!agents/
+!commands/
+!output-styles/
+
+# User skills, but not ones synced down from claude.ai
+!skills/
+skills/synced/
