@@ -102,6 +102,14 @@ if status is-interactive
     function ,sz
         du -h -d 1 $argv | sort --human-numeric-sort --reverse
     end
+    function ,v
+        set downloadpath $HOME/Videos/youtube/
+        pushd $downloadpath
+        yt-dlp --cookies-from-browser=firefox (wl-paste)
+        set filename (fd --changed-within 10seconds)
+        echo $downloadpath/$filename | wl-copy
+        popd
+    end
 
     # set up command prompt
     starship init fish | source
