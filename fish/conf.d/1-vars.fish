@@ -7,8 +7,6 @@ set -gx PYTHON_BASIC_REPL 1
 set -gx SUDO_EDITOR nvim
 set -gx VIRTUAL_ENV_DISABLE_PROMPT 1
 set -gx npm_config_prefix $HOME/.local
-set -gx ANTHROPIC_BASE_URL http://localhost:1234
-set -gx ANTHROPIC_AUTH_TOKEN lmstudio
 
 # get keys
 source $XDG_CONFIG_HOME/profile/keys.sh
