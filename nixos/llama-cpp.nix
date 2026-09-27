@@ -23,9 +23,11 @@
     enable = true;
     settings = {
       models-preset = (pkgs.formats.ini {}).generate "models-preset.ini" {
-        "mradermacher/gemma-4-E4B" = {
-          hf-repo = "mradermacher/gemma-4-E4B-it-i1-GGUF";
-          hf-file = "gemma-4-E4B-it.i1-Q4_K_M.gguf";
+        "unsloth/gemma-4-E4B" = {
+          hf-repo = "unsloth/gemma-4-E4B-it-qat-GGUF";
+          hf-file = "gemma-4-E4B-it-qat-UD-Q4_K_XL.gguf";
+          spec-type = "draft-mtp";
+          spec-draft-n-max = 2;
           ctx-size = 32768;
           temp = 1.0;
           top-p = 0.95;
@@ -56,6 +58,7 @@
       };
       host = "127.0.0.1";
       port = 8080;
+      ui-mcp-proxy = true;
       models-max = 1;
       flash-attn = "on";
       fit = "on";
@@ -68,7 +71,6 @@
       cache-type-v = "q8_0";
       cache-type-k-draft = "f16";
       cache-type-v-draft = "f16";
-      tools = "get_datetime";
       spec-default = true;
       jinja = true;
     };
