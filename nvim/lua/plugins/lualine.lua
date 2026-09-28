@@ -17,6 +17,10 @@ local function current_servers()
 	return current
 end
 
+local function theme()
+	return vim.o.background == "light" and "flatwhite" or "flatdark"
+end
+
 return {
 	"nvim-lualine/lualine.nvim",
 	dependencies = "nvim-tree/nvim-web-devicons",
@@ -27,7 +31,7 @@ return {
 		if vim.g.started_by_firenvim == true then
 			opts = {
 				options = {
-					theme = COLOR_THEME,
+					theme = theme,
 					component_separators = { left = "|", right = "|" },
 					section_separators = { left = "", right = "" },
 					always_divide_middle = false,
@@ -50,7 +54,7 @@ return {
 		else
 			opts = {
 				options = {
-					theme = COLOR_THEME,
+					theme = theme,
 					component_separators = { left = "", right = "" },
 					section_separators = { left = "", right = "" },
 					always_divide_middle = false,

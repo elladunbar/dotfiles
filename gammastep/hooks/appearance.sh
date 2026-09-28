@@ -46,14 +46,6 @@ fi
 pywalfox "$new_lowercase" >> "$outputs" 2>> "$errors"
 
 
-# ghostty
-sed --in-place "s/$old_lowercase/$new_lowercase/" "$XDG_CONFIG_HOME/ghostty/config" >> "$outputs" 2>> "errors"
-
-
-# neovim
-sed --in-place "s/$old_lowercase/$new_lowercase/" "$XDG_CONFIG_HOME"/nvim/lua/bg.lua >> "$outputs" 2>> "$errors"
-
-
 # gtk settings
 sed --in-place "s/$old_uppercase/$new_uppercase/" "$XDG_CONFIG_HOME/xsettingsd/xsettingsd.conf" >> "$outputs" 2>> "$errors"
 gsettings set org.gnome.desktop.interface gtk-theme "Fluent-round-$new_uppercase"

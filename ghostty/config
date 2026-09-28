@@ -1,6 +1,6 @@
 command = /bin/fish
 
-config-file = light
+theme = light:/home/ella/.local/share/nvim/lazy/nightfox.nvim/extra/dayfox/dayfox.ghostty,dark:/home/ella/.local/share/nvim/lazy/nightfox.nvim/extra/duskfox/duskfox.ghostty
 
 font-family = Berkeley Mono
 font-size = 12

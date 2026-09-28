@@ -1,6 +1,5 @@
 require("opts")
 require("vars")
-require("bg")
 require("user")
 
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
