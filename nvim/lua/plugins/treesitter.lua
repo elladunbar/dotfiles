@@ -1,6 +1,9 @@
 return {
 	"nvim-treesitter/nvim-treesitter",
 	config = function()
+		-- tree-sitter-djot's bundled array.h violates strict aliasing; GCC 16 -O2 miscompiles it
+		vim.env.CFLAGS = "-fno-strict-aliasing"
+
 		local filetypes = {
 			"arduino",
 			"asm",
