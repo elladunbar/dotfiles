@@ -4,20 +4,6 @@
   },
   "model": "opus",
   "disableClaudeAiConnectors": true,
-  "enableArtifact": false,
-  "promptSuggestionEnabled": false,
-  "awaySummaryEnabled": false,
-  "pluginConfigs": {
-    "agents-md@builtin": {
-      "options": {
-        "instructionFiles": "claude-md-and-agents-md"
-      }
-    }
-  },
-  "timeFormat": "24-hour",
-  "theme": "auto",
-  "editorMode": "vim",
-  "autoCompactEnabled": true,
   "hooks": {
     "Stop": [
       {
@@ -53,5 +39,24 @@
         ]
       }
     ]
+  },
+  "enableArtifact": false,
+  "promptSuggestionEnabled": false,
+  "awaySummaryEnabled": false,
+  "pluginConfigs": {
+    "agents-md@builtin": {
+      "options": {
+        "instructionFiles": "claude-md-and-agents-md"
+      }
+    }
+  },
+  "timeFormat": "24-hour",
+  "theme": "auto",
+  "editorMode": "vim",
+  "autoCompactEnabled": true,
+  "modelSettings": {
+    "claude-opus-5-5": {
+      "effortLevel": "high"
+    }
   }
 }
