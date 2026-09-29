@@ -41,9 +41,9 @@ hl.config({
 			passes = 3,
 			ignore_opacity = true,
 			new_optimizations = true,
-			noise = 0.06,
+			noise = 0.07,
 			contrast = 1.0,
-			brightness = 1.0,
+			brightness = 1.5,
 			vibrancy = 0.0,
 		},
 
@@ -91,7 +91,7 @@ hl.config({
 
 	xwayland = { force_zero_scaling = true },
 
-	render = { direct_scanout = false },
+	render = { direct_scanout = false, use_shader_blur_blend = true },
 
 	cursor = { sync_gsettings_theme = true },
 
@@ -111,6 +111,7 @@ hl.config({
 			bar_buttons_alignment = "left",
 			bar_part_of_window = true,
 			bar_precedence_over_border = true,
+			bar_blur = true,
 		},
 	},
 })
@@ -121,14 +122,14 @@ hl.plugin.hyprbars.add_button({
 	fg_color = W.foreground,
 	size = 20,
 	icon = "󰅖",
-	action = "hyprctl eval 'hl.dsp.window.close()'",
+	action = "hyprctl eval 'hl.dispatch(hl.dsp.window.close())'",
 })
 hl.plugin.hyprbars.add_button({
 	bg_color = W.color14,
 	fg_color = W.foreground,
 	size = 20,
 	icon = "󰖯",
-	action = "hyprctl eval 'hl.dsp.window.fullscreen({action = \"set\"})'",
+	action = "hyprctl eval 'hl.dispatch(hl.dsp.window.fullscreen({action = \"set\"}))'",
 })
 
 -- layer rules
