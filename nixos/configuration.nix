@@ -191,7 +191,16 @@ in
     "zswap.compressor=zstd"
     "zswap.max_pool_percentage=20"
     "zswap.shrinker_enabled=1"
+    # headless: reboot after a panic instead of sitting on the panic screen
+    "panic=30"
   ];
+
+  # headless: if a mount fails, keep booting so ssh comes up, rather than
+  # stopping at an emergency shell that only a local console can reach
+  systemd.enableEmergencyMode = false;
+  # reset the machine via the iTCO hardware watchdog if the system hard-hangs
+  systemd.settings.Manager.RuntimeWatchdogSec = "30s";
+
   boot.initrd.network = {
     enable = true;
     udhcpc.enable = false;

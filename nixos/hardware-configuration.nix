@@ -14,22 +14,22 @@
   boot.extraModulePackages = [ ];
 
   fileSystems."/" =
-    { device = "tank/system/root";
+    { device = "fast/system/root";
       fsType = "zfs";
     };
 
   fileSystems."/nix" =
-    { device = "tank/local/nix";
+    { device = "fast/local/nix";
       fsType = "zfs";
     };
 
   fileSystems."/var" =
-    { device = "tank/system/var";
+    { device = "fast/system/var";
       fsType = "zfs";
     };
 
   fileSystems."/home" =
-    { device = "tank/user/home";
+    { device = "fast/user/home";
       fsType = "zfs";
     };
 
