@@ -48,6 +48,9 @@ in
     lshw
     ethtool
 
+    # coding
+    pkgs.claude-code
+
     # LSPs
     nixd
     tree-sitter

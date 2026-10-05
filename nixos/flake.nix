@@ -10,12 +10,16 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nix-claude-code = {
+      url = "github:ryoppippi/nix-claude-code";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     sops-nix = {
       url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
-  outputs = { nixpkgs, copyparty, home-manager, sops-nix, ... }:
+  outputs = { nixpkgs, copyparty, home-manager, nix-claude-code, sops-nix, ... }:
   let
     system = "x86_64-linux";
   in {
@@ -25,7 +29,10 @@
         ./configuration.nix
         copyparty.nixosModules.default
         ({ ... }: {
-            nixpkgs.overlays = [ copyparty.overlays.default ];
+            nixpkgs.overlays = [
+              copyparty.overlays.default
+              nix-claude-code.overlays.default
+            ];
         })
         home-manager.nixosModules.home-manager
         {
