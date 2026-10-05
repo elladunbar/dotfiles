@@ -48,6 +48,14 @@
       neededForBoot = true;
     };
 
+  # Original photos/videos stay on the HDD; thumbnails (below) are on the SSD.
+  # neededForBoot keeps `tank` unlocking in initrd once / moves to `fast`.
+  fileSystems."/var/lib/immich" =
+    { device = "tank/data/immich";
+      fsType = "zfs";
+      neededForBoot = true;
+    };
+
   fileSystems."/var/lib/immich/thumbs" =
     { device = "fast/data/immich-thumbs";
       fsType = "zfs";

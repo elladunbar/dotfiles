@@ -39,7 +39,9 @@ in
 
       "photos.elladunbar.com" = {
         locations."/" = {
-          proxyPass = "http://localhost:${toString immichSettings.port}";
+          # immich only listens on ::1; "localhost" also tries 127.0.0.1, which
+          # gets refused and makes nginx mark the upstream as down
+          proxyPass = "http://[::1]:${toString immichSettings.port}";
           proxyWebsockets = true;
           recommendedProxySettings = true;
           extraConfig = 
