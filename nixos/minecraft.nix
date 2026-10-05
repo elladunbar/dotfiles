@@ -44,6 +44,9 @@ in
 
     extraOptions = [
       "--pull=always"
+      # `docker stop` otherwise SIGKILLs after 10s, cutting off the server's
+      # graceful shutdown; must stay below the unit's TimeoutStopSec (120s)
+      "--stop-timeout=90"
     ];
   };
 }
