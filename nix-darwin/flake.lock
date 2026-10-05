@@ -7,11 +7,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1790967724,
-        "narHash": "sha256-uZgNDDukC9y0HFUQo3z5NSSCKhisySGEY4o7macdO1c=",
+        "lastModified": 1791227070,
+        "narHash": "sha256-U1LZlMF1IxBLuEQpOxISZbOwlHyDkYeWvIPyrUExIEA=",
         "owner": "ryoppippi",
         "repo": "nix-claude-code",
-        "rev": "1a7894662c94060d40c6da61f867b989f6680493",
+        "rev": "a5da7ba2da62c47055c86189f2e7ff9b335fa41e",
         "type": "github"
       },
       "original": {
@@ -43,11 +43,11 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1790769526,
-        "narHash": "sha256-5AIVFLRcx8YAwbFTVPTs7YhwJH7JyHfAQsvXmpovcXI=",
+        "lastModified": 1791191277,
+        "narHash": "sha256-i8KuaINOYLvB2oQikGvtRmdZRxATRxsI9Yad2pp7dEA=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "c9fe7d12cd78d1adcd12dd15e24432dde5b155a0",
+        "rev": "aa48d347080940b8a2b8d2f48228674e280a3514",
         "type": "github"
       },
       "original": {
@@ -57,11 +57,35 @@
         "type": "github"
       }
     },
+    "pi-mono": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ],
+        "nixpkgs-darwin-x64": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1791228182,
+        "narHash": "sha256-PKcKqkbq7qr61sMZ3Py4hyDGa9deusmcTy77vUHEOKA=",
+        "owner": "badlogic",
+        "repo": "pi-mono",
+        "rev": "28dcce2ba45ce4a9efeb0f5b686f0be830fd89b9",
+        "type": "github"
+      },
+      "original": {
+        "owner": "badlogic",
+        "repo": "pi-mono",
+        "type": "github"
+      }
+    },
     "root": {
       "inputs": {
         "nix-claude-code": "nix-claude-code",
         "nix-darwin": "nix-darwin",
-        "nixpkgs": "nixpkgs"
+        "nixpkgs": "nixpkgs",
+        "pi-mono": "pi-mono"
       }
     }
   },

@@ -11,9 +11,14 @@
       url = "github:nix-darwin/nix-darwin/master";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    pi-mono = {
+      url = "github:badlogic/pi-mono";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.nixpkgs-darwin-x64.follows = "nixpkgs";
+    };
   };
 
-  outputs = inputs@{ self, nixpkgs, nix-claude-code, nix-darwin, ... }:
+  outputs = inputs@{ self, nixpkgs, nix-claude-code, nix-darwin, pi-mono, ... }:
   let
     configuration = { pkgs, ... }: {
       # Put config in home folder
@@ -22,6 +27,7 @@
       # Overlays
       nixpkgs.overlays = [
         nix-claude-code.overlays.default
+        pi-mono.overlays.default
       ];
 
       # Allow unfree packages
@@ -77,6 +83,7 @@
         pandoc
         perl
         php
+        pi
         poppler
         rclone
         ripgrep
@@ -141,7 +148,6 @@
           "ghcup"
           "mpv"
           "msodbcsql18"
-          "pi-coding-agent"
           "tree-sitter-cli"
           "unixodbc"
         ];
