@@ -251,6 +251,11 @@
         touchIdAuth = true;
         reattach = true;
       };
+      services.openssh.extraConfig = ''
+        PermitRootLogin no
+        PasswordAuthentication no
+        KbdInteractiveAuthentication no
+      '';
       system.defaults.CustomUserPreferences = {
         "org.hammerspoon.Hammerspoon" = {
           MJConfigFile = "~/.config/hammerspoon/init.lua";
