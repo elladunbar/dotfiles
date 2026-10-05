@@ -33,14 +33,74 @@
       fsType = "zfs";
     };
 
+  # Write-heavy service state lives on the SSD pool. neededForBoot makes the
+  # `fast` pool get imported and unlocked in initrd (reachable over initrd ssh)
+  # instead of in stage 2, where a passphrase prompt can't be answered remotely.
+  fileSystems."/var/lib/postgresql" =
+    { device = "fast/data/postgresql";
+      fsType = "zfs";
+      neededForBoot = true;
+    };
+
+  fileSystems."/var/lib/redis-immich" =
+    { device = "fast/data/redis-immich";
+      fsType = "zfs";
+      neededForBoot = true;
+    };
+
+  fileSystems."/var/lib/immich/thumbs" =
+    { device = "fast/data/immich-thumbs";
+      fsType = "zfs";
+      neededForBoot = true;
+    };
+
+  fileSystems."/var/lib/minecraft" =
+    { device = "fast/data/minecraft";
+      fsType = "zfs";
+      neededForBoot = true;
+    };
+
+  fileSystems."/var/lib/forgejo" =
+    { device = "fast/data/forgejo";
+      fsType = "zfs";
+      neededForBoot = true;
+    };
+
+  fileSystems."/var/lib/pds" =
+    { device = "fast/data/pds";
+      fsType = "zfs";
+      neededForBoot = true;
+    };
+
+  fileSystems."/var/lib/private" =
+    { device = "fast/data/var-lib-private";
+      fsType = "zfs";
+      neededForBoot = true;
+    };
+
+  fileSystems."/var/cache/private" =
+    { device = "fast/data/var-cache-private";
+      fsType = "zfs";
+      neededForBoot = true;
+    };
+
   fileSystems."/boot" =
     { device = "/dev/disk/by-uuid/5039-3A69";
       fsType = "vfat";
       options = [ "fmask=0077" "dmask=0077" ];
     };
 
+  # 56G partition on the SSD (sdb1). randomEncryption re-keys and reformats it
+  # on every boot, so this must only ever point at the swap partition.
   swapDevices =
-    [ { device = "/dev/disk/by-uuid/58751e1b-24c8-4985-bb9c-1397651390c5"; }
+    [ {
+        device = "/dev/disk/by-partuuid/7ec4ec2f-0af2-4192-8cf4-bd92e66503d5";
+        discardPolicy = "both";
+        randomEncryption = {
+          enable = true;
+          allowDiscards = true;
+        };
+      }
     ];
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";

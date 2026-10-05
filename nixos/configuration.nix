@@ -74,6 +74,7 @@ in
     pkg-config
     plocate
     procps
+    smartmontools
     sops
     sysstat
     util-linux
@@ -141,6 +142,12 @@ in
       "cache.nixos-cuda.org:74DUi4Ye579gUqzH4ziL9IyiJBlDpMRn9MBN8oNan9M="
     ];
   };
+  nix.gc = {
+    automatic = true;
+    dates = "weekly";
+    options = "--delete-older-than 30d";
+  };
+  nix.optimise.automatic = true;
   nixpkgs.config = {
     allowUnfree = true;
     allowUnsupportedSystem = false;

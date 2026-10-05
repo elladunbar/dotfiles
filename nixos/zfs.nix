@@ -9,4 +9,7 @@
       flags = "-k -p -u";
     };
   };
+
+  # neither disk is redundant, so get early warning of failure
+  services.smartd.enable = true;
 }

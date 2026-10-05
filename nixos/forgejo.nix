@@ -37,6 +37,13 @@ in
     };
   };
 
+  # forgejo is Type=notify, so this waits until it is actually accepting
+  # connections instead of crash-looping the runner during startup
+  systemd.services.gitea-runner-default = {
+    wants = [ "forgejo.service" ];
+    after = [ "forgejo.service" ];
+  };
+
   sops.secrets.forgejo-admin-password.owner = "forgejo";
   systemd.services.forgejo.preStart = let
     adminCmd = "${lib.getExe cfg.package} admin user";
