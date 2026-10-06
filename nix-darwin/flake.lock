@@ -7,11 +7,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1791227070,
-        "narHash": "sha256-U1LZlMF1IxBLuEQpOxISZbOwlHyDkYeWvIPyrUExIEA=",
+        "lastModified": 1791309747,
+        "narHash": "sha256-cIpRQ2ypZH/mfQP0G90Vkp4AHCj7PN4u0Iji4eL2hZ0=",
         "owner": "ryoppippi",
         "repo": "nix-claude-code",
-        "rev": "a5da7ba2da62c47055c86189f2e7ff9b335fa41e",
+        "rev": "5b9c1860e53f0dabedd59b5b86027a07531d000a",
         "type": "github"
       },
       "original": {
@@ -67,11 +67,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1791228182,
-        "narHash": "sha256-PKcKqkbq7qr61sMZ3Py4hyDGa9deusmcTy77vUHEOKA=",
+        "lastModified": 1791323469,
+        "narHash": "sha256-ZBJQk+uITdHlnxJNQNMC4IVb+8nufiEAQ1NzcWVHPnE=",
         "owner": "badlogic",
         "repo": "pi-mono",
-        "rev": "28dcce2ba45ce4a9efeb0f5b686f0be830fd89b9",
+        "rev": "eb326d265ae0b88489a6d10319307780df827cdf",
         "type": "github"
       },
       "original": {
