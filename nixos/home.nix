@@ -43,7 +43,8 @@ in
     nmap
 
     # monitoring
-    btop
+    # cudaSupport lets btop find the NVIDIA driver for its GPU panel
+    (btop.override { cudaSupport = true; })
     pciutils
     lshw
     ethtool

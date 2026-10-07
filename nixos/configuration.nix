@@ -88,9 +88,18 @@ in
   nixpkgs.overlays = [
     (self: super: {
       cudaPackages = super.cudaPackages_12.overrideScope (final: prev: {
+        # cuDNN 9.12+ dropped kernels for compute capability < 7.5 and 9.11's
+        # convolution kernels also fail on the GTX 1070 (sm_61); 9.10.2 works.
         cudnn = prev.cudnn.overrideAttrs (old: {
-          meta = old.meta // {
-            badPlatforms = [];
+          passthru = old.passthru // {
+            release = old.passthru.release // {
+              version = "9.10.2.21";
+              cuda_variant = [ "12" ];
+              linux-x86_64.cuda12 = {
+                relative_path = "cudnn/linux-x86_64/cudnn-linux-x86_64-9.10.2.21_cuda12-archive.tar.xz";
+                sha256 = "d0defcbc4c6dad711ff4cb66d254036a300c9071b07c7b64199aacab534313c1";
+              };
+            };
           };
         });
       });
@@ -135,6 +144,10 @@ in
 
   nix.settings = {
     experimental-features = [ "nix-command" "flakes" ];
+    # 6 cores / 8 GB RAM: running fewer builds at once keeps large CUDA
+    # compiles out of swap
+    cores = 5;
+    max-jobs = 2;
     substituters = [
       "https://cache.nixos-cuda.org"
     ];
@@ -151,8 +164,9 @@ in
   nixpkgs.config = {
     allowUnfree = true;
     allowUnsupportedSystem = false;
+    # cudaSupport is enabled per package (llama-cpp, onnxruntime) rather than
+    # globally, so packages that don't use the GPU still come from the cache
     cudaCapabilities = [ "6.1" ];
-    cudaSupport = true;
   };
 
   boot.loader.grub = {
