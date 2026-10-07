@@ -80,6 +80,12 @@
       neededForBoot = true;
     };
 
+  fileSystems."/var/lib/copyparty" =
+    { device = "fast/data/copyparty";
+      fsType = "zfs";
+      neededForBoot = true;
+    };
+
   fileSystems."/var/lib/private" =
     { device = "fast/data/var-lib-private";
       fsType = "zfs";

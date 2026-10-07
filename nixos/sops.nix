@@ -7,4 +7,5 @@
 
   sops.secrets.forgejo-admin-password = {};
   sops.secrets.forgejo-runner-token = {};
+  sops.secrets.copyparty-ella-password = {};
 }

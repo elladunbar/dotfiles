@@ -1,6 +1,7 @@
 { config, ... }:
 let
   blueskyPdsSettings = config.services.bluesky-pds.settings;
+  copypartySettings = config.services.copyparty.settings;
   forgejoSettings = config.services.forgejo.settings.server;
   immichSettings = config.services.immich;
   llamacppSettings = config.services.llama-cpp;
@@ -57,6 +58,47 @@ in
           {
             addr = "100.64.0.5";
             port = 18443;
+          }
+        ];
+      };
+
+      "files.elladunbar.com" = {
+        # take the client ip from pine's X-Forwarded-For; recursive skips
+        # pine's own entry and ignores anything a client put in front of it
+        extraConfig =
+        # nginx
+        ''
+          set_real_ip_from 100.64.0.4;
+          real_ip_header   X-Forwarded-For;
+          real_ip_recursive on;
+        '';
+        locations."/" = {
+          proxyPass = "http://${copypartySettings.i}:${toString copypartySettings.p}";
+          # headers are set by hand so copyparty gets exactly one
+          # X-Forwarded-For entry, and https since pine terminates tls
+          extraConfig =
+          # nginx
+          ''
+            proxy_http_version 1.1;
+            proxy_set_header   Connection        "";
+            proxy_set_header   Host              $host;
+            proxy_set_header   X-Real-IP         $remote_addr;
+            proxy_set_header   X-Forwarded-For   $remote_addr;
+            proxy_set_header   X-Forwarded-Proto https;
+
+            # stream uploads/downloads instead of spooling them to disk
+            proxy_buffering         off;
+            proxy_request_buffering off;
+            client_max_body_size    1024M;
+            proxy_read_timeout      600s;
+            proxy_send_timeout      600s;
+            send_timeout            600s;
+          '';
+        };
+        listen = [
+          {
+            addr = "100.64.0.5";
+            port = 20443;
           }
         ];
       };

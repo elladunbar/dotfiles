@@ -7,6 +7,7 @@ in
     [
       ./bluesky-pds.nix
       ./cachix.nix
+      ./copyparty.nix
       ./forgejo.nix
       ./hardware-configuration.nix
       ./immich.nix
@@ -138,7 +139,7 @@ in
     };
   };
 
-  networking.firewall.allowedTCPPorts = [ 17228 17080 17443 18080 18443 19080 19443 25565 47984 47989 48010 ];
+  networking.firewall.allowedTCPPorts = [ 17228 17080 17443 18080 18443 19080 19443 20443 25565 47984 47989 48010 ];
   networking.firewall.allowedUDPPorts = [ 17228 17080 17443 18080 18443 19080 19443 48002 48010 ];
   networking.firewall.allowedUDPPortRanges = [ { from = 47998; to = 48000; } ];
 
