@@ -13,10 +13,14 @@ in
   services.nginx = {
     enable = true;
 
-    # easy anubis upstream
-    # upstreams = {
-    #   anubis-forgejo.servers = { "unix:/run/anubis/anubis-forgejo.sock" = {}; };
-    # };
+    # every vhost is reached through caddy on pine, which replaces any
+    # client-sent X-Forwarded-For with just the client ip, so trust it
+    commonHttpConfig =
+    # nginx
+    ''
+      set_real_ip_from 100.64.0.4;
+      real_ip_header   X-Forwarded-For;
+    '';
 
     virtualHosts = {
       ${forgejoSettings.DOMAIN} = {
@@ -63,15 +67,6 @@ in
       };
 
       "files.elladunbar.com" = {
-        # take the client ip from pine's X-Forwarded-For; recursive skips
-        # pine's own entry and ignores anything a client put in front of it
-        extraConfig =
-        # nginx
-        ''
-          set_real_ip_from 100.64.0.4;
-          real_ip_header   X-Forwarded-For;
-          real_ip_recursive on;
-        '';
         locations."/" = {
           proxyPass = "http://${copypartySettings.i}:${toString copypartySettings.p}";
           # headers are set by hand so copyparty gets exactly one
