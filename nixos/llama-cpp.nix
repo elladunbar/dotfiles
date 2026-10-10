@@ -55,6 +55,18 @@
           presence-penalty = 0.5;
           min-p = 0.0;
         };
+        # Decision models for /v1/systemone. The server detects them from GGUF
+        # metadata; they only prefill, so speculative decoding is turned off.
+        "ggml-org/Kev-4B" = {
+          hf-repo = "ggml-org/Kev-4B-GGUF";
+          hf-file = "Kev-4B-Q8_0.gguf";
+          spec-type = "none";
+        };
+        "ggml-org/lev" = {
+          hf-repo = "ggml-org/lev-GGUF";
+          hf-file = "lev-Q8_0.gguf";
+          spec-type = "none";
+        };
       };
       host = "127.0.0.1";
       port = 8080;
