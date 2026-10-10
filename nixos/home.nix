@@ -49,10 +49,6 @@ in
     lshw
     ethtool
 
-    # LSPs
-    nixd
-    tree-sitter
-
     # remote x11
     firefox-bin
     xeyes
@@ -368,7 +364,11 @@ in
     defaultEditor = true;
     withRuby = false;
     withPython3 = false;
-    initLua = 
+    extraPackages = with pkgs; [
+      nixd
+      nixfmt
+    ];
+    initLua =
     # lua
     ''
       -- OPTS --
@@ -400,6 +400,9 @@ in
       opt.tabstop = 2
       opt.list = true
 
+      -- Cmp
+      opt.completeopt = { "menu", "menuone", "noselect" }
+
       -- VARS --
       local g = vim.g
       g.t_co = 256
@@ -419,12 +422,36 @@ in
           LSP_SERVERS[bufnr][server_name] = true
         end
       end
-
-      -- BACKGROUND --
-      vim.g.background = "light"
-      vim.o.background = "light"
     '';
     plugins = with pkgs.vimPlugins; [
+      {
+        plugin = alpha-nvim;
+        type = "lua";
+        config = ''
+          local alpha = require("alpha")
+          local startify = require("alpha.themes.startify")
+
+          startify.section.header.val = {
+            [[⠿⠿⠿⠿⠟⠋⠹⠿⠎⠍⠿⠿⠿⠾⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠷⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿]],
+            [[⠟⠿⠿⠿⠊⠠⠻⠟⠿⠂⠽⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠟⠿⠿⠿⠿⠿]],
+            [[⠿⠿⠿⠿⠎⠤⠩⠒⠐⠅⠻⠽⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿]],
+            [[⠿⠿⠿⠗⠆⠑⠠⠊⠌⠦⠌⠨⠿⠿⠻⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿]],
+            [[⠿⠿⠛⠿⠚⠌⠌⠢⠃⠤⠨⠃⠆⠒⠊⠋⠿⠻⠿⠿⠿⠿⠿⠿⠟⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿]],
+            [[⠿⠧⠤⠤⠑⠈⠅⠊⠄⠴⠀⠍⠈⠭⠔⠻⠨⠺⠿⠟⠹⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿]],
+            [[⠿⠿⠿⠿⠿⠔⠅⠘⠤⠀⠂⠈⠑⠐⠂⠪⠁⠑⠈⠉⠘⠡⠻⠝⠗⠢⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿]],
+            [[⠿⠾⠿⠟⠉⠑⠨⠠⠐⠈⠢⠉⠆⠍⠁⠄⠊⠈⠌⠡⠘⠜⠂⠥⠡⠋⠽⠻⠿⠿⠿⠛⠿⠾⠿⠿⠿⠿]],
+            [[⠿⠿⠿⠷⠶⠿⠿⠿⠶⠥⠲⠐⠒⠐⠁⠄⠂⠃⠄⠔⠑⠜⠘⠡⠜⠒⠚⠂⠋⠚⠣⠶⠿⠿⠿⠿⠿⠿]],
+            [[⠿⠿⠿⠿⠿⠿⠿⠿⠃⠥⠴⠾⠶⠥⠥⠂⠆⠃⠂⠔⠳⠓⠨⠭⠐⠅⠃⠑⠂⠘⠅⠏⠿⠿⠿⠿⠯⠿]],
+            [[⠿⠿⠿⠿⠿⠿⠿⠷⠿⠿⠿⠿⠿⠿⠃⠤⠾⠟⠁⠰⠾⠪⠩⠰⠪⠁⠑⠁⠌⠄⠐⠈⠂⠎⠏⠙⠭⠿]],
+            [[⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠶⠿⠿⠷⠶⠟⠃⠠⠖⠓⠨⠌⠁⠁⠠⠀⠅⠔⠀⠆⠿⠿⠿⠿]],
+            [[⠿⠿⠿⠿⠿⠿⠿⠿⠿⠟⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠖⠉⠤⠶⠮⠢⠉⠄⠬⠀⠠⠀⠂⠲⠿⠿⠿⠿]],
+            [[⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠶⠿⠿⠿⠿⠶⠇⠉⠦⠧⠾⠶⠤⠿⠿⠿⠿]],
+            [[⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠦⠿⠿⠻⠿⠿⠿⠿⠿⠿]],
+          }
+
+          alpha.setup(startify.config)
+        '';
+      }
       cmp-buffer
       cmp-nvim-lsp
       cmp_luasnip
@@ -433,12 +460,33 @@ in
         plugin = flatwhite-theme;
         type = "lua";
         config = ''
-          if vim.o.background == "light" then
-            COLOR_THEME = "flatwhite"
-          else
-            COLOR_THEME = "flatdark"
+          -- 'background' is detected from the terminal (OSC 11) and updated
+          -- live when the terminal switches themes (DEC mode 2031)
+          local function apply()
+            vim.cmd.colorscheme(vim.o.background == "light" and "flatwhite" or "flatdark")
           end
-          vim.cmd.colorscheme(COLOR_THEME)
+          apply()
+          vim.api.nvim_create_autocmd("OptionSet", {
+            pattern = "background",
+            callback = apply,
+          })
+        '';
+      }
+      {
+        plugin = conform-nvim;
+        type = "lua";
+        config = ''
+          vim.o.formatexpr = "v:lua.require'conform'.formatexpr()"
+
+          require("conform").setup({
+            formatters_by_ft = {
+              nix = { "nixfmt" },
+            },
+          })
+
+          vim.keymap.set("n", "<leader>lf", function()
+            require("conform").format({ lsp_fallback = true })
+          end, { desc = "Format buffer" })
         '';
       }
       {
@@ -480,7 +528,9 @@ in
 
           require("lualine").setup({
             options = {
-              theme = COLOR_THEME,
+              theme = function()
+                return vim.o.background == "light" and "flatwhite" or "flatdark"
+              end,
               component_separators = { left = "", right = "" },
               section_separators = { left = "", right = "" },
               always_divide_middle = false,
@@ -657,45 +707,54 @@ in
             })
             vim.lsp.enable(server)
           end
+
+          -- navigation
+          vim.keymap.set("n", "gd", function()
+            return require("telescope.builtin").lsp_definitions()
+          end, { desc = "Goto definition" })
+          vim.keymap.set("n", "gr", function()
+            return require("telescope.builtin").lsp_references()
+          end, { desc = "References" })
+          vim.keymap.set("n", "gD", vim.lsp.buf.declaration, { desc = "Goto declaration" })
+          vim.keymap.set("n", "gI", function()
+            return require("telescope.builtin").lsp_implementations()
+          end, { desc = "Goto implementation" })
+          vim.keymap.set("n", "gy", function()
+            return require("telescope.builtin").lsp_type_definitions()
+          end, { desc = "Goto t[y]pe definition" })
+
+          -- actions
+          vim.keymap.set("n", "<leader>lc", vim.lsp.buf.code_action, { desc = "Code actions" })
+          vim.keymap.set("n", "<leader>lr", vim.lsp.buf.rename, { desc = "Rename symbol" })
         '';
       }
       {
         plugin = nvim-treesitter.withAllGrammars;
         type = "lua";
         config = ''
-          local filetypes = {
-            "bash",
-            "css",
-            "fish",
-            "gitcommit",
-            "gitignore",
-            "html",
-            "json",
-            "lua",
-            "markdown",
-            "markdown_inline",
-            "nix",
-            "vim",
-            "vimdoc",
-          }
-          require("nvim-treesitter").install(filetypes)
+          -- every grammar is already installed by nix, so start treesitter for any filetype that has one
+          vim.api.nvim_create_autocmd("FileType", {
+            callback = function(args)
+              local lang = vim.treesitter.language.get_lang(args.match)
+              if not lang or not vim.treesitter.language.add(lang) then
+                return
+              end
 
-          for _, filetype in ipairs(filetypes) do
-            vim.api.nvim_create_autocmd("FileType", {
-              pattern = { filetype },
-              callback = function()
-                vim.treesitter.start()
-                vim.wo[0][0].foldexpr = "v:lua.vim.treesitter.foldexpr()"
-                vim.wo[0][0].foldmethod = "expr"
-                vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
-              end,
-            })
-          end
+              vim.treesitter.start(args.buf, lang)
+              vim.wo[0][0].foldexpr = "v:lua.vim.treesitter.foldexpr()"
+              vim.wo[0][0].foldmethod = "expr"
+              -- nvim-treesitter's indentexpr indents everything to 0 without an indents query
+              if vim.treesitter.query.get(lang, "indents") then
+                vim.bo[args.buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+              end
+            end,
+          })
         '';
       }
       nvim-web-devicons
       plenary-nvim
       telescope-nvim
+      vim-tmux-navigator
       {
         plugin = telescope-fzf-native-nvim;
         type = "lua";
@@ -723,6 +782,27 @@ in
               { "<leader>bn", "<cmd>bn<cr>", desc = "Jump to next buffer" },
               { "<leader>bp", "<cmd>bp<cr>", desc = "Jump to previous buffer" },
               { "<leader>bx", "<cmd>bd<cr>", desc = "Close current buffer" },
+
+              -- custom user
+              { "<leader>c", group = "custom" },
+              {
+                "<leader>cc",
+                function()
+                  vim.cmd('normal! gg"+yG')
+                  vim.cmd("x")
+                end,
+                desc = "Copy & exit",
+              },
+              {
+                "<leader>cd",
+                function()
+                  local date = os.date("%Y-%m-%d")
+                  vim.api.nvim_put({ date }, "c", true, true)
+                end,
+                desc = "Paste current date",
+              },
+              { "<leader>ce", "<cmd>!./%<cr>", desc = "Execute current file" },
+              { "<leader>cp", "<cmd>silent !pandoc -V geometry:margin=1in -i % -o %:r.pdf<cr>", desc = "Convert to PDF" },
 
               -- telescope
               { "<leader>f", group = "telescope" },
@@ -772,8 +852,14 @@ in
               -- misc
               { "<leader>h", "<cmd>nohlsearch<cr>", desc = "Remove match highlighting" },
 
+              -- lsp
+              { "<leader>l", proxy = "gr", group = "lsp" },
+
               -- windows
               { "<leader>w", proxy = "<c-w>", group = "windows" },
+            },
+            icons = {
+              separator = "",
             },
           })
         '';
