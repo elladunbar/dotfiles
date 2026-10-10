@@ -92,12 +92,9 @@ if status is-interactive
         du -h -d 1 $argv | sort --human-numeric-sort --reverse
     end
 
-    # colors
-    if test "$(cat ~/Code/sh/appearance/appearance.d/current_appearance.txt)" = "Light"
-        source $XDG_DATA_HOME/nvim/lazy/nightfox.nvim/extra/dayfox/dayfox.fish
-    else
-        source $XDG_DATA_HOME/nvim/lazy/nightfox.nvim/extra/duskfox/duskfox.fish
-    end
+    # colors (follows terminal light/dark via $fish_terminal_color_theme)
+    # (themes/nightfox.theme is built by nix-darwin)
+    fish_config theme choose nightfox
 
     # set up command prompt
     starship init fish | source

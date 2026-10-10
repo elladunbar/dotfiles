@@ -1,5 +1,21 @@
 {
   "nodes": {
+    "nightfox": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1783177350,
+        "narHash": "sha256-LR0VqMMuH3GN6uI2aun7yOFsLxhGASMnFuzMrhPNJ+Q=",
+        "owner": "EdenEast",
+        "repo": "nightfox.nvim",
+        "rev": "4dacd3f0185a2227bdf3b6c0975a8f0bf87cac9a",
+        "type": "github"
+      },
+      "original": {
+        "owner": "EdenEast",
+        "repo": "nightfox.nvim",
+        "type": "github"
+      }
+    },
     "nix-claude-code": {
       "inputs": {
         "nixpkgs": [
@@ -82,6 +98,7 @@
     },
     "root": {
       "inputs": {
+        "nightfox": "nightfox",
         "nix-claude-code": "nix-claude-code",
         "nix-darwin": "nix-darwin",
         "nixpkgs": "nixpkgs",

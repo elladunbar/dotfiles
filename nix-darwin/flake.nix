@@ -11,6 +11,10 @@
       url = "github:nix-darwin/nix-darwin/master";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nightfox = {
+      url = "github:EdenEast/nightfox.nvim";
+      flake = false;
+    };
     pi-mono = {
       url = "github:badlogic/pi-mono";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -18,7 +22,7 @@
     };
   };
 
-  outputs = inputs@{ self, nixpkgs, nix-claude-code, nix-darwin, pi-mono, ... }:
+  outputs = inputs@{ self, nixpkgs, nix-claude-code, nix-darwin, nightfox, pi-mono, ... }:
   let
     configuration = { pkgs, ... }: {
       # Put config in home folder
@@ -29,6 +33,26 @@
         nix-claude-code.overlays.default
         pi-mono.overlays.default
       ];
+
+      # Fish theme that follows the terminal's light/dark mode, built from
+      # nightfox's dayfox/duskfox extras (~/.config/fish/themes/nightfox.theme
+      # is a symlink to this)
+      environment.etc."fish/themes/nightfox.theme".source =
+        pkgs.runCommand "nightfox.theme" { nativeBuildInputs = [ pkgs.fish ]; } ''
+          export HOME=$TMPDIR
+          {
+            echo "# name: 'Nightfox (dayfox/duskfox)'"
+            for variant in light:dayfox dark:duskfox; do
+              mode=''${variant%%:*}
+              style=''${variant#*:}
+              printf '\n[%s]\n' "$mode"
+              fish --no-config -c 'source $argv[1]
+                for v in (set -n | string match -r "^fish_(?:pager_)?color_.*")
+                  echo $v $$v
+                end' ${nightfox}/extra/$style/$style.fish
+            done
+          } > $out
+        '';
 
       # Allow unfree packages
       nixpkgs.config.allowUnfree = true;
