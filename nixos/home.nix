@@ -185,6 +185,25 @@ in
       '';
   };
 
+  # Fish theme that follows the terminal's light/dark mode, built from
+  # nightfox's dayfox/duskfox extras
+  xdg.configFile."fish/themes/nightfox.theme".source =
+    pkgs.runCommand "nightfox.theme" { nativeBuildInputs = [ pkgs.fish ]; } ''
+      export HOME=$TMPDIR
+      {
+        echo "# name: 'Nightfox (dayfox/duskfox)'"
+        for variant in light:dayfox dark:duskfox; do
+          mode=''${variant%%:*}
+          style=''${variant#*:}
+          printf '\n[%s]\n' "$mode"
+          fish --no-config -c 'source $argv[1]
+            for v in (set -n | string match -r "^fish_(?:pager_)?color_.*")
+              echo $v $$v
+            end' ${pkgs.vimPlugins.nightfox-nvim}/extra/$style/$style.fish
+        done
+      } > $out
+    '';
+
   programs.fish = {
     enable = true;
 
@@ -198,6 +217,9 @@ in
       # fish
       ''
         fish_vi_key_bindings
+
+        # colors (follows terminal light/dark via $fish_terminal_color_theme)
+        fish_config theme choose nightfox
 
         function fish_mode_prompt
           switch $fish_bind_mode
