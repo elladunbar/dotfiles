@@ -1,21 +1,5 @@
 {
   "nodes": {
-    "nightfox": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1783177350,
-        "narHash": "sha256-LR0VqMMuH3GN6uI2aun7yOFsLxhGASMnFuzMrhPNJ+Q=",
-        "owner": "EdenEast",
-        "repo": "nightfox.nvim",
-        "rev": "4dacd3f0185a2227bdf3b6c0975a8f0bf87cac9a",
-        "type": "github"
-      },
-      "original": {
-        "owner": "EdenEast",
-        "repo": "nightfox.nvim",
-        "type": "github"
-      }
-    },
     "nix-claude-code": {
       "inputs": {
         "nixpkgs": [
@@ -23,11 +7,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1791486196,
-        "narHash": "sha256-MXzh2fbaXV//k84Eks2D8wZiADncobwt89hIj5gjpZU=",
+        "lastModified": 1791576129,
+        "narHash": "sha256-/h/GeWMLZ/6I+bN+110/LmtMDm+v6fheMJOPnuCTREg=",
         "owner": "ryoppippi",
         "repo": "nix-claude-code",
-        "rev": "1ffdc6151eaae78c81ddf25e6c8be7b7f56b9622",
+        "rev": "81be531ae2e78817d59152162d45140409076fe5",
         "type": "github"
       },
       "original": {
@@ -83,11 +67,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1791473194,
-        "narHash": "sha256-jVNQiSraJEUmZMY02lxqKby2p89uOw7AAdi6XSFJjNc=",
+        "lastModified": 1791574682,
+        "narHash": "sha256-RJWFghh0jSbbZcVAIIljP7rbABCtKo0HRInq8OqyAQI=",
         "owner": "badlogic",
         "repo": "pi-mono",
-        "rev": "6fb2e7815167e6b19006fc526d1a5d0f5f998787",
+        "rev": "42a3497d03ad17e308a2299fa824727894f2c0ec",
         "type": "github"
       },
       "original": {
@@ -98,7 +82,6 @@
     },
     "root": {
       "inputs": {
-        "nightfox": "nightfox",
         "nix-claude-code": "nix-claude-code",
         "nix-darwin": "nix-darwin",
         "nixpkgs": "nixpkgs",
