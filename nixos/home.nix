@@ -993,8 +993,21 @@ in
 
         set -g renumber-windows on
 
+        bind r source-file ~/.config/tmux/tmux.conf \; display "Config reloaded!"
+        bind v split-window -h -c "#{pane_current_path}"
+        bind s split-window -v -c "#{pane_current_path}"
+
         set-option -g status-left "#[bg=default,fg=black]#[bg=black,fg=white] #S #[bg=default,fg=black]#[default] "
-        set-option -g status-right "#[bg=default,fg=black]#[bg=black,fg=white] %H:%M #[bg=black,fg=yellow]#[bg=yellow,fg=white] #h #[bg=default,fg=yellow]"
+
+        # Hostname text follows terminal light/dark mode (yellow is dark in
+        # dayfox, light in duskfox). tmux asks the terminal on attach and the
+        # hooks fire on the reply; -o keeps the current value across config
+        # reloads.
+        set -goq @host_fg white
+        set-hook -g client-light-theme 'set -g @host_fg white ; refresh-client -S'
+        set-hook -g client-dark-theme 'set -g @host_fg black ; refresh-client -S'
+
+        set-option -g status-right "#[bg=default,fg=black]#[bg=black,fg=white] %H:%M #[bg=black,fg=yellow]#[bg=yellow,fg=#{@host_fg}] #h #[bg=default,fg=yellow]"
 
         set-option -g status-style bg=default
 
