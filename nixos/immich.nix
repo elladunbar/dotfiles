@@ -12,24 +12,29 @@
       #
       # nccl is only for multi-GPU, and the OpenVINO provider crashes on this
       # machine, so both are left out.
-      onnxruntime = (prev.onnxruntime.override {
-        cudaSupport = true;
-        ncclSupport = false;
-        openvinoSupport = false;
-      }).overrideAttrs (old: {
-        postPatch = old.postPatch + ''
-          substituteInPlace cmake/onnxruntime_providers_cuda.cmake --replace-fail \
-            'onnxruntime_filter_cuda_archs(_ort_llm_cuda_architectures MIN_SM 75 EXCLUDE_SM120_REAL)' \
-            'onnxruntime_filter_cuda_archs(_ort_llm_cuda_architectures MIN_SM 75 EXCLUDE_SM120_REAL)
-          if(NOT _ort_llm_cuda_architectures)
-            set(_ort_llm_cuda_architectures "75-virtual")
-          endif()'
-        '';
-      });
+      onnxruntime =
+        (prev.onnxruntime.override {
+          cudaSupport = true;
+          ncclSupport = false;
+          openvinoSupport = false;
+        }).overrideAttrs
+          (old: {
+            postPatch = old.postPatch + ''
+              substituteInPlace cmake/onnxruntime_providers_cuda.cmake --replace-fail \
+                'onnxruntime_filter_cuda_archs(_ort_llm_cuda_architectures MIN_SM 75 EXCLUDE_SM120_REAL)' \
+                'onnxruntime_filter_cuda_archs(_ort_llm_cuda_architectures MIN_SM 75 EXCLUDE_SM120_REAL)
+              if(NOT _ort_llm_cuda_architectures)
+                set(_ort_llm_cuda_architectures "75-virtual")
+              endif()'
+            '';
+          });
     })
   ];
 
-  users.users.immich.extraGroups = [ "render" "video" ];
+  users.users.immich.extraGroups = [
+    "render"
+    "video"
+  ];
 
   services.immich = {
     enable = true;

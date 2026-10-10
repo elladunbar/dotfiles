@@ -5,7 +5,7 @@
   sops.defaultSopsFile = ./secrets/default.yaml;
   sops.age.keyFile = "/root/.config/sops/age/keys.txt";
 
-  sops.secrets.forgejo-admin-password = {};
-  sops.secrets.forgejo-runner-token = {};
-  sops.secrets.copyparty-ella-password = {};
+  sops.secrets.forgejo-admin-password = { };
+  sops.secrets.forgejo-runner-token = { };
+  sops.secrets.copyparty-ella-password = { };
 }

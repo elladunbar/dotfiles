@@ -22,7 +22,7 @@
   services.llama-cpp = {
     enable = true;
     settings = {
-      models-preset = (pkgs.formats.ini {}).generate "models-preset.ini" {
+      models-preset = (pkgs.formats.ini { }).generate "models-preset.ini" {
         "unsloth/gemma-4-E4B" = {
           hf-repo = "unsloth/gemma-4-E4B-it-qat-GGUF";
           hf-file = "gemma-4-E4B-it-qat-UD-Q4_K_XL.gguf";
@@ -86,8 +86,10 @@
       spec-default = true;
       jinja = true;
     };
-    package = (pkgs.llama-cpp.override {
-      cudaSupport = true;
-    });
+    package = (
+      pkgs.llama-cpp.override {
+        cudaSupport = true;
+      }
+    );
   };
 }

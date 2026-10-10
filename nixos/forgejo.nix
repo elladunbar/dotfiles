@@ -1,4 +1,9 @@
-{ lib, config, pkgs, ... }:
+{
+  lib,
+  config,
+  pkgs,
+  ...
+}:
 let
   cfg = config.services.forgejo;
   srv = cfg.settings.server;
@@ -46,41 +51,47 @@ in
 
   # forgejo serves files in custom/public/assets/img over its embedded ones,
   # so swap every copy of the F logo for the little guy
-  systemd.tmpfiles.rules = let
-    logos = pkgs.runCommand "forgejo-logos" {
-      nativeBuildInputs = [ pkgs.resvg ];
-    } ''
-      mkdir $out
-      cp ${./forgejo/logo.svg} $out/logo.svg
-      cp ${./forgejo/logo.svg} $out/favicon.svg
-      resvg -w 512 $out/logo.svg $out/logo.png
-      resvg -w 180 $out/logo.svg $out/favicon.png
-      resvg -w 180 $out/logo.svg $out/apple-touch-icon.png
-      resvg -w 200 $out/logo.svg $out/avatar_default.png
-      # shown while migrating a repo; make him hop instead of drawing the F
-      sed -e 's|viewBox="[^"]*"|viewBox="121 115 1800 1800"|' \
-        -e 's|<g |<style>@keyframes hop{0%,to{transform:translateY(0)}50%{transform:translateY(-120px)}}g{animation:hop 1s ease-in-out infinite}</style>\n  <g |' \
-        $out/logo.svg > $out/forgejo-loading.svg
-    '';
-  in [
-    "d ${cfg.customDir}/public 0750 ${cfg.user} ${cfg.group} - -"
-    "d ${cfg.customDir}/public/assets 0750 ${cfg.user} ${cfg.group} - -"
-    "L+ ${cfg.customDir}/public/assets/img - - - - ${logos}"
-  ];
+  systemd.tmpfiles.rules =
+    let
+      logos =
+        pkgs.runCommand "forgejo-logos"
+          {
+            nativeBuildInputs = [ pkgs.resvg ];
+          }
+          ''
+            mkdir $out
+            cp ${./forgejo/logo.svg} $out/logo.svg
+            cp ${./forgejo/logo.svg} $out/favicon.svg
+            resvg -w 512 $out/logo.svg $out/logo.png
+            resvg -w 180 $out/logo.svg $out/favicon.png
+            resvg -w 180 $out/logo.svg $out/apple-touch-icon.png
+            resvg -w 200 $out/logo.svg $out/avatar_default.png
+            # shown while migrating a repo; make him hop instead of drawing the F
+            sed -e 's|viewBox="[^"]*"|viewBox="121 115 1800 1800"|' \
+              -e 's|<g |<style>@keyframes hop{0%,to{transform:translateY(0)}50%{transform:translateY(-120px)}}g{animation:hop 1s ease-in-out infinite}</style>\n  <g |' \
+              $out/logo.svg > $out/forgejo-loading.svg
+          '';
+    in
+    [
+      "d ${cfg.customDir}/public 0750 ${cfg.user} ${cfg.group} - -"
+      "d ${cfg.customDir}/public/assets 0750 ${cfg.user} ${cfg.group} - -"
+      "L+ ${cfg.customDir}/public/assets/img - - - - ${logos}"
+    ];
 
   sops.secrets.forgejo-admin-password.owner = "forgejo";
-  systemd.services.forgejo.preStart = let
-    adminCmd = "${lib.getExe cfg.package} admin user";
-    pwd = config.sops.secrets.forgejo-admin-password;
-    user = "super";
-  in
-  # sh
-  ''
-    ${adminCmd} create \
-    --admin \
-    --email "root@localhost" \
-    --username ${user} \
-    --password "$(tr -d '\n' < ${pwd.path})" \
-    || true
-  '';
+  systemd.services.forgejo.preStart =
+    let
+      adminCmd = "${lib.getExe cfg.package} admin user";
+      pwd = config.sops.secrets.forgejo-admin-password;
+      user = "super";
+    in
+    # sh
+    ''
+      ${adminCmd} create \
+      --admin \
+      --email "root@localhost" \
+      --username ${user} \
+      --password "$(tr -d '\n' < ${pwd.path})" \
+      || true
+    '';
 }

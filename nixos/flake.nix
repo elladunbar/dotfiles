@@ -19,31 +19,39 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
-  outputs = { nixpkgs, copyparty, home-manager, nix-claude-code, sops-nix, ... }:
-  let
-    system = "x86_64-linux";
-  in {
-    nixosConfigurations.river-birch = nixpkgs.lib.nixosSystem {
-      inherit system;
-      modules = [
-        ./configuration.nix
-        copyparty.nixosModules.default
-        ({ ... }: {
+  outputs =
+    {
+      nixpkgs,
+      copyparty,
+      home-manager,
+      nix-claude-code,
+      sops-nix,
+      ...
+    }:
+    let
+      system = "x86_64-linux";
+    in
+    {
+      nixosConfigurations.river-birch = nixpkgs.lib.nixosSystem {
+        inherit system;
+        modules = [
+          ./configuration.nix
+          copyparty.nixosModules.default
+          ({ ... }: {
             nixpkgs.overlays = [
               copyparty.overlays.default
               nix-claude-code.overlays.default
             ];
-        })
-        home-manager.nixosModules.home-manager
-        {
-          home-manager.backupFileExtension = "bak";
-          home-manager.useGlobalPkgs = true;
-          home-manager.useUserPackages = true;
-          home-manager.users.ella = import ./home.nix;
-        }
-        sops-nix.nixosModules.sops
-      ];
+          })
+          home-manager.nixosModules.home-manager
+          {
+            home-manager.backupFileExtension = "bak";
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.users.ella = import ./home.nix;
+          }
+          sops-nix.nixosModules.sops
+        ];
+      };
     };
-  };
 }
-

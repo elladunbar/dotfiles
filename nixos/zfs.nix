@@ -24,7 +24,13 @@
     # module default plus "destroy", so syncoid can prune its previous sync
     # snapshot on the backup side instead of leaving one behind every day
     localTargetAllow = [
-      "change-key" "compression" "create" "mount" "mountpoint" "receive" "rollback"
+      "change-key"
+      "compression"
+      "create"
+      "mount"
+      "mountpoint"
+      "receive"
+      "rollback"
       "destroy"
     ];
     commands = {

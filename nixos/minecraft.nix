@@ -7,7 +7,10 @@ in
   virtualisation.oci-containers.backend = "docker";
 
   systemd.services.docker-raspberry = {
-    after = [ "network.target" "tailscaled.service" ];
+    after = [
+      "network.target"
+      "tailscaled.service"
+    ];
     requires = [ "tailscaled.service" ];
   };
 

@@ -57,8 +57,15 @@ in
   programs.bash = {
     enable = true;
     enableCompletion = true;
-    shellOptions = [ "checkwinsize" "histappend" "cmdhist" ];
-    historyControl = [ "ignoredups" "ignorespace" ];
+    shellOptions = [
+      "checkwinsize"
+      "histappend"
+      "cmdhist"
+    ];
+    historyControl = [
+      "ignoredups"
+      "ignorespace"
+    ];
     historySize = 50000;
     historyFileSize = 1000000;
     sessionVariables = {
@@ -73,154 +80,177 @@ in
     configDir = "${config.xdg.configHome}/claude";
 
     settings =
-    let
-      notify = "${config.programs.claude-code.configDir}/hooks/notify-ghostty.sh";
-    in {
-      permissions.defaultMode = "auto";
-      model = "opus";
-      disableClaudeAiConnectors = true;
-      hooks = {
-        Stop = [
-          { hooks = [ { type = "command"; command = "${notify} response"; async = true; } ]; }
-        ];
-        PermissionRequest = [
-          { hooks = [ { type = "command"; command = "${notify} permission"; async = true; } ]; }
-        ];
-        PreToolUse = [
-          {
-            matcher = "AskUserQuestion";
-            hooks = [ { type = "command"; command = "${notify} question"; async = true; } ];
-          }
-        ];
+      let
+        notify = "${config.programs.claude-code.configDir}/hooks/notify-ghostty.sh";
+      in
+      {
+        permissions.defaultMode = "auto";
+        model = "opus";
+        disableClaudeAiConnectors = true;
+        hooks = {
+          Stop = [
+            {
+              hooks = [
+                {
+                  type = "command";
+                  command = "${notify} response";
+                  async = true;
+                }
+              ];
+            }
+          ];
+          PermissionRequest = [
+            {
+              hooks = [
+                {
+                  type = "command";
+                  command = "${notify} permission";
+                  async = true;
+                }
+              ];
+            }
+          ];
+          PreToolUse = [
+            {
+              matcher = "AskUserQuestion";
+              hooks = [
+                {
+                  type = "command";
+                  command = "${notify} question";
+                  async = true;
+                }
+              ];
+            }
+          ];
+        };
+        enableArtifact = false;
+        promptSuggestionEnabled = false;
+        awaySummaryEnabled = false;
+        pluginConfigs."agents-md@builtin".options.instructionFiles = "claude-md-and-agents-md";
+        timeFormat = "24-hour";
+        theme = "auto";
+        editorMode = "vim";
+        autoCompactEnabled = true;
+        modelSettings."claude-opus-5-5".effortLevel = "high";
       };
-      enableArtifact = false;
-      promptSuggestionEnabled = false;
-      awaySummaryEnabled = false;
-      pluginConfigs."agents-md@builtin".options.instructionFiles = "claude-md-and-agents-md";
-      timeFormat = "24-hour";
-      theme = "auto";
-      editorMode = "vim";
-      autoCompactEnabled = true;
-      modelSettings."claude-opus-5-5".effortLevel = "high";
-    };
 
     hooks."notify-ghostty.sh" =
-    # sh
-    ''
-      #!/bin/sh
-      # Send a Ghostty desktop notification (OSC 777) for Claude Code Stop/Notification
-      # hooks. Hooks have no terminal of their own, so find one to write to:
-      #   - in tmux: the tmux client ttys, so it reaches Ghostty over SSH even when
-      #     the Claude pane isn't the visible one
-      #   - otherwise: the tty of the nearest ancestor process that has one (Claude)
+      # sh
+      ''
+        #!/bin/sh
+        # Send a Ghostty desktop notification (OSC 777) for Claude Code Stop/Notification
+        # hooks. Hooks have no terminal of their own, so find one to write to:
+        #   - in tmux: the tmux client ttys, so it reaches Ghostty over SSH even when
+        #     the Claude pane isn't the visible one
+        #   - otherwise: the tty of the nearest ancestor process that has one (Claude)
 
-      input=$(cat)
-      case "$1" in
-          permission)
-              msg="Permission needed: $(printf '%s' "$input" | jq -r '.tool_name // "a tool"')" ;;
-          question)
-              msg="Question: $(printf '%s' "$input" | jq -r '.tool_input.questions[0].question // "waiting for your answer"')" ;;
-          *)
-              msg="Response ready" ;;
-      esac
+        input=$(cat)
+        case "$1" in
+            permission)
+                msg="Permission needed: $(printf '%s' "$input" | jq -r '.tool_name // "a tool"')" ;;
+            question)
+                msg="Question: $(printf '%s' "$input" | jq -r '.tool_input.questions[0].question // "waiting for your answer"')" ;;
+            *)
+                msg="Response ready" ;;
+        esac
 
-      title="Claude Code on $(uname -n)"
+        title="Claude Code on $(uname -n)"
 
-      if [ -n "$TMUX_PANE" ]; then
-          session=$(tmux display-message -p -t "$TMUX_PANE" '#{session_name}')
-          window=$(tmux display-message -p -t "$TMUX_PANE" '#{window_index}:#{window_name}')
-          title="$title [$session $window]"
-          ttys=$(tmux list-clients -t "$session" -F '#{client_tty}')
-      else
-          pid=$PPID
-          ttys=
-          while [ -n "$pid" ] && [ "$pid" -gt 1 ]; do
-              tty=$(ps -o tty= -p "$pid" | tr -d ' ')
-              if [ -n "$tty" ] && [ "$tty" != "?" ]; then
-                  ttys=/dev/$tty
-                  break
-              fi
-              pid=$(ps -o ppid= -p "$pid" | tr -d ' ')
-          done
-      fi
+        if [ -n "$TMUX_PANE" ]; then
+            session=$(tmux display-message -p -t "$TMUX_PANE" '#{session_name}')
+            window=$(tmux display-message -p -t "$TMUX_PANE" '#{window_index}:#{window_name}')
+            title="$title [$session $window]"
+            ttys=$(tmux list-clients -t "$session" -F '#{client_tty}')
+        else
+            pid=$PPID
+            ttys=
+            while [ -n "$pid" ] && [ "$pid" -gt 1 ]; do
+                tty=$(ps -o tty= -p "$pid" | tr -d ' ')
+                if [ -n "$tty" ] && [ "$tty" != "?" ]; then
+                    ttys=/dev/$tty
+                    break
+                fi
+                pid=$(ps -o ppid= -p "$pid" | tr -d ' ')
+            done
+        fi
 
-      # Strip control chars (and ';' from the title, since it delimits OSC 777 fields)
-      title=$(printf '%s' "$title" | tr -d '\000-\037;')
-      msg=$(printf '%s' "$msg" | tr -d '\000-\037')
+        # Strip control chars (and ';' from the title, since it delimits OSC 777 fields)
+        title=$(printf '%s' "$title" | tr -d '\000-\037;')
+        msg=$(printf '%s' "$msg" | tr -d '\000-\037')
 
-      for tty in $ttys; do
-          [ -w "$tty" ] && printf '\033]777;notify;%s;%s\007' "$title" "$msg" > "$tty"
-      done
-      exit 0
-    '';
+        for tty in $ttys; do
+            [ -w "$tty" ] && printf '\033]777;notify;%s;%s\007' "$title" "$msg" > "$tty"
+        done
+        exit 0
+      '';
   };
 
   programs.fish = {
     enable = true;
 
-    shellInit = 
-    # fish
-    ''
-      set -g fish_greeting ""
-    '';
+    shellInit =
+      # fish
+      ''
+        set -g fish_greeting ""
+      '';
 
-    interactiveShellInit = 
-    # fish
-    ''
-      fish_vi_key_bindings
+    interactiveShellInit =
+      # fish
+      ''
+        fish_vi_key_bindings
 
-      function fish_mode_prompt
-        switch $fish_bind_mode
-          case default
-            set_color brcyan
-            echo ""
-            set_color --background brcyan
-            set_color black
-            echo ""
-            set_color --background bryellow
-            set_color brcyan
-            echo ""
-          case insert
-            set_color brblue
-            echo ""
-            set_color --background brblue
-            set_color black
-            echo ""
-            set_color --background bryellow
-            set_color brblue
-            echo ""
-          case replace_one
-            set_color brred
-            echo ""
-            set_color --background brred
-            set_color black
-            echo ""
-            set_color --background bryellow
-            set_color brred
-            echo ""
-          case replace
-            set_color brred
-            echo ""
-            set_color --background brred
-            set_color black
-            echo ""
-            set_color --background bryellow
-            set_color brred
-            echo ""
-          case visual
-            set_color magenta
-            echo ""
-            set_color --background magenta
-            set_color black
-            echo ""
-            set_color --background bryellow
-            set_color magenta
-            echo ""
-          case '*'
+        function fish_mode_prompt
+          switch $fish_bind_mode
+            case default
+              set_color brcyan
+              echo ""
+              set_color --background brcyan
+              set_color black
+              echo ""
+              set_color --background bryellow
+              set_color brcyan
+              echo ""
+            case insert
+              set_color brblue
+              echo ""
+              set_color --background brblue
+              set_color black
+              echo ""
+              set_color --background bryellow
+              set_color brblue
+              echo ""
+            case replace_one
+              set_color brred
+              echo ""
+              set_color --background brred
+              set_color black
+              echo ""
+              set_color --background bryellow
+              set_color brred
+              echo ""
+            case replace
+              set_color brred
+              echo ""
+              set_color --background brred
+              set_color black
+              echo ""
+              set_color --background bryellow
+              set_color brred
+              echo ""
+            case visual
+              set_color magenta
+              echo ""
+              set_color --background magenta
+              set_color black
+              echo ""
+              set_color --background bryellow
+              set_color magenta
+              echo ""
+            case '*'
+          end
+          set_color normal
         end
-        set_color normal
-      end
-    '';
+      '';
 
     shellAbbrs = {
       # file management
@@ -255,17 +285,17 @@ in
         body = "column -s, -t < $argv[1] | less -#2 -N -S";
       };
       ",json" = {
-        body = 
-        # fish
-        ''
-          if test (count $argv) -eq 0
-            set -f file /dev/stdin
-          else if test (count $argv) -eq 1
-            set -f file $argv[1]
-          end
+        body =
+          # fish
+          ''
+            if test (count $argv) -eq 0
+              set -f file /dev/stdin
+            else if test (count $argv) -eq 1
+              set -f file $argv[1]
+            end
 
-          jq '.' $file | bat --plain --language=json
-        '';
+            jq '.' $file | bat --plain --language=json
+          '';
       };
       ",vm" = {
         body = "pandoc -s -t man $argv[1] | man -l -";
@@ -369,60 +399,60 @@ in
       nixfmt
     ];
     initLua =
-    # lua
-    ''
-      -- OPTS --
-      local opt = vim.opt
+      # lua
+      ''
+        -- OPTS --
+        local opt = vim.opt
 
-      -- Context
-      opt.number = true
-      opt.relativenumber = true
-      opt.scrolloff = 4
-      opt.showmode = false
+        -- Context
+        opt.number = true
+        opt.relativenumber = true
+        opt.scrolloff = 4
+        opt.showmode = false
 
-      -- Filetypes
-      opt.encoding = "utf8"
-      opt.fileencoding = "utf8"
+        -- Filetypes
+        opt.encoding = "utf8"
+        opt.fileencoding = "utf8"
 
-      -- Theme
-      opt.syntax = "ON"
-      opt.termguicolors = true
-      opt.winborder = "none"
+        -- Theme
+        opt.syntax = "ON"
+        opt.termguicolors = true
+        opt.winborder = "none"
 
-      -- Search
-      opt.ignorecase = true
-      opt.smartcase = true
+        -- Search
+        opt.ignorecase = true
+        opt.smartcase = true
 
-      -- Whitespace
-      opt.expandtab = true
-      opt.shiftwidth = 2
-      opt.softtabstop = 2
-      opt.tabstop = 2
-      opt.list = true
+        -- Whitespace
+        opt.expandtab = true
+        opt.shiftwidth = 2
+        opt.softtabstop = 2
+        opt.tabstop = 2
+        opt.list = true
 
-      -- Cmp
-      opt.completeopt = { "menu", "menuone", "noselect" }
+        -- Cmp
+        opt.completeopt = { "menu", "menuone", "noselect" }
 
-      -- VARS --
-      local g = vim.g
-      g.t_co = 256
-      g.mapleader = ' '
+        -- VARS --
+        local g = vim.g
+        g.t_co = 256
+        g.mapleader = ' '
 
-      -- USER --
-      -- Global Variables
-      LSP_SERVERS = {}
+        -- USER --
+        -- Global Variables
+        LSP_SERVERS = {}
 
-      -- Settings
-      vim.diagnostic.config({ virtual_lines = true })
+        -- Settings
+        vim.diagnostic.config({ virtual_lines = true })
 
-      -- Functions
-      function REGISTER_SERVER(server_name)
-        return function(_, bufnr)
-          LSP_SERVERS[bufnr] = LSP_SERVERS[bufnr] or {}
-          LSP_SERVERS[bufnr][server_name] = true
+        -- Functions
+        function REGISTER_SERVER(server_name)
+          return function(_, bufnr)
+            LSP_SERVERS[bufnr] = LSP_SERVERS[bufnr] or {}
+            LSP_SERVERS[bufnr][server_name] = true
+          end
         end
-      end
-    '';
+      '';
     plugins = with pkgs.vimPlugins; [
       {
         plugin = alpha-nvim;
@@ -949,29 +979,28 @@ in
       vim-tmux-navigator
     ];
 
-    extraConfig = 
-    # tmux
-    ''
-      set -g extended-keys on
-      set -g extended-keys-format csi-u
+    extraConfig =
+      # tmux
+      ''
+        set -g extended-keys on
+        set -g extended-keys-format csi-u
 
-      set -g default-terminal "tmux-256color"
-      set -ga terminal-overrides ",*:RGB"
-      set -ga terminal-overrides ",*:Tc"
+        set -g default-terminal "tmux-256color"
+        set -ga terminal-overrides ",*:RGB"
+        set -ga terminal-overrides ",*:Tc"
 
-      set -g allow-passthrough on
+        set -g allow-passthrough on
 
-      set -g renumber-windows on
+        set -g renumber-windows on
 
-      set-option -g status-left "#[bg=default,fg=black]#[bg=black,fg=white] #S #[bg=default,fg=black]#[default] "
-      set-option -g status-right "#[bg=default,fg=black]#[bg=black,fg=white] %H:%M #[bg=black,fg=yellow]#[bg=yellow,fg=white] #h #[bg=default,fg=yellow]"
+        set-option -g status-left "#[bg=default,fg=black]#[bg=black,fg=white] #S #[bg=default,fg=black]#[default] "
+        set-option -g status-right "#[bg=default,fg=black]#[bg=black,fg=white] %H:%M #[bg=black,fg=yellow]#[bg=yellow,fg=white] #h #[bg=default,fg=yellow]"
 
-      set-option -g status-style bg=default
+        set-option -g status-style bg=default
 
-      set-option -g display-time 1000
-    '';
+        set-option -g display-time 1000
+      '';
   };
-
 
   home.stateVersion = "25.05";
 }

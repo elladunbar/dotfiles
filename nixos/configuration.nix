@@ -3,20 +3,19 @@ let
   llama-cpp-service-package = config.services.llama-cpp.package;
 in
 {
-  imports =
-    [
-      ./bluesky-pds.nix
-      ./cachix.nix
-      ./copyparty.nix
-      ./forgejo.nix
-      ./hardware-configuration.nix
-      ./immich.nix
-      ./llama-cpp.nix
-      ./minecraft.nix
-      ./nginx.nix
-      ./sops.nix
-      ./zfs.nix
-    ];
+  imports = [
+    ./bluesky-pds.nix
+    ./cachix.nix
+    ./copyparty.nix
+    ./forgejo.nix
+    ./hardware-configuration.nix
+    ./immich.nix
+    ./llama-cpp.nix
+    ./minecraft.nix
+    ./nginx.nix
+    ./sops.nix
+    ./zfs.nix
+  ];
 
   networking.hostId = "0d5482dd";
   networking.hostName = "river-birch";
@@ -88,28 +87,30 @@ in
   # ];
   nixpkgs.overlays = [
     (self: super: {
-      cudaPackages = super.cudaPackages_12.overrideScope (final: prev: {
-        # cuDNN 9.12+ dropped kernels for compute capability < 7.5 and 9.11's
-        # convolution kernels also fail on the GTX 1070 (sm_61); 9.10.2 works.
-        cudnn = prev.cudnn.overrideAttrs (old: {
-          passthru = old.passthru // {
-            release = old.passthru.release // {
-              version = "9.10.2.21";
-              cuda_variant = [ "12" ];
-              linux-x86_64.cuda12 = {
-                relative_path = "cudnn/linux-x86_64/cudnn-linux-x86_64-9.10.2.21_cuda12-archive.tar.xz";
-                sha256 = "d0defcbc4c6dad711ff4cb66d254036a300c9071b07c7b64199aacab534313c1";
+      cudaPackages = super.cudaPackages_12.overrideScope (
+        final: prev: {
+          # cuDNN 9.12+ dropped kernels for compute capability < 7.5 and 9.11's
+          # convolution kernels also fail on the GTX 1070 (sm_61); 9.10.2 works.
+          cudnn = prev.cudnn.overrideAttrs (old: {
+            passthru = old.passthru // {
+              release = old.passthru.release // {
+                version = "9.10.2.21";
+                cuda_variant = [ "12" ];
+                linux-x86_64.cuda12 = {
+                  relative_path = "cudnn/linux-x86_64/cudnn-linux-x86_64-9.10.2.21_cuda12-archive.tar.xz";
+                  sha256 = "d0defcbc4c6dad711ff4cb66d254036a300c9071b07c7b64199aacab534313c1";
+                };
               };
             };
-          };
-        });
-      });
+          });
+        }
+      );
     })
     (final: prev: {
       python3 = prev.python3.override {
         packageOverrides = pyFinal: pyPrev: {
           imageio = pyPrev.imageio.overridePythonAttrs (oldAttrs: {
-            disabledTests = (oldAttrs.disabledTests or []) ++ [
+            disabledTests = (oldAttrs.disabledTests or [ ]) ++ [
               "test_lagging_video_stream"
               "test_process_termination"
             ];
@@ -139,12 +140,43 @@ in
     };
   };
 
-  networking.firewall.allowedTCPPorts = [ 17228 17080 17443 18080 18443 19080 19443 20443 25565 47984 47989 48010 ];
-  networking.firewall.allowedUDPPorts = [ 17228 17080 17443 18080 18443 19080 19443 48002 48010 ];
-  networking.firewall.allowedUDPPortRanges = [ { from = 47998; to = 48000; } ];
+  networking.firewall.allowedTCPPorts = [
+    17228
+    17080
+    17443
+    18080
+    18443
+    19080
+    19443
+    20443
+    25565
+    47984
+    47989
+    48010
+  ];
+  networking.firewall.allowedUDPPorts = [
+    17228
+    17080
+    17443
+    18080
+    18443
+    19080
+    19443
+    48002
+    48010
+  ];
+  networking.firewall.allowedUDPPortRanges = [
+    {
+      from = 47998;
+      to = 48000;
+    }
+  ];
 
   nix.settings = {
-    experimental-features = [ "nix-command" "flakes" ];
+    experimental-features = [
+      "nix-command"
+      "flakes"
+    ];
     # 6 cores / 8 GB RAM: running fewer builds at once keeps large CUDA
     # compiles out of swap
     cores = 5;
@@ -177,7 +209,10 @@ in
     efiSupport = true;
     efiInstallAsRemovable = true;
     mirroredBoots = [
-      { devices = [ "nodev" ]; path = "/boot"; }
+      {
+        devices = [ "nodev" ];
+        path = "/boot";
+      }
     ];
   };
 
@@ -197,7 +232,13 @@ in
   boot.extraModprobeConfig = ''
     options nvidia_drm modeset=1 fbdev=1
   '';
-  boot.initrd.kernelModules = [ "nvidia" "nvidia_modeset" "nvidia_uvm" "nvidia_drm" "e1000e" ];
+  boot.initrd.kernelModules = [
+    "nvidia"
+    "nvidia_modeset"
+    "nvidia_uvm"
+    "nvidia_drm"
+    "e1000e"
+  ];
 
   boot.kernelModules = [ "e1000e" ];
   boot.kernelParams = [
