@@ -3,6 +3,8 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
+    # Last release with x86_64-darwin, for Whisky's x86_64 Wine
+    nixpkgs-x86.url = "github:NixOS/nixpkgs/nixpkgs-26.05-darwin";
     nix-claude-code = {
       url = "github:ryoppippi/nix-claude-code";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -18,7 +20,7 @@
     };
   };
 
-  outputs = inputs@{ self, nixpkgs, nix-claude-code, nix-darwin, pi-mono, ... }:
+  outputs = inputs@{ self, nixpkgs, nixpkgs-x86, nix-claude-code, nix-darwin, pi-mono, ... }:
   let
     configuration = { pkgs, ... }: {
       # Put config in home folder
@@ -30,9 +32,7 @@
         pi-mono.overlays.default
       ];
 
-      # Fish theme that follows the terminal's light/dark mode, built from
-      # nightfox's dayfox/duskfox extras (~/.config/fish/themes/nightfox.theme
-      # is a symlink to this)
+      # Fish theme that follows the terminal's light/dark mode
       environment.etc."fish/themes/nightfox.theme".source =
         pkgs.runCommand "nightfox.theme" { nativeBuildInputs = [ pkgs.fish ]; } ''
           export HOME=$TMPDIR
@@ -49,6 +49,10 @@
             done
           } > $out
         '';
+
+      # SDL with libusb for GameCube adapter in Whisky (DYLD_LIBRARY_PATH=/etc/whisky-sdl/lib)
+      environment.etc.whisky-sdl.source =
+        import ./whisky/sdl.nix { pkgs = nixpkgs-x86.legacyPackages.x86_64-darwin; };
 
       # Allow unfree packages
       nixpkgs.config.allowUnfree = true;
@@ -144,6 +148,8 @@
             webshot2
           ];
         })
+
+        (import ./whisky/rivals2.nix { inherit pkgs; })
       ];
 
       # Homebrew
@@ -155,6 +161,10 @@
         onActivation.upgrade = true;
         onActivation.extraFlags = [ "--force-cleanup" ];
         taps = [
+          {
+            name = "frankea/whisky";
+            trusted = true;
+          }
           {
             name = "jurplel/tap";
             trusted = true;
@@ -179,6 +189,7 @@
           "discord"
           "element"
           "firefox"
+          "frankea/whisky/whisky"
           "ghostty"
           "gimp"
           "google-chrome"

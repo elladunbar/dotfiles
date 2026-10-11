@@ -1,0 +1,24 @@
+diff --git a/src/hidapi/libusb/hid.c b/src/hidapi/libusb/hid.c
+index 2485bbf..3ad94ad 100644
+--- a/src/hidapi/libusb/hid.c
++++ b/src/hidapi/libusb/hid.c
+@@ -1272,13 +1272,13 @@ hid_device * HID_API_EXPORT hid_open_path(const char *path, int bExclusive)
+ 						if (libusb_kernel_driver_active(dev->device_handle, intf_desc->bInterfaceNumber) == 1) {
+ 							res = libusb_detach_kernel_driver(dev->device_handle, intf_desc->bInterfaceNumber);
+ 							if (res < 0) {
+-								libusb_close(dev->device_handle);
+-								LOG("Unable to detach Kernel Driver\n");
+-								free(dev_path);
+-								good_open = 0;
+-								break;
++								/* macOS: detaching needs root or a capture entitlement, but a
++								   claimable driver (e.g. GCAdapterDriver) lets the claim below
++								   succeed anyway, as in Dolphin */
++								LOG("Unable to detach Kernel Driver, trying to claim anyway\n");
++							} else {
++								detached_driver = 1;
+ 							}
+-							detached_driver = 1;
+ 						}
+ #endif
+ 
