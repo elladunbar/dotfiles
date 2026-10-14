@@ -1,11 +1,16 @@
 {
-  "lastChangelogVersion": "1.1.0",
+  "lastChangelogVersion": "1.2.0",
   "theme": "light/dark",
   "compaction": {
     "enabled": false
   },
   "defaultProvider": "github-copilot",
   "defaultModel": "gemini-3.8-flash",
+  "enabledModels": [
+    "github-copilot/*",
+    "llama.cpp*",
+    "xiaomi/*"
+  ],
   "images": {
     "blockImages": true
   },
