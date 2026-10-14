@@ -39,7 +39,8 @@
   services.immich = {
     enable = true;
     port = 2283;
-    openFirewall = true;
+    # only nginx reaches immich (on loopback); no firewall hole needed
+    openFirewall = false;
 
     # enables access to all devices
     accelerationDevices = null;

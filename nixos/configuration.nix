@@ -1,6 +1,43 @@
-{ config, pkgs, ... }:
+{ config, lib, pkgs, ... }:
 let
   llama-cpp-service-package = config.services.llama-cpp.package;
+
+  # game streaming (moonlight/sunshine) and ssh, open to the home lan only.
+  # ports and port ranges ("47998:48000") both go here; the firewall below
+  # turns them into one accept rule per protocol and source
+  lanTCPPorts = [
+    "17227" # sshd
+    "47984" # sunshine
+    "47989" # sunshine
+    "48010" # sunshine
+  ];
+  lanUDPPorts = [
+    "47998:48000" # moonlight
+    "48002" # moonlight
+    "48010" # moonlight
+  ];
+
+  # who counts as "the home lan" on eno1: the v4 subnet, v6 link-local (so
+  # mDNS names like river-birch.local keep working), and the on-link v6
+  # prefix. the tailnet needs none of this; tailscaled accepts tailscale0
+  # ahead of the firewall, and everything else binds to loopback or to
+  # 100.64.0.5 (tailnet) anyway
+  lanSources = {
+    iptables = [ "192.168.1.0/24" ];
+    ip6tables = [
+      "fe80::/10"
+      "2600:1700:6900:baa0::/64" # the on-link v6 prefix; update if it gets renumbered
+    ];
+  };
+
+  lanRules =
+    family: proto: ports:
+    lib.concatMapStrings (
+      source:
+      lib.concatMapStrings (port: ''
+        ${family} -A nixos-fw -p ${proto} -s ${source} --dport ${port} -j nixos-fw-accept
+      '') ports
+    ) lanSources.${family};
 in
 {
   imports = [
@@ -130,7 +167,9 @@ in
 
   services.openssh = {
     enable = true;
-    openFirewall = true;
+    # 17227 is opened for the home lan by networking.firewall.extraCommands;
+    # openFirewall would re-open it on every interface, including public v6
+    openFirewall = false;
     ports = [ 17227 ];
     settings = {
       KbdInteractiveAuthentication = false;
@@ -140,37 +179,15 @@ in
     };
   };
 
-  networking.firewall.allowedTCPPorts = [
-    17228
-    17080
-    17443
-    18080
-    18443
-    19080
-    19443
-    20443
-    25565
-    47984
-    47989
-    48010
-  ];
-  networking.firewall.allowedUDPPorts = [
-    17228
-    17080
-    17443
-    18080
-    18443
-    19080
-    19443
-    48002
-    48010
-  ];
-  networking.firewall.allowedUDPPortRanges = [
-    {
-      from = 47998;
-      to = 48000;
-    }
-  ];
+  networking.firewall.extraCommands =
+    # game streaming and ssh from the home lan only. the old blanket lists are
+    # gone: 17228 is only the initrd dropbear (no firewall there), and nginx,
+    # forgejo, pds, llama.cpp and minecraft all bind to loopback or to
+    # 100.64.0.5, so they never need a hole for eno1
+    lanRules "iptables" "tcp" lanTCPPorts
+    + lanRules "iptables" "udp" lanUDPPorts
+    + lanRules "ip6tables" "tcp" lanTCPPorts
+    + lanRules "ip6tables" "udp" lanUDPPorts;
 
   nix.settings = {
     experimental-features = [
