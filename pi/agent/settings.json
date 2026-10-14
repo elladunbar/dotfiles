@@ -25,5 +25,5 @@
     "npm:@juicesharp/rpiv-ask-user-question"
   ],
   "enableInstallTelemetry": true,
-  "hideThinkingBlock": false
+  "hideThinkingBlock": true
 }
