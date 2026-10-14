@@ -116,6 +116,15 @@ in
         locations."/" = {
           proxyPass = "http://${llamacppSettings.settings.host}:${toString llamacppSettings.settings.port}";
           recommendedProxySettings = true;
+          extraConfig =
+            # nginx
+            ''
+              # headscale only hands this name to tailnet clients, who connect
+              # straight to 100.64.0.5; llama-server has no authentication, so
+              # refuse the vhost to anyone else in case it is ever proxied
+              allow 100.64.0.0/10;
+              deny all;
+            '';
         };
         listen = [
           {
