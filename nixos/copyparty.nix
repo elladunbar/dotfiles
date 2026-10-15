@@ -30,6 +30,11 @@
 
       # index and hash files, for search and resumable/deduplicated uploads
       e2dsa = true;
+
+      # let webdav clients (finder) overwrite existing files instead of
+      # saving timestamped copies; also lets PUT uploads overwrite for
+      # accounts with delete access, which is only ella
+      daw = true;
     };
 
     accounts.ella.passwordFile = config.sops.secrets.copyparty-ella-password.path;
