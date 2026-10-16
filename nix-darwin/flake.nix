@@ -211,6 +211,7 @@
           "sioyek"
           "spotify"
           "steam"
+          "syncthing-app"
           "transmission"
           "zed"
           "zoom"
@@ -234,6 +235,28 @@
             StandardErrorPath = "/Users/ella/Library/Caches/org.nixos.appearance/appearance_error.log";
             StandardOutPath = "/Users/ella/Library/Caches/org.nixos.appearance/appearance.log";
             StartInterval = 5;
+            UserName = "ella";
+          };
+        };
+        "rclone-cloud" = {
+          environment = { "HOME" = "/Users/ella"; };
+          path = [
+            "/sbin"
+            "/usr/bin"
+          ];
+          serviceConfig = {
+            ProgramArguments = [
+                "${pkgs.rclone}/bin/rclone"
+                "nfsmount" "cloud:" "/Users/ella/Cloud"
+                "--vfs-cache-mode" "full"
+                "--vfs-cache-max-size" "20G"
+                "--vfs-cache-max-age" "720h"
+                "--dir-cache-time" "30s"
+            ];
+            KeepAlive = true;
+            RunAtLoad = true;
+            StandardErrorPath = "/Users/ella/Library/Caches/org.nixos.rclone-cloud/rclone-cloud_error.log";
+            StandardOutPath = "/Users/ella/Library/Caches/org.nixos.rclone-cloud/rclone-cloud.log";
             UserName = "ella";
           };
         };
