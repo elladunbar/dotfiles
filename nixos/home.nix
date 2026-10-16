@@ -39,6 +39,9 @@ in
     fd
     fastfetch
 
+    # scripting
+    python3
+
     # networking tools
     nmap
 
