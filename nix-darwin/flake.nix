@@ -242,6 +242,7 @@
           environment = { "HOME" = "/Users/ella"; };
           path = [
             "/sbin"
+            "/usr/sbin"
             "/usr/bin"
           ];
           serviceConfig = {
