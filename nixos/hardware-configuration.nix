@@ -96,6 +96,12 @@
     neededForBoot = true;
   };
 
+  fileSystems."/var/lib/syncthing" = {
+    device = "fast/data/syncthing";
+    fsType = "zfs";
+    neededForBoot = true;
+  };
+
   fileSystems."/var/lib/private" = {
     device = "fast/data/var-lib-private";
     fsType = "zfs";

@@ -5,6 +5,7 @@ let
   forgejoSettings = config.services.forgejo.settings.server;
   immichSettings = config.services.immich;
   llamacppSettings = config.services.llama-cpp;
+  syncthingSettings = config.services.syncthing;
 in
 {
   # needed to access unix sockets
@@ -130,6 +131,34 @@ in
           {
             addr = "100.64.0.5";
             port = 5678;
+          }
+        ];
+      };
+
+      # same name as the llama.cpp vhost, so it needs its own attribute name
+      syncthing-gui = {
+        serverName = "river-birch.nodes.elladunbar.com";
+        locations."/" = {
+          proxyPass = "http://${syncthingSettings.guiAddress}";
+          extraConfig =
+            # nginx
+            ''
+              # syncthing refuses non-localhost Host headers on a loopback gui
+              proxy_set_header Host            localhost;
+              proxy_set_header X-Real-IP       $remote_addr;
+              proxy_set_header X-Forwarded-For $remote_addr;
+              proxy_read_timeout 600s;
+
+              # the gui has no password; refuse anyone off the tailnet in case
+              # this vhost is ever proxied
+              allow 100.64.0.0/10;
+              deny all;
+            '';
+        };
+        listen = [
+          {
+            addr = "100.64.0.5";
+            port = 8384;
           }
         ];
       };
