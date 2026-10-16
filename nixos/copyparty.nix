@@ -1,4 +1,4 @@
-{ config, ... }:
+{ config, pkgs, ... }:
 
 {
   # fast/data/copyparty is mounted on /var/lib/copyparty (see
@@ -6,6 +6,9 @@
   # (shares db, salts) are in the nightly syncoid backup
   services.copyparty = {
     enable = true;
+    # the default ffmpeg-headless is built without libjxl, so video
+    # thumbnails fail for browsers that accept jpeg-xl
+    package = pkgs.copyparty.override { ffmpeg = pkgs.ffmpeg-full; };
 
     settings = {
       # only reachable through nginx
