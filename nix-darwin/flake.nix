@@ -247,12 +247,23 @@
           ];
           serviceConfig = {
             ProgramArguments = [
+                # clear a stale mount left by a dead rclone, otherwise the restart fails with "already mounted"
+                "${pkgs.writeShellScript "rclone-cloud" ''
+                  if mount | grep -q " on /Users/ella/Cloud "; then
+                    umount -f /Users/ella/Cloud || diskutil unmount force /Users/ella/Cloud
+                  fi
+                  exec "$@"
+                ''}"
                 "${pkgs.rclone}/bin/rclone"
                 "nfsmount" "cloud:" "/Users/ella/Cloud"
                 "--vfs-cache-mode" "full"
                 "--vfs-cache-max-size" "20G"
                 "--vfs-cache-max-age" "720h"
                 "--dir-cache-time" "30s"
+                # fail fast when the server is down instead of hanging the mount
+                "--contimeout" "5s"
+                "--timeout" "30s"
+                "--low-level-retries" "2"
             ];
             KeepAlive = true;
             RunAtLoad = true;
