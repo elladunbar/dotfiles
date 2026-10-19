@@ -213,7 +213,6 @@
           "steam"
           "syncthing-app"
           "transmission"
-          "zed"
           "zoom"
           "zotero"
         ];
