@@ -31,29 +31,23 @@ else
 end
 set -gx HOMEBREW_CELLAR "$HOMEBREW_PREFIX/Cellar"
 set -gxa LIBRARY_PATH "$HOMEBREW_PREFIX/lib"
-eval (brew shellenv fish)
 
 # perl
-mkdir -p /Users/ella/Code/lib/perl5
-set -gxp PATH /Users/ella/Code/lib/perl5/bin
-set -gxp PERL5LIB /Users/ella/Code/lib/perl5/lib/perl5
-set -gxp PERL_LOCAL_LIB_ROOT /Users/ella/Code/lib/perl5
-set -gx PERL_MB_OPT "--install_base \"/Users/ellaCode/lib/perl5\""
-set -gx PERL_MM_OPT "INSTALL_BASE=/Users/ella/Code/lib/perl5"
+set -gxp PATH $HOME/Code/lib/perl5/bin
+set -gxp PERL5LIB $HOME/Code/lib/perl5/lib/perl5
+set -gxp PERL_LOCAL_LIB_ROOT $HOME/Code/lib/perl5
+set -gx PERL_MB_OPT "--install_base \"$HOME/Code/lib/perl5\""
+set -gx PERL_MM_OPT "INSTALL_BASE=$HOME/Code/lib/perl5"
 
 # path
 set -gxp PATH "/run/current-system/sw/bin"
 set -gxp PATH $XDG_DATA_HOME/cargo/bin
 set -gxp PATH $XDG_BIN_HOME
-set -gxp PATH "./node_modules/.bin"
 set -gxp PATH "/Applications/MATLAB_R2026a.app/bin"
 
 # deduplicate path
 set -l tmp_PATH
 for d in $PATH
-    set -l in_tmp_path (string split ' '  $tmp_PATH | rg "^$d\$")
-    if test -z $in_tmp_path
-        set -a tmp_PATH $d
-    end
+    contains -- $d $tmp_PATH; or set -a tmp_PATH $d
 end
 set -gx PATH $tmp_PATH
