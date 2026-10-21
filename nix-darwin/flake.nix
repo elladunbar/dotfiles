@@ -22,9 +22,60 @@
 
   outputs = inputs@{ self, nixpkgs, nixpkgs-x86, nix-claude-code, nix-darwin, pi-mono, ... }:
   let
-    configuration = { pkgs, ... }: {
+    # Keep dotfiles out of $HOME, for shells and GUI apps alike
+    xdgDirs = {
+      XDG_BIN_HOME = "/Users/ella/.local/bin";
+      XDG_CACHE_HOME = "/Users/ella/Library/Caches";
+      XDG_CONFIG_HOME = "/Users/ella/.config";
+      XDG_DATA_HOME = "/Users/ella/.local/share";
+      XDG_RUNTIME_DIR = "$(getconf DARWIN_USER_TEMP_DIR)";
+      XDG_STATE_HOME = "/Users/ella/.local/state";
+    };
+    xdgVars = xdgDirs // (with xdgDirs; {
+      CARGO_HOME = "${XDG_DATA_HOME}/cargo";
+      CLAUDE_CONFIG_DIR = "${XDG_CONFIG_HOME}/claude";
+      DOCKER_CONFIG = "${XDG_CONFIG_HOME}/docker";
+      GEM_HOME = "${XDG_DATA_HOME}/gem";
+      GEM_SPEC_CACHE = "${XDG_CACHE_HOME}/gem";
+      INPUTRC = "${XDG_CONFIG_HOME}/readline/inputrc";
+      IPYTHONDIR = "${XDG_CONFIG_HOME}/ipython";
+      LESSHISTFILE = "${XDG_STATE_HOME}/less/history";
+      MPLCONFIGDIR = "${XDG_CONFIG_HOME}/matplotlib";
+      NPM_CONFIG_CACHE = "${XDG_CACHE_HOME}/npm";
+      NPM_CONFIG_USERCONFIG = "${XDG_CONFIG_HOME}/npm/npmrc";
+      NVM_DIR = "${XDG_DATA_HOME}/nvm";
+      PI_CODING_AGENT_DIR = "${XDG_CONFIG_HOME}/pi/agent";
+      PYTHON_HISTORY = "${XDG_STATE_HOME}/python/history";
+      RUSTUP_HOME = "${XDG_DATA_HOME}/rustup";
+      R_ENVIRON_USER = "${XDG_CONFIG_HOME}/R/Renviron";
+      SQLITE_HISTORY = "${XDG_STATE_HOME}/sqlite/history";
+      STARSHIP_CACHE = "${XDG_CACHE_HOME}/starship";
+      WGETRC = "${XDG_CONFIG_HOME}/wget/wgetrc";
+      WORKON_HOME = "${XDG_DATA_HOME}/virtualenvs";
+    });
+
+    # PATH for GUI apps and other launchd services
+    guiPath = with xdgVars; nixpkgs.lib.concatStringsSep ":" [
+      XDG_BIN_HOME
+      "${CARGO_HOME}/bin"
+      "/run/current-system/sw/bin"
+      "/nix/var/nix/profiles/default/bin"
+      "/opt/homebrew/bin"
+      "/opt/homebrew/sbin"
+      "/usr/local/bin"
+      "/usr/bin"
+      "/bin"
+      "/usr/sbin"
+      "/sbin"
+    ];
+
+    configuration = { config, lib, pkgs, ... }: {
       # Put config in home folder
       environment.etc.nix-darwin.source = "/Users/ella/.config/nix-darwin";
+
+      # XDG variables for shells (dash reads this from ~/.profile)
+      environment.variables = xdgVars;
+      environment.etc.set-environment.source = config.system.build.setEnvironment;
 
       # Overlays
       nixpkgs.overlays = [
@@ -237,6 +288,19 @@
 
       # Launch services
       launchd.agents = { # supposed to run as current user
+        # XDG variables for GUI apps, re-applied at every login
+        "xdg-env" = {
+          serviceConfig = {
+            Program = "${pkgs.writeShellScript "xdg-env" ''
+              mkdir -p ${xdgVars.XDG_STATE_HOME}/{python,sqlite,wget}
+              ${lib.concatStrings (lib.mapAttrsToList (name: value: ''
+                launchctl setenv ${name} "${value}"
+              '') xdgVars)}
+            ''}";
+            RunAtLoad = true;
+            UserName = "ella";
+          };
+        };
         "appearance" = {
           environment = { "HOME" = "/Users/ella"; };
           serviceConfig = {
@@ -327,6 +391,11 @@
         };
       };
 
+      # Replaces a stale PATH migrated from an old Mac; launchd applies it at boot
+      system.activationScripts.postActivation.text = ''
+        launchctl config user path ${lib.escapeShellArg guiPath}
+      '';
+
       # System settings
       security.pam.services.sudo_local = {
         touchIdAuth = true;
@@ -345,6 +414,10 @@
 
       # Necessary for using flakes on this system.
       nix.settings.experimental-features = "nix-command flakes";
+
+      # Keep profiles in ~/.local/state/nix rather than ~/.nix-profile and ~/.nix-defexpr
+      nix.settings.use-xdg-base-directories = true;
+      nix.channel.enable = false;
 
       # Enable alternative shell support in nix-darwin.
       programs.fish.enable = true;

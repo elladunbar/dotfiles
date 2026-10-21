@@ -187,10 +187,12 @@ end)
 
 -- play video with clipboard content
 hs.hotkey.bind({ "alt" }, "v", function()
-	local cmd = 'PATH="/run/current-system/sw/bin:/opt/homebrew/bin:/usr/bin:/bin" '
-		.. "/Users/ella/Code/sh/mpv/play.sh "
-		.. hs.pasteboard.getContents()
-		.. " &"
+	local url = hs.pasteboard.getContents()
+	if not url then
+		return
+	end
+	-- single-quote for the shell, so & ; $ etc. in the url are passed through as-is
+	local cmd = "/Users/ella/Code/sh/mpv/play.sh '" .. url:gsub("'", "'\\''") .. "' &"
 	os.execute(cmd)
 end)
 

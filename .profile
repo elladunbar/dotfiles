@@ -1,3 +1,8 @@
+# nix-darwin environment, since dash doesn't read /etc/bashrc or /etc/zshenv
+if test -z "$__NIX_DARWIN_SET_ENVIRONMENT_DONE" && test -r /etc/set-environment; then
+    . /etc/set-environment
+fi
+
 # regular env variables
 export EDITOR="nvim"
 export HOMEBREW_NO_ENV_HINTS=1
@@ -28,7 +33,6 @@ export PERL_MM_OPT="INSTALL_BASE=/Users/ella/Code/lib/perl5"
 export PATH="/run/current-system/sw/bin:$PATH"
 export PATH="$XDG_DATA_HOME/cargo/bin:$PATH"
 export PATH="$XDG_BIN_HOME:$PATH"
-export PATH="./node_modules/.bin:$PATH"
 PATH="$(perl -e 'print join(":", grep { not $seen{$_}++ } split(/:/, $ENV{PATH}))')"
 export PATH
 
