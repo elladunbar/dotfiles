@@ -205,6 +205,7 @@
             languageserver
             patchwork
             psych
+            readxl
             reticulate
             tidyverse
             webshot2
