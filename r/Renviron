@@ -1,5 +1,6 @@
-HOME = /Users/ella/
-R_HISTFILE = /Users/ella/.local/state/r/Rhistory
-R_HOME_USER = /Users/ella/Code/R
-R_LIBS_USER = /Users/ella/Code/lib/R
-R_PROFILE_USER = /Users/ella/.config/r/Rprofile
+R_HISTFILE=${XDG_STATE_HOME}/r/Rhistory
+R_HISTSIZE=10000
+R_HOME_USER=${HOME}/Code/R
+R_LIBS_USER=${HOME}/Code/lib/R
+R_PROFILE_USER=${XDG_CONFIG_HOME}/r/Rprofile
+CHROMOTE_CHROME="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"

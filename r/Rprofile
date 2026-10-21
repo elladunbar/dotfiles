@@ -1,12 +1,14 @@
-options(browser = "safari", verbose = FALSE, startupMessages = FALSE)
+options(
+  browser = "open -a Orion",
+  repos = c(CRAN = "https://cloud.r-project.org")
+)
 local({
   n <- max(parallel::detectCores() - 2L, 1L)
   Sys.setenv(MAKEFLAGS = paste0("-j", n))
-  options(Ncpus = n)
-  options(mc.cores = n)
-  Sys.setenv(CHROMOTE_CHROME = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome")
+  options(Ncpus = n, mc.cores = n)
 })
-error <- quote(dump.frames("${R_HOME_USER}/testdump", TRUE))
+options(error = if (interactive()) utils::recover else
+  quote(dump.frames(file.path(Sys.getenv("R_HOME_USER"), "testdump"), TRUE)))
 .Last <- function() {
-  if(interactive()) try(savehistory("~/.local/state/r/Rhistory"))
+  if (interactive()) try(utils::savehistory(Sys.getenv("R_HISTFILE")))
 }
