@@ -77,7 +77,7 @@ return {
 				end
 			end
 
-			vim.cmd("lsp enable")
+			vim.lsp.enable(servers)
 		end,
 		event = "BufReadPre",
 		keys = {

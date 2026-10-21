@@ -8,6 +8,6 @@ set -gx LESSHISTFILE $XDG_STATE_HOME/less/history
 set -gx NVM_DIR $XDG_DATA_HOME/nvm
 set -gx PI_CODING_AGENT_DIR $XDG_CONFIG_HOME/pi/agent
 set -gx RUSTUP_HOME $XDG_DATA_HOME/rustup
-set -gx R_ENVIRON_USER $XDG_CONFIG_HOME/r/Renviron
+set -gx R_ENVIRON_USER $XDG_CONFIG_HOME/R/Renviron
 set -gx STACK_XDG yes
 set -gx WORKON_HOME $XDG_DATA_HOME/virtualenvs
