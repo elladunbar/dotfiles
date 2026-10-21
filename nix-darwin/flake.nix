@@ -60,13 +60,16 @@
       # List packages installed in system profile. To search by name, run:
       # $ nix-env -qaP | grep wget
       environment.systemPackages = with pkgs; [
+        air-formatter
         b2sum
         bash
+        bash-language-server
         bat
         bitwarden-cli
         btop
         ccache
         chafa
+        clang-tools
         claude-code
         cmake
         colima
@@ -91,7 +94,9 @@
         go
         hexyl
         imagemagick
+        jdt-language-server
         julia-bin
+        lua-language-server
         lynx
         magic-wormhole
         man
@@ -106,24 +111,30 @@
         openssl
         pandoc
         perl
+        perlnavigator
         php
         pi
         poppler
         rclone
         ripgrep
         rsync
+        ruff
         rustup
         socat
         sqlcmd
         starship
         stow
+        stylua
         svgo
         tailscale
         tealdeer
         texinfo
+        texlab
         tmux
+        ty
         typst
         uv
+        vscode-langservers-extracted
         wget
         yazi
         zellij
@@ -175,7 +186,6 @@
           }
         ];
         brews = [
-          "ghcup"
           "mpv"
           "msodbcsql18"
           "tree-sitter-cli"

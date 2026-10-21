@@ -2,7 +2,6 @@ return {
 	"nvim-treesitter/nvim-treesitter",
 	config = function()
 		local filetypes = {
-			"arduino",
 			"asm",
 			"bash",
 			"c",
@@ -14,7 +13,6 @@ return {
 			"fish",
 			"gitcommit",
 			"gitignore",
-			"haskell",
 			"html",
 			"hyprlang",
 			"java",
@@ -33,7 +31,6 @@ return {
 			"python",
 			"query",
 			"r",
-			"racket",
 			"regex",
 			"requirements",
 			"ruby",
@@ -47,7 +44,6 @@ return {
 			"xml",
 			"yaml",
 			"yuck",
-			"zig",
 		}
 		require("nvim-treesitter").install(filetypes)
 

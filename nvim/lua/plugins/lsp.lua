@@ -2,11 +2,8 @@ return {
 	{
 		"neovim/nvim-lspconfig",
 		dependencies = {
-			"williamboman/mason.nvim",
-			"williamboman/mason-lspconfig.nvim",
 			"hrsh7th/cmp-nvim-lsp",
 			"folke/lazydev.nvim",
-			"pmizio/typescript-tools.nvim",
 			"p00f/clangd_extensions.nvim",
 		},
 		config = function()
@@ -18,47 +15,25 @@ return {
 				cmp_nvim_lsp.default_capabilities()
 			)
 
-			-- pre-LSP setups
-			require("typescript-tools").setup({ on_attach = REGISTER_SERVER("tsserver"), capabilities = capabilities })
-
 			-- LSP server setups
 			local servers = {
-				"arduino_language_server",
 				"bashls",
 				"clangd",
 				"cssls",
-				"hls",
 				"html",
 				"jdtls",
 				"jsonls",
 				"lua_ls",
 				"perlnavigator",
 				"r_language_server",
-				"racket_langserver",
 				"ruff",
 				"rust_analyzer",
 				"texlab",
 				"ty",
-				"zls",
 			}
 
 			for _, server in ipairs(servers) do
-				if server == "arduino_language_server" then
-					local arduino_capabilities = capabilities
-					arduino_capabilities.textDocument.semanticTokens = vim.NIL
-					arduino_capabilities.workspace.semanticTokens = vim.NIL
-
-					vim.lsp.config(server, {
-						capabilities = arduino_capabilities,
-						on_attach = REGISTER_SERVER(server),
-					})
-				elseif server == "hls" then
-					vim.lsp.config(server, {
-						capabilities = capabilities,
-						on_attach = REGISTER_SERVER(server),
-						settings = { haskell = { formattingProvider = "fourmolu" } },
-					})
-				elseif server == "lua_ls" then
+				if server == "lua_ls" then
 					vim.lsp.config(server, {
 						capabilities = capabilities,
 						on_attach = REGISTER_SERVER(server),
@@ -135,9 +110,6 @@ return {
 	},
 	{
 		"nvimtools/none-ls.nvim",
-		dependencies = {
-			"williamboman/mason.nvim",
-		},
 		config = function()
 			local null_ls = require("null-ls")
 

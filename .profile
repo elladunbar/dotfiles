@@ -21,7 +21,7 @@ mkdir -p /Users/ella/Code/lib/perl5
 export PATH="/Users/ella/Code/lib/perl5/bin:$PATH"
 export PERL5LIB="/Users/ella/Code/lib/perl5/lib/perl5:$PERL5LIB"
 export PERL_LOCAL_LIB_ROOT="/Users/ella/Code/lib/perl5:$PERL_LOCAL_LIB_ROOT"
-export PERL_MB_OPT="--install_base "'"'"/Users/ellaCode/lib/perl5"'"'
+export PERL_MB_OPT="--install_base "'"'"/Users/ella/Code/lib/perl5"'"'
 export PERL_MM_OPT="INSTALL_BASE=/Users/ella/Code/lib/perl5"
 
 # path stuff

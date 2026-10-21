@@ -49,7 +49,7 @@ return {
 						{ "location", separator = { left = "", right = "" } },
 					},
 				},
-				extensions = { "lazy", "man", "mason", "quickfix", "symbols-outline" },
+				extensions = { "lazy", "man", "quickfix", "symbols-outline" },
 			}
 		else
 			opts = {
@@ -90,7 +90,7 @@ return {
 						},
 					},
 				},
-				extensions = { "lazy", "man", "mason", "quickfix", "symbols-outline" },
+				extensions = { "lazy", "man", "quickfix", "symbols-outline" },
 			}
 		end
 
