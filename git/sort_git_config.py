@@ -20,6 +20,13 @@ for line in config_file.readlines():
     sections[current_section].append(line)
 
 config_file.seek(0)
-for section in sorted(sections.keys()):
+# Includes stay last, in original order, so they override earlier settings
+def sort_key(section):
+    is_include = section.startswith(("[include]", "[includeIf "))
+    return (is_include, "" if is_include else section)
+
+
+for section in sorted(sections.keys(), key=sort_key):
     config_file.write(section)
     config_file.writelines(sections[section])
+config_file.truncate()
