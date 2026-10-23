@@ -45,6 +45,11 @@
             "apiKey": "llama.cpp",
             "models": [
                 {
+                    "id": "prism-ml/Bonsai-2-27B",
+                    "contextWindow": 32768,
+                    "maxTokens": 32768
+                },
+                {
                     "id": "unsloth/Qwen3.5-2B",
                     "contextWindow": 32768,
                     "maxTokens": 32768
