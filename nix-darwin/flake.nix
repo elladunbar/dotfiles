@@ -275,6 +275,7 @@
           "steam"
           "syncthing-app"
           "transmission"
+          "zen"
           "zoom"
           "zotero"
         ];
