@@ -2,14 +2,14 @@
   "lastChangelogVersion": "1.4.0",
   "theme": "light/dark",
   "compaction": {
-    "enabled": false
+    "enabled": true
   },
-  "defaultProvider": "github-copilot",
-  "defaultModel": "gemini-3.8-flash",
+  "defaultProvider": "llama.cpp (dogwood)",
+  "defaultModel": "prism-ml/Bonsai-2-27B",
   "enabledModels": [
     "github-copilot/*",
-    "llama.cpp*",
-    "xiaomi/*"
+    "xiaomi/*",
+    "llama.cpp*/**"
   ],
   "images": {
     "blockImages": true
