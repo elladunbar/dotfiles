@@ -396,6 +396,9 @@
       # Replaces a stale PATH migrated from an old Mac; launchd applies it at boot
       system.activationScripts.postActivation.text = ''
         launchctl config user path ${lib.escapeShellArg guiPath}
+
+        # Runs after Homebrew, so the copy follows Zen upgrades
+        sudo -u ella ${import ./zen-work.nix { inherit pkgs; }}
       '';
 
       # System settings
