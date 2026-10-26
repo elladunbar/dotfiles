@@ -260,7 +260,7 @@ in
 
   boot.kernelModules = [ "e1000e" ];
   boot.kernelParams = [
-    "ip=192.168.1.100::::river-birch:eno1::::"
+    "ip=192.168.1.100::192.168.1.254:255.255.255.0:river-birch:eno1:none"
     "zswap.enabled=1"
     "zswap.compressor=zstd"
     "zswap.max_pool_percentage=20"
