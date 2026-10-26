@@ -50,9 +50,22 @@
       createDB = true;
     };
 
-    settings.server = {
-      externalDomain = "https://photos.elladunbar.com";
-      loginPageMessage = "Welcome to Ella Dunbar's self-hosted photo storage!";
+    settings = {
+      server = {
+        externalDomain = "https://photos.elladunbar.com";
+        loginPageMessage = "Welcome to Ella Dunbar's self-hosted photo storage!";
+      };
+
+      # near the top of immich's recall benchmark at ~1 GiB less memory than
+      # the SO400M models; the 1070's 8 GiB is shared with llama-cpp
+      machineLearning.clip.modelName = "ViT-L-16-SigLIP2-256__webli";
+
+      # one ML request at a time so concurrent jobs don't exhaust VRAM
+      # (ocr already defaults to 1)
+      job = {
+        faceDetection.concurrency = 1;
+        smartSearch.concurrency = 1;
+      };
     };
   };
 
@@ -64,6 +77,9 @@
       immich-machine-learning = {
         environment = {
           MPLCONFIGDIR = "/var/cache/immich/matplotlib";
+          # unload each model after 1 min idle instead of 5, so models from
+          # other job types don't hold VRAM while one job type runs
+          MACHINE_LEARNING_MODEL_TTL = "60";
         };
       };
     };
