@@ -29,22 +29,24 @@ in
     };
   };
 
-  services.gitea-actions-runner = {
-    package = pkgs.forgejo-runner;
-    instances.default = {
-      enable = true;
-      name = "river-birch";
-      url = srv.LOCAL_ROOT_URL;
-      tokenFile = config.sops.secrets.forgejo-runner-token.path;
-      labels = [
+  services.forgejo-runner.instances.default = {
+    enable = true;
+    settings = {
+      runner.labels = [
         "native:host"
       ];
+      server.connections.default = {
+        url = srv.LOCAL_ROOT_URL;
+        # from /var/lib/gitea-runner/default/.runner of the original registration
+        uuid = "82fa1183-d4bc-41e4-95ae-8a24faaa0c31";
+      };
     };
+    secrets.server.connections.default.token_url = config.sops.secrets.forgejo-runner-token.path;
   };
 
   # forgejo is Type=notify, so this waits until it is actually accepting
   # connections instead of crash-looping the runner during startup
-  systemd.services.gitea-runner-default = {
+  systemd.services.forgejo-runner-default = {
     wants = [ "forgejo.service" ];
     after = [ "forgejo.service" ];
   };

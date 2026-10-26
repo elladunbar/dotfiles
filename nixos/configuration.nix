@@ -277,7 +277,6 @@ in
 
   boot.initrd.network = {
     enable = true;
-    udhcpc.enable = false;
     ssh = {
       enable = true;
       port = 17228;
