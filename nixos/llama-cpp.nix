@@ -55,6 +55,17 @@
           presence-penalty = 0.5;
           min-p = 0.0;
         };
+        # Qwen3.5-9B fine-tuned by Xiaomi for coding and agentic work. Only 8 of
+        # its 32 layers use full attention, so the KV cache at 64k is ~1 GiB.
+        "bartowski/MiMo-V2.6-Distill-Qwen-9B" = {
+          hf-repo = "bartowski/MiMo-V2.6-Distill-Qwen-9B-GGUF";
+          hf-file = "MiMo-V2.6-Distill-Qwen-9B-Q4_K_M.gguf";
+          chat-template-kwargs = "{\"enable_thinking\":true}";
+          ctx-size = 65536;
+          temp = 0.6;
+          top-p = 0.95;
+          top-k = 20;
+        };
         # Decision models for /v1/systemone. The server detects them from GGUF
         # metadata; they only prefill, so speculative decoding is turned off.
         "ggml-org/Kev-4B" = {
@@ -74,7 +85,7 @@
       models-max = 1;
       flash-attn = "on";
       fit = "on";
-      fit-target = 600;
+      fit-target = 256;
       fit-ctx = 32768;
       load-mode = "none";
       parallel = 1;
