@@ -1,5 +1,6 @@
 config-file = keys
 command = /run/current-system/sw/bin/fish
+shell-integration-features = ssh-env,ssh-terminfo
 
 font-family = Berkeley Mono
 font-size = 14.5

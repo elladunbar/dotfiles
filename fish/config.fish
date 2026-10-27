@@ -43,6 +43,12 @@ if status is-interactive
     # set up command prompt
     starship init fish | source
 
+    # ghostty shell integration (auto-injection breaks because nix's fish
+    # resets XDG_DATA_DIRS before loading vendor_conf.d; skipped in tmux)
+    if set -q GHOSTTY_RESOURCES_DIR; and not set -q TMUX
+        source "$GHOSTTY_RESOURCES_DIR/shell-integration/fish/vendor_conf.d/ghostty-shell-integration.fish"
+    end
+
     # vi-mode prompt
     function fish_mode_prompt
         switch $fish_bind_mode
