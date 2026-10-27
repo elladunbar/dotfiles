@@ -146,7 +146,6 @@
         hexyl
         imagemagick
         jdt-language-server
-        julia-bin
         lua-language-server
         lynx
         magic-wormhole
@@ -207,6 +206,7 @@
             psych
             readxl
             reticulate
+            svglite
             tidyverse
             webshot2
           ];

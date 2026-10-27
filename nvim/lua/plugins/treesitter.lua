@@ -18,7 +18,6 @@ return {
 			"java",
 			"javascript",
 			"json",
-			"julia",
 			"latex",
 			"lua",
 			"make",
