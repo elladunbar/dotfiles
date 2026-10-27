@@ -4,8 +4,8 @@
   "compaction": {
     "enabled": true
   },
-  "defaultProvider": "llama.cpp (dogwood)",
-  "defaultModel": "prism-ml/Bonsai-2-27B",
+  "defaultProvider": "llama.cpp (river-birch)",
+  "defaultModel": "bartowski/MiMo-V2.6-Distill-Qwen-9B",
   "enabledModels": [
     "github-copilot/*",
     "xiaomi/*",
@@ -25,5 +25,5 @@
     "npm:@juicesharp/rpiv-ask-user-question"
   ],
   "enableInstallTelemetry": true,
-  "hideThinkingBlock": true
+  "hideThinkingBlock": false
 }
