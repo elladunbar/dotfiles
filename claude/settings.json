@@ -41,6 +41,12 @@
     ]
   },
   "enableArtifact": false,
+  "spinnerTipsEnabled": false,
+  "modelSettings": {
+    "claude-opus-5-5": {
+      "effortLevel": "high"
+    }
+  },
   "promptSuggestionEnabled": false,
   "awaySummaryEnabled": false,
   "pluginConfigs": {
@@ -54,10 +60,5 @@
   "theme": "auto",
   "editorMode": "vim",
   "autoCompactEnabled": true,
-  "modelSettings": {
-    "claude-opus-5-5": {
-      "effortLevel": "high"
-    }
-  },
-  "spinnerTipsEnabled": false
+  "switchModelsOnFlag": true
 }
