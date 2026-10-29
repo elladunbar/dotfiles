@@ -236,6 +236,10 @@
             name = "microsoft/mssql-release";
             trusted = true;
           }
+          {
+            name = "piro0919/tap";
+            trusted = true;
+          }
         ];
         brews = [
           "mpv"
@@ -266,6 +270,7 @@
           "obs"
           "onlyoffice"
           "orion"
+          "piro0919/tap/macview"
           "prism"
           "prismlauncher"
           "raycast"
