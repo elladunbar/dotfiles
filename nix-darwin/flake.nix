@@ -321,6 +321,7 @@
         "rclone-cloud" = {
           environment = { "HOME" = "/Users/ella"; };
           path = [
+            "/bin"
             "/sbin"
             "/usr/sbin"
             "/usr/bin"
@@ -328,11 +329,25 @@
           serviceConfig = {
             ProgramArguments = [
                 # clear a stale mount left by a dead rclone, otherwise the restart fails with "already mounted"
+                # then watch the mount: macOS can drop it while rclone keeps running, which KeepAlive never notices
                 "${pkgs.writeShellScript "rclone-cloud" ''
-                  if mount | grep -q " on /Users/ella/Cloud "; then
+                  mounted() { mount | grep -q " on /Users/ella/Cloud "; }
+                  if mounted; then
                     umount -f /Users/ella/Cloud || diskutil unmount force /Users/ella/Cloud
                   fi
-                  exec "$@"
+                  "$@" &
+                  rclone=$!
+                  trap 'kill $rclone; wait $rclone; exit' TERM INT
+                  while kill -0 $rclone 2>/dev/null; do
+                    sleep 30 & wait $!
+                    if kill -0 $rclone 2>/dev/null && ! mounted; then
+                      echo "watchdog: /Users/ella/Cloud is no longer mounted, restarting rclone" >&2
+                      kill $rclone
+                      wait $rclone
+                      exit 1
+                    fi
+                  done
+                  wait $rclone
                 ''}"
                 "${pkgs.rclone}/bin/rclone"
                 "nfsmount" "cloud:" "/Users/ella/Cloud"
