@@ -446,6 +446,17 @@
       nix.settings.use-xdg-base-directories = true;
       nix.channel.enable = false;
 
+      # Clean up the store on Saturday nights.
+      nix.gc = {
+        automatic = true;
+        interval = { Weekday = 6; Hour = 23; Minute = 0; };
+        options = "--delete-older-than 14d";
+      };
+      nix.optimise = {
+        automatic = true;
+        interval = { Weekday = 6; Hour = 23; Minute = 30; };
+      };
+
       # Enable alternative shell support in nix-darwin.
       programs.fish.enable = true;
 
