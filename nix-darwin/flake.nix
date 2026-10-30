@@ -157,6 +157,7 @@
         neovim
         ninja
         nmap
+        nodejs
         openconnect
         openssl
         pandoc
@@ -244,6 +245,7 @@
         brews = [
           "mpv"
           "msodbcsql18"
+          "openssl@3"
           "tree-sitter-cli"
           "unixodbc"
         ];
