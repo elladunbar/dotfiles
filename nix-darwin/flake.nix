@@ -118,7 +118,6 @@
         bat
         bitwarden-cli
         btop
-        ccache
         chafa
         clang-tools
         claude-code
