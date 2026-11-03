@@ -20,7 +20,8 @@ in
   ];
 
   virtualisation.oci-containers.containers.raspberry = {
-    autoStart = true;
+    # rarely used; start manually with `systemctl start docker-raspberry`
+    autoStart = false;
     image = "itzg/minecraft-server:java17";
 
     environment = {
