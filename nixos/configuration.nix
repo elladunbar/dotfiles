@@ -51,6 +51,7 @@ in
     ./minecraft.nix
     ./nginx.nix
     ./sops.nix
+    ./sunshine.nix
     ./syncthing.nix
     ./zfs.nix
   ];

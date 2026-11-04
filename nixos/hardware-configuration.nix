@@ -114,6 +114,14 @@
     neededForBoot = true;
   };
 
+  # Games are re-downloadable, so the dataset has com.sun:auto-snapshot=false
+  # and syncoid:sync=false. Not neededForBoot: mounting it in initrd would put
+  # it under /home before /home itself is mounted, which hides it.
+  fileSystems."/home/ella/.local/share/Steam" = {
+    device = "fast/data/steam";
+    fsType = "zfs";
+  };
+
   fileSystems."/boot" = {
     device = "/dev/disk/by-uuid/5039-3A69";
     fsType = "vfat";
