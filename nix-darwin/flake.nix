@@ -240,6 +240,10 @@
             name = "piro0919/tap";
             trusted = true;
           }
+          {
+            name = "saragordic/tap";
+            trusted = true;
+          }
         ];
         brews = [
           "mpv"
@@ -276,6 +280,7 @@
           "prismlauncher"
           "raycast"
           "readest"
+          "saragordic/tap/window-sweaters"
           "sioyek"
           "spotify"
           "steam"

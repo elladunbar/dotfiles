@@ -29,7 +29,8 @@ PaperWM:bindHotkeys({
 
 	toggle_floating = { { "alt" }, "d" },
 })
-PaperWM.window_gap = { top = 0, bottom = 20, left = 20, right = 20 }
+-- Window Sweaters draws 8pt borders outside each window, so pad every side by 8
+PaperWM.window_gap = { top = 8, bottom = 28, left = 28, right = 28 }
 PaperWM.swipe_fingers = 3
 PaperWM.swipe_gain = 2.0
 PaperWM:start()
