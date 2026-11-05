@@ -1,5 +1,22 @@
 {
   "nodes": {
+    "macview": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1793916314,
+        "narHash": "sha256-vcjR2Y2/WzN+IRgwsbBwJ94unwpGO53ymM8ap+ZkQ8c=",
+        "owner": "elladunbar",
+        "repo": "macview",
+        "rev": "a88d68aa986a0316d24eed789010819c7ac78642",
+        "type": "github"
+      },
+      "original": {
+        "owner": "elladunbar",
+        "ref": "no-sparkle",
+        "repo": "macview",
+        "type": "github"
+      }
+    },
     "nix-claude-code": {
       "inputs": {
         "nixpkgs": [
@@ -98,6 +115,7 @@
     },
     "root": {
       "inputs": {
+        "macview": "macview",
         "nix-claude-code": "nix-claude-code",
         "nix-darwin": "nix-darwin",
         "nixpkgs": "nixpkgs",

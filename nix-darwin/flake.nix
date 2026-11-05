@@ -18,6 +18,10 @@
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.nixpkgs-darwin-x64.follows = "nixpkgs";
     };
+    macview = {
+      url = "github:elladunbar/macview/no-sparkle";
+      flake = false;
+    };
     window-sweaters = {
       url = "github:elladunbar/window-sweaters/hardening";
       flake = false;
@@ -217,6 +221,7 @@
         })
 
         (import ./whisky/rivals2.nix { inherit pkgs; })
+        (import ./macview.nix { inherit pkgs; src = inputs.macview; })
         (import ./window-sweaters.nix { inherit pkgs; src = inputs.window-sweaters; })
       ];
 
@@ -239,10 +244,6 @@
           }
           {
             name = "microsoft/mssql-release";
-            trusted = true;
-          }
-          {
-            name = "piro0919/tap";
             trusted = true;
           }
         ];
@@ -276,7 +277,6 @@
           "obs"
           "onlyoffice"
           "orion"
-          "piro0919/tap/macview"
           "prism"
           "prismlauncher"
           "raycast"
