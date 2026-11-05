@@ -102,7 +102,25 @@
         "nix-darwin": "nix-darwin",
         "nixpkgs": "nixpkgs",
         "nixpkgs-x86": "nixpkgs-x86",
-        "pi-mono": "pi-mono"
+        "pi-mono": "pi-mono",
+        "window-sweaters": "window-sweaters"
+      }
+    },
+    "window-sweaters": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1793915639,
+        "narHash": "sha256-+BCUbQVpuZDiGZMNVpcMso4bjXtSmjS9ngjT+5MvzFM=",
+        "owner": "elladunbar",
+        "repo": "window-sweaters",
+        "rev": "1179f3e4efa5505109e1eb2059587814047eb3c8",
+        "type": "github"
+      },
+      "original": {
+        "owner": "elladunbar",
+        "ref": "hardening",
+        "repo": "window-sweaters",
+        "type": "github"
       }
     }
   },

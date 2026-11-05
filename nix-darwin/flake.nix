@@ -18,6 +18,10 @@
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.nixpkgs-darwin-x64.follows = "nixpkgs";
     };
+    window-sweaters = {
+      url = "github:elladunbar/window-sweaters/hardening";
+      flake = false;
+    };
   };
 
   outputs = inputs@{ self, nixpkgs, nixpkgs-x86, nix-claude-code, nix-darwin, pi-mono, ... }:
@@ -213,6 +217,7 @@
         })
 
         (import ./whisky/rivals2.nix { inherit pkgs; })
+        (import ./window-sweaters.nix { inherit pkgs; src = inputs.window-sweaters; })
       ];
 
       # Homebrew
@@ -238,10 +243,6 @@
           }
           {
             name = "piro0919/tap";
-            trusted = true;
-          }
-          {
-            name = "saragordic/tap";
             trusted = true;
           }
         ];
@@ -280,7 +281,6 @@
           "prismlauncher"
           "raycast"
           "readest"
-          "saragordic/tap/window-sweaters"
           "sioyek"
           "spotify"
           "steam"
