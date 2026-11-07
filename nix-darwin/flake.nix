@@ -159,7 +159,6 @@
         man
         mas
         minhtml
-        mold
         mosh
         neovim
         ninja
