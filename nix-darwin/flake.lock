@@ -127,11 +127,11 @@
     "window-sweaters": {
       "flake": false,
       "locked": {
-        "lastModified": 1793922740,
-        "narHash": "sha256-rf2ZYTtWJsKMC2ZmwlPPJU5JsPzsPYCYgO/Oyn0QJK0=",
+        "lastModified": 1794183832,
+        "narHash": "sha256-KikzEUiwHg6wBx786MzQfJJ6Kp9eukGTwWiM6uFnF9w=",
         "owner": "elladunbar",
         "repo": "window-sweaters",
-        "rev": "c5879a82e1193331d58a62baed8e7c2d5bf49482",
+        "rev": "5593b299cf1838d4ec432660a3e83c96a1dd3292",
         "type": "github"
       },
       "original": {

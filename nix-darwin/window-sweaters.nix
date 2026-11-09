@@ -1,6 +1,7 @@
 # Window Sweaters from my fork (elladunbar/window-sweaters, hardening branch),
 # which drops the startup shell script, validates Mach messages, and adds
-# sweaters for Zen, Zen Work and Element. Built from pinned source instead of the cask's unnotarized download, whose tap stripped
+# sweaters for Zen, Zen Work, Element, NetNewsWire and Readest. Built from
+# pinned source instead of the cask's unnotarized download, whose tap stripped
 # quarantine on every update
 { pkgs, src }:
 pkgs.stdenv.mkDerivation {
