@@ -9,6 +9,7 @@ export HOMEBREW_NO_ENV_HINTS=1
 export LS_COLORS=
 export MANPAGER="nvim +Man!"
 export PYTHON_BASIC_REPL=1 # please use readline and not your terrible repl binds
+export SSH_SK_PROVIDER="/usr/lib/ssh-keychain.dylib"
 export SUDO_EDITOR="nvim"
 export VIRTUAL_ENV_DISABLE_PROMPT=1
 export npm_config_prefix="$HOME/.local"

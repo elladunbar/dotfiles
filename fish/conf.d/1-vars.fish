@@ -4,6 +4,7 @@ set -gx HOMEBREW_NO_ENV_HINTS 1
 set -gx LS_COLORS ""
 set -gx MANPAGER "nvim +Man!"
 set -gx PYTHON_BASIC_REPL 1
+set -gx SSH_SK_PROVIDER /usr/lib/ssh-keychain.dylib
 set -gx SUDO_EDITOR nvim
 set -gx VIRTUAL_ENV_DISABLE_PROMPT 1
 set -gx npm_config_prefix $HOME/.local
