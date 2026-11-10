@@ -80,10 +80,10 @@ in
     extraGroups = [ "wheel" ];
     openssh.authorizedKeys.keys = [
       # dogwood (MacBook Pro)
-      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEYBHi8dV73Mf/QQ3jElrBaq0A1k935mSo6T4yyM1KL7 ella@dogwood.local"
+      "sk-ecdsa-sha2-nistp256@openssh.com AAAAInNrLWVjZHNhLXNoYTItbmlzdHAyNTZAb3BlbnNzaC5jb20AAAAIbmlzdHAyNTYAAABBBAt70jTDz3GXo/P/6rPvhyGb7qthNZvL2yU/xq276gfNk/RvXvWYhRu8NG6K2c+5ef399JxJiy/WWkwXGzotEC4AAAAEc3NoOg== ella@dogwood"
       # ginkgo (Desktop)
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIG8Rt9FfbktkJgZYJE7xMh7gXT3D0MfCEpVNMByC8dZl ella@ginkgo"
-      # trillium (iPhone)
+      # primrose (iPhone)
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJfe2kyaRYcyo4CnzpJYiR/w6wXJV8QhHU5FqVAR1kxF edunbar02@gmail.com"
       # magnolia (XPS 13)
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJc7mssoZiJ3laDCNTU6/C404j4g7nEjHDNbqrkazb7a ella@magnolia"
@@ -284,7 +284,7 @@ in
       hostKeys = [ /etc/ssh/ssh_host_ed25519_key ];
       authorizedKeys = [
         # dogwood (MacBook Pro)
-        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEYBHi8dV73Mf/QQ3jElrBaq0A1k935mSo6T4yyM1KL7 dunb@dogwood.local"
+        "sk-ecdsa-sha2-nistp256@openssh.com AAAAInNrLWVjZHNhLXNoYTItbmlzdHAyNTZAb3BlbnNzaC5jb20AAAAIbmlzdHAyNTYAAABBBAt70jTDz3GXo/P/6rPvhyGb7qthNZvL2yU/xq276gfNk/RvXvWYhRu8NG6K2c+5ef399JxJiy/WWkwXGzotEC4AAAAEc3NoOg== ella@dogwood"
         # ginkgo (Desktop)
         "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIG8Rt9FfbktkJgZYJE7xMh7gXT3D0MfCEpVNMByC8dZl ella@ginkgo"
         # trillium (iPhone)
