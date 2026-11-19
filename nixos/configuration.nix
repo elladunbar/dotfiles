@@ -160,6 +160,9 @@ in
   ];
 
   services.tailscale.enable = true;
+  # nginx, syncthing, and minecraft bind to 100.64.0.5; let them do so before
+  # tailscale0 has that address (at boot, or when a rebuild restarts tailscaled)
+  boot.kernel.sysctl."net.ipv4.ip_nonlocal_bind" = 1;
 
   programs.mtr.enable = true;
   programs.gnupg.agent = {
@@ -223,7 +226,8 @@ in
 
   boot.loader.grub = {
     enable = true;
-    configurationLimit = 5;
+    # Each initrd is ~205M (nvidia modules + firmware) and /boot is 1G
+    configurationLimit = 3;
     zfsSupport = true;
     efiSupport = true;
     efiInstallAsRemovable = true;
