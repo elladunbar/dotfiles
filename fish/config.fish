@@ -18,7 +18,7 @@ if status is-interactive
     # package management
     abbr --add ,bi brew install
     abbr --add ,bic brew install --cask
-    abbr --add ,bs brew desc --search --eval-all
+    abbr --add ,bs brew desc --search
     abbr --add ,bu brew uninstall
     abbr --add ,bud brew update
     abbr --add ,bug brew upgrade
