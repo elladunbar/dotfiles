@@ -224,6 +224,9 @@
         (import ./window-sweaters.nix { inherit pkgs; src = inputs.window-sweaters; })
       ];
 
+      # Fonts (installed to /Library/Fonts/Nix Fonts)
+      fonts.packages = with pkgs; [ roboto inter ];
+
       # Homebrew
       homebrew = {
         enable = true;
