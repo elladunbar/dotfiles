@@ -55,6 +55,22 @@
           presence-penalty = 0.5;
           min-p = 0.0;
         };
+        # the same model without thinking, for mealie's recipe parsing and
+        # imports (it can't send chat-template-kwargs itself). with thinking a
+        # short recipe took ~200 s and came back with wrong quantities; without
+        # it ~15 s and correct. sampling is qwen's instruct-mode setting for
+        # general tasks
+        "unsloth/Qwen3.5-9B-nothink" = {
+          hf-repo = "unsloth/Qwen3.5-9B-GGUF";
+          hf-file = "Qwen3.5-9B-UD-Q4_K_XL.gguf";
+          chat-template-kwargs = "{\"enable_thinking\":false}";
+          ctx-size = 32768;
+          temp = 0.7;
+          top-p = 0.8;
+          top-k = 20;
+          presence-penalty = 1.5;
+          min-p = 0.0;
+        };
         # Qwen3.5-9B fine-tuned by Xiaomi for coding and agentic work. Only 8 of
         # its 32 layers use full attention, so the KV cache at 64k is ~1 GiB.
         "bartowski/MiMo-V2.6-Distill-Qwen-9B" = {

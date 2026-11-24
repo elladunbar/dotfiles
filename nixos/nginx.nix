@@ -7,6 +7,7 @@ let
   immichSettings = config.services.immich;
   llamacppSettings = config.services.llama-cpp;
   lldapSettings = config.services.lldap.settings;
+  mealieSettings = config.services.mealie;
   syncthingSettings = config.services.syncthing;
 
   # "tcp://127.0.0.1:9091/" -> "http://127.0.0.1:9091"
@@ -92,6 +93,31 @@ in
           {
             addr = "100.64.0.5";
             port = 18443;
+          }
+        ];
+      };
+
+      "recipes.elladunbar.com" = {
+        locations."/" = {
+          proxyPass = "http://${mealieSettings.listenAddress}:${toString mealieSettings.port}";
+          # https by hand since pine terminates tls; mealie marks its session
+          # cookie secure from X-Forwarded-Proto
+          extraConfig =
+            # nginx
+            ''
+              proxy_set_header Host              $host;
+              proxy_set_header X-Forwarded-Proto https;
+              proxy_set_header X-Forwarded-For   $remote_addr;
+              proxy_set_header X-Real-IP         $remote_addr;
+
+              # recipe images and backup restores
+              client_max_body_size 1024M;
+            '';
+        };
+        listen = [
+          {
+            addr = "100.64.0.5";
+            port = 23443;
           }
         ];
       };

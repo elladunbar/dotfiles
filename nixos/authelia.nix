@@ -3,6 +3,7 @@ let
   domain = "elladunbar.com";
   lldapSettings = config.services.lldap.settings;
   immichDomain = config.services.immich.settings.server.externalDomain;
+  mealieDomain = config.services.mealie.settings.BASE_URL;
   smtp = config.programs.msmtp.accounts.default;
   secret = name: config.sops.secrets."authelia/${name}".path;
 
@@ -19,6 +20,7 @@ in
     "authelia/oidc-hmac-secret".sopsFile = ./secrets/sso.yaml;
     "authelia/oidc-issuer-private-key".sopsFile = ./secrets/sso.yaml;
     "authelia/immich-client-digest".sopsFile = ./secrets/sso.yaml;
+    "authelia/mealie-client-digest".sopsFile = ./secrets/sso.yaml;
   };
 
   services.authelia.instances.main = {
@@ -111,6 +113,28 @@ in
           userinfo_signed_response_alg = "none";
           token_endpoint_auth_method = "client_secret_basic";
         }
+        {
+          client_id = "mealie";
+          client_name = "Mealie";
+          client_secret = credential "mealie-client-digest";
+          public = false;
+          authorization_policy = "two_factor";
+          require_pkce = true;
+          pkce_challenge_method = "S256";
+          redirect_uris = [ "${mealieDomain}/login" ];
+          # groups decides who is a mealie admin (see mealie.nix)
+          scopes = [
+            "openid"
+            "profile"
+            "email"
+            "groups"
+          ];
+          response_types = [ "code" ];
+          grant_types = [ "authorization_code" ];
+          access_token_signed_response_alg = "none";
+          userinfo_signed_response_alg = "none";
+          token_endpoint_auth_method = "client_secret_basic";
+        }
       ];
     };
   };
@@ -122,6 +146,7 @@ in
     serviceConfig.LoadCredential = [
       "ldap-password:${config.sops.secrets."lldap/admin-password".path}"
       "immich-client-digest:${secret "immich-client-digest"}"
+      "mealie-client-digest:${secret "mealie-client-digest"}"
       "smtp-password:${config.sops.secrets.smtp-password.path}"
     ];
   };
