@@ -10,7 +10,9 @@
     settings = {
       PDS_HOSTNAME = "pds.elladunbar.com";
       PDS_PORT = 3010;
-      PDS_EMAIL_FROM_ADDRESS = "edunbar02@gmail.com";
+      # PDS_EMAIL_SMTP_URL (smtps://, with the migadu password from mail.nix
+      # embedded) is in the env secret
+      PDS_EMAIL_FROM_ADDRESS = config.programs.msmtp.accounts.default.from;
     };
   };
 }

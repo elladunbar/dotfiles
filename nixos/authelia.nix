@@ -3,6 +3,7 @@ let
   domain = "elladunbar.com";
   lldapSettings = config.services.lldap.settings;
   immichDomain = config.services.immich.settings.server.externalDomain;
+  smtp = config.programs.msmtp.accounts.default;
   secret = name: config.sops.secrets."authelia/${name}".path;
 
   # authelia reads the client secret digests from its credentials directory
@@ -31,7 +32,10 @@ in
     };
 
     # authelia binds to lldap as its admin, which also lets it reset passwords
-    environmentVariables.AUTHELIA_AUTHENTICATION_BACKEND_LDAP_PASSWORD_FILE = "%d/ldap-password";
+    environmentVariables = {
+      AUTHELIA_AUTHENTICATION_BACKEND_LDAP_PASSWORD_FILE = "%d/ldap-password";
+      AUTHELIA_NOTIFIER_SMTP_PASSWORD_FILE = "%d/smtp-password";
+    };
 
     settings = {
       theme = "auto";
@@ -64,9 +68,13 @@ in
 
       storage.local.path = "/var/lib/authelia-main/db.sqlite3";
 
-      # no mail server; one-time codes (needed to register a passkey or totp)
-      # and password reset links are appended to this file instead
-      notifier.filesystem.filename = "/var/lib/authelia-main/notification.txt";
+      # one-time codes (needed to register a passkey or totp) and password
+      # reset links, through the migadu account in mail.nix
+      notifier.smtp = {
+        address = "submissions://${smtp.host}:${toString smtp.port}";
+        username = smtp.user;
+        sender = "Authelia <${smtp.from}>";
+      };
 
       access_control = {
         default_policy = "deny";
@@ -114,6 +122,7 @@ in
     serviceConfig.LoadCredential = [
       "ldap-password:${config.sops.secrets."lldap/admin-password".path}"
       "immich-client-digest:${secret "immich-client-digest"}"
+      "smtp-password:${config.sops.secrets.smtp-password.path}"
     ];
   };
 }

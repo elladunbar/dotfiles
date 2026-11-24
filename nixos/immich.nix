@@ -73,6 +73,24 @@
         autoRegister = false;
       };
 
+      # welcome, album invite and album update mail, through the migadu
+      # account in mail.nix
+      notifications.smtp =
+        let
+          smtp = config.programs.msmtp.accounts.default;
+        in
+        {
+          enabled = true;
+          from = "Immich <${smtp.from}>";
+          transport = {
+            host = smtp.host;
+            port = smtp.port;
+            secure = true; # implicit tls
+            username = smtp.user;
+            password._secret = config.sops.secrets.smtp-password.path;
+          };
+        };
+
       # near the top of immich's recall benchmark at ~1 GiB less memory than
       # the SO400M models; the 1070's 8 GiB is shared with llama-cpp
       machineLearning.clip.modelName = "ViT-L-16-SigLIP2-256__webli";

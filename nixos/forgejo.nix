@@ -7,6 +7,7 @@
 let
   cfg = config.services.forgejo;
   srv = cfg.settings.server;
+  smtp = config.programs.msmtp.accounts.default;
 in
 {
   services.forgejo = {
@@ -25,8 +26,20 @@ in
       };
       service = {
         DISABLE_REGISTRATION = true;
+        # issue/pr/push notifications for watched repos, not just account mail
+        ENABLE_NOTIFY_MAIL = true;
+      };
+      # through the migadu account in mail.nix
+      mailer = {
+        ENABLED = true;
+        PROTOCOL = "smtps";
+        SMTP_ADDR = smtp.host;
+        SMTP_PORT = smtp.port;
+        USER = smtp.user;
+        FROM = "${cfg.settings.DEFAULT.APP_NAME} <${smtp.from}>";
       };
     };
+    secrets.mailer.PASSWD = config.sops.secrets.smtp-password.path;
   };
 
   services.forgejo-runner.instances.default = {

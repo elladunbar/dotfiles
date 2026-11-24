@@ -55,6 +55,7 @@ in
     ./immich.nix
     ./llama-cpp.nix
     ./lldap.nix
+    ./mail.nix
     ./minecraft.nix
     ./nginx.nix
     ./sops.nix
