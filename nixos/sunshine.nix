@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 # Game streaming. Sunshine captures a headless sway over wlr-screencopy, and
 # before every stream the sway output is resized to the Moonlight client's
 # exact resolution and refresh rate. Both run as ella's user services; linger
