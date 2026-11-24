@@ -216,6 +216,35 @@ in
     options = "--delete-older-than 30d";
   };
   nix.optimise.automatic = true;
+
+  # a nixpkgs bump takes ~2 h here (mostly onnxruntime with CUDA, which no
+  # cache has), so this runs twice a week and finishes before syncoid at 04:00
+  system.autoUpgrade = {
+    enable = true;
+    flake = "/home/ella/.config/dotfiles/nixos#river-birch";
+    upgrade = false; # --upgrade only updates channels; does nothing with flakes
+    operation = "switch";
+    dates = "Sun,Wed 01:00";
+    randomizedDelaySec = "30min";
+    persistent = true; # run on the next boot if a run was missed
+    # never: the fast pool's key is entered by hand over initrd ssh, so an
+    # unattended reboot would leave the machine offline until someone unlocks
+    # it. new kernels and nvidia drivers take effect at the next manual reboot
+    allowReboot = false;
+    flags = [ "-L" ]; # full build logs in the journal
+  };
+  # update the lock as ella, so the repo gets no root-owned files and the
+  # bump is an ordinary commit. with uncommitted changes, skip the whole run
+  # (the unit fails) rather than deploy a half-finished edit
+  systemd.services.nixos-upgrade.preStart = ''
+    cd /home/ella/.config/dotfiles/nixos
+    if ! ${pkgs.util-linux}/bin/runuser -u ella -- git diff --quiet HEAD; then
+      echo "uncommitted changes in $PWD; skipping upgrade" >&2
+      exit 1
+    fi
+    ${pkgs.util-linux}/bin/runuser -u ella -- \
+      env HOME=/home/ella nix flake update --commit-lock-file
+  '';
   nixpkgs.config = {
     allowUnfree = true;
     allowUnsupportedSystem = false;
