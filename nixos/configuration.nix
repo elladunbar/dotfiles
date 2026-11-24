@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 let
   llama-cpp-service-package = config.services.llama-cpp.package;
 
@@ -41,6 +46,7 @@ let
 in
 {
   imports = [
+    ./authelia.nix
     ./bluesky-pds.nix
     ./cachix.nix
     ./copyparty.nix
@@ -48,6 +54,7 @@ in
     ./hardware-configuration.nix
     ./immich.nix
     ./llama-cpp.nix
+    ./lldap.nix
     ./minecraft.nix
     ./nginx.nix
     ./sops.nix
@@ -187,8 +194,8 @@ in
   networking.firewall.extraCommands =
     # game streaming and ssh from the home lan only. the old blanket lists are
     # gone: 17228 is only the initrd dropbear (no firewall there), and nginx,
-    # forgejo, pds, llama.cpp, minecraft and syncthing all bind to loopback or
-    # to 100.64.0.5, so they never need a hole for eno1
+    # forgejo, pds, llama.cpp, minecraft, syncthing, authelia and lldap all
+    # bind to loopback or to 100.64.0.5, so they never need a hole for eno1
     lanRules "iptables" "tcp" lanTCPPorts
     + lanRules "iptables" "udp" lanUDPPorts
     + lanRules "ip6tables" "tcp" lanTCPPorts

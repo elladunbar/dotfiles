@@ -1,4 +1,4 @@
-{ ... }:
+{ config, ... }:
 
 {
   nixpkgs.overlays = [
@@ -31,6 +31,9 @@
     })
   ];
 
+  # loaded by the immich module through LoadCredential, so root-owned is fine
+  sops.secrets."immich/oidc-client-secret".sopsFile = ./secrets/sso.yaml;
+
   users.users.immich.extraGroups = [
     "render"
     "video"
@@ -54,6 +57,20 @@
       server = {
         externalDomain = "https://photos.elladunbar.com";
         loginPageMessage = "Welcome to Ella Dunbar's self-hosted photo storage!";
+      };
+
+      # sso through authelia (see authelia.nix). the first sso login is linked
+      # to the existing account with the same email, so the email in lldap
+      # must match it. password login stays on as a fallback, and nobody
+      # without an account already can get one through sso
+      oauth = {
+        enabled = true;
+        issuerUrl = "https://auth.elladunbar.com";
+        clientId = "immich";
+        clientSecret._secret = config.sops.secrets."immich/oidc-client-secret".path;
+        tokenEndpointAuthMethod = "client_secret_basic";
+        buttonText = "Log in with SSO";
+        autoRegister = false;
       };
 
       # near the top of immich's recall benchmark at ~1 GiB less memory than

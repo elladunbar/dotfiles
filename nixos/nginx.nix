@@ -1,11 +1,40 @@
-{ config, ... }:
+{ config, lib, ... }:
 let
+  autheliaSettings = config.services.authelia.instances.main.settings;
   blueskyPdsSettings = config.services.bluesky-pds.settings;
   copypartySettings = config.services.copyparty.settings;
   forgejoSettings = config.services.forgejo.settings.server;
   immichSettings = config.services.immich;
   llamacppSettings = config.services.llama-cpp;
+  lldapSettings = config.services.lldap.settings;
   syncthingSettings = config.services.syncthing;
+
+  # "tcp://127.0.0.1:9091/" -> "http://127.0.0.1:9091"
+  authelia = "http://${lib.removeSuffix "/" (lib.removePrefix "tcp://" autheliaSettings.server.address)}";
+
+  # "unix:770:copyparty:/run/copyparty/party.sock" -> the path
+  copyparty = "http://unix:${lib.last (lib.splitString ":" copypartySettings.i)}";
+
+  # shared by files. and dav.; headers are set by hand so copyparty gets
+  # exactly one X-Forwarded-For entry, and https since pine terminates tls
+  copypartyProxyConfig =
+    # nginx
+    ''
+      proxy_http_version 1.1;
+      proxy_set_header   Connection        "";
+      proxy_set_header   Host              $host;
+      proxy_set_header   X-Real-IP         $remote_addr;
+      proxy_set_header   X-Forwarded-For   $remote_addr;
+      proxy_set_header   X-Forwarded-Proto https;
+
+      # stream uploads/downloads instead of spooling them to disk
+      proxy_buffering         off;
+      proxy_request_buffering off;
+      client_max_body_size    1024M;
+      proxy_read_timeout      600s;
+      proxy_send_timeout      600s;
+      send_timeout            600s;
+    '';
 in
 {
   # needed to access unix sockets
@@ -67,34 +96,89 @@ in
         ];
       };
 
-      "files.elladunbar.com" = {
+      "auth.elladunbar.com" = {
         locations."/" = {
-          proxyPass = "http://${copypartySettings.i}:${toString copypartySettings.p}";
-          # headers are set by hand so copyparty gets exactly one
-          # X-Forwarded-For entry, and https since pine terminates tls
+          proxyPass = authelia;
+          # https by hand since pine terminates tls; authelia builds its
+          # redirects from these
           extraConfig =
             # nginx
             ''
-              proxy_http_version 1.1;
-              proxy_set_header   Connection        "";
-              proxy_set_header   Host              $host;
-              proxy_set_header   X-Real-IP         $remote_addr;
-              proxy_set_header   X-Forwarded-For   $remote_addr;
-              proxy_set_header   X-Forwarded-Proto https;
+              proxy_set_header Host              $host;
+              proxy_set_header X-Forwarded-Proto https;
+              proxy_set_header X-Forwarded-Host  $host;
+              proxy_set_header X-Forwarded-URI   $request_uri;
+              proxy_set_header X-Forwarded-For   $remote_addr;
+              proxy_set_header X-Real-IP         $remote_addr;
+            '';
+        };
+        listen = [
+          {
+            addr = "100.64.0.5";
+            port = 21443;
+          }
+        ];
+      };
 
-              # stream uploads/downloads instead of spooling them to disk
-              proxy_buffering         off;
-              proxy_request_buffering off;
-              client_max_body_size    1024M;
-              proxy_read_timeout      600s;
-              proxy_send_timeout      600s;
-              send_timeout            600s;
+      "files.elladunbar.com" = {
+        # asked by auth_request below before every request; authelia answers
+        # 200 with the user in Remote-User, or 401 with a login redirect
+        locations."/internal/authelia/authz" = {
+          proxyPass = "${authelia}/api/authz/auth-request";
+          extraConfig =
+            # nginx
+            ''
+              internal;
+              proxy_set_header X-Original-Method $request_method;
+              proxy_set_header X-Original-URL    https://$host$request_uri;
+              proxy_set_header X-Forwarded-For   $remote_addr;
+              proxy_set_header Content-Length    "";
+              proxy_set_header Connection        "";
+              proxy_pass_request_body off;
+            '';
+        };
+        locations."/" = {
+          proxyPass = copyparty;
+          extraConfig =
+            copypartyProxyConfig
+            # nginx
+            + ''
+              auth_request     /internal/authelia/authz;
+              auth_request_set $user $upstream_http_remote_user;
+              auth_request_set $redirection_url $upstream_http_location;
+              error_page 401 =302 $redirection_url;
+
+              # copyparty logs in whoever this names, so it must only ever
+              # come from authelia; this replaces any client-sent value
+              proxy_set_header Remote-User $user;
             '';
         };
         listen = [
           {
             addr = "100.64.0.5";
             port = 20443;
+          }
+        ];
+      };
+
+      # webdav clients (finder) can't follow a login redirect, so they get
+      # copyparty without authelia and log in with the copyparty password
+      "dav.elladunbar.com" = {
+        locations."/" = {
+          proxyPass = copyparty;
+          extraConfig =
+            copypartyProxyConfig
+            # nginx
+            + ''
+              # an empty value drops the header, so a client can't send its
+              # own and be logged in as anyone
+              proxy_set_header Remote-User "";
+            '';
+        };
+        listen = [
+          {
+            addr = "100.64.0.5";
+            port = 22443;
           }
         ];
       };
@@ -159,6 +243,27 @@ in
           {
             addr = "100.64.0.5";
             port = 8384;
+          }
+        ];
+      };
+
+      lldap-gui = {
+        serverName = "river-birch.nodes.elladunbar.com";
+        locations."/" = {
+          proxyPass = "http://${lldapSettings.http_host}:${toString lldapSettings.http_port}";
+          recommendedProxySettings = true;
+          extraConfig =
+            # nginx
+            ''
+              # user admin stays on the tailnet, like the syncthing gui
+              allow 100.64.0.0/10;
+              deny all;
+            '';
+        };
+        listen = [
+          {
+            addr = "100.64.0.5";
+            port = lldapSettings.http_port;
           }
         ];
       };
