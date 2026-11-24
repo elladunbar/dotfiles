@@ -226,10 +226,15 @@ in
       "river-birch.nodes.elladunbar.com" = {
         locations."/" = {
           proxyPass = "http://${llamacppSettings.settings.host}:${toString llamacppSettings.settings.port}";
-          recommendedProxySettings = true;
           extraConfig =
             # nginx
             ''
+              # headers by hand: llama-server only answers when Host (with the
+              # port, which $host drops) matches its cors-origins
+              proxy_set_header Host            $host:$server_port;
+              proxy_set_header X-Real-IP       $remote_addr;
+              proxy_set_header X-Forwarded-For $remote_addr;
+
               # headscale only hands this name to tailnet clients, who connect
               # straight to 100.64.0.5; llama-server has no authentication, so
               # refuse the vhost to anyone else in case it is ever proxied

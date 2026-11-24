@@ -98,6 +98,10 @@
       host = "127.0.0.1";
       port = 8080;
       ui-mcp-proxy = true;
+      # the mcp proxy limits cors to localhost unless origins are listed, which
+      # refuses the web ui through nginx (see nginx.nix). loopback clients like
+      # mealie are still allowed
+      cors-origins = "http://river-birch.nodes.elladunbar.com:5678";
       models-max = 1;
       flash-attn = "on";
       fit = "on";
