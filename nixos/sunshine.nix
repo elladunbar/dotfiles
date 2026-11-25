@@ -104,6 +104,11 @@ in
           do = "${dash} -c \"${swaymsg} -- output HEADLESS-1 mode --custom \${SUNSHINE_CLIENT_WIDTH}x\${SUNSHINE_CLIENT_HEIGHT}@\${SUNSHINE_CLIENT_FPS}Hz\"";
           undo = "";
         }
+        # keep llama.cpp off the GPU for the length of the stream
+        {
+          do = "${systemctl} start llama-cpp-paused.service";
+          undo = "${systemctl} stop llama-cpp-paused.service";
+        }
       ];
     };
     applications.apps = [
@@ -123,7 +128,48 @@ in
     bindsTo = [ "sway-headless.service" ];
     after = [ "sway-headless.service" ];
     wantedBy = [ "sway-headless.service" ];
+    # if Sunshine dies mid-stream the undo above never runs, so bring
+    # llama.cpp back here too
+    serviceConfig.ExecStopPost = "-${systemctl} stop llama-cpp-paused.service";
   };
+
+  # Active while a stream runs: starting it stops llama.cpp, stopping it starts
+  # llama.cpp again. The flag file keeps anything else (a request can't, but a
+  # nixos switch could) from starting llama.cpp in the meantime; /run is
+  # cleared at boot, so a reboot mid-stream can't leave it stuck off
+  systemd.services.llama-cpp-paused = {
+    description = "Keep llama.cpp stopped while Sunshine streams";
+    # a switch mid-stream would otherwise restart this and bounce llama.cpp
+    restartIfChanged = false;
+    serviceConfig = {
+      Type = "oneshot";
+      RemainAfterExit = true;
+      ExecStart = [
+        "${pkgs.coreutils}/bin/touch /run/llama-cpp-paused"
+        "${systemctl} stop llama-cpp.service"
+      ];
+      ExecStop = [
+        "${pkgs.coreutils}/bin/rm -f /run/llama-cpp-paused"
+        "${systemctl} start llama-cpp.service"
+      ];
+    };
+  };
+  systemd.services.llama-cpp.unitConfig.ConditionPathExists = "!/run/llama-cpp-paused";
+
+  # Sunshine runs as ella's user service, so let ella (and only for this
+  # unit) start and stop it over the system bus without a password
+  security.polkit.extraConfig = ''
+    polkit.addRule(function (action, subject) {
+      if (action.id == "org.freedesktop.systemd1.manage-units" &&
+          action.lookup("unit") == "llama-cpp-paused.service" &&
+          subject.user == "ella") {
+        var verb = action.lookup("verb");
+        if (verb == "start" || verb == "stop") {
+          return polkit.Result.YES;
+        }
+      }
+    });
+  '';
 
   # the Sunshine module turns avahi on, and avahi opens 5353 on every
   # interface. clients add the host by address instead
