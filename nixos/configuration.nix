@@ -93,7 +93,7 @@ in
       # ginkgo (Desktop)
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIG8Rt9FfbktkJgZYJE7xMh7gXT3D0MfCEpVNMByC8dZl ella@ginkgo"
       # primrose (iPhone)
-      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJfe2kyaRYcyo4CnzpJYiR/w6wXJV8QhHU5FqVAR1kxF edunbar02@gmail.com"
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJfe2kyaRYcyo4CnzpJYiR/w6wXJV8QhHU5FqVAR1kxF ella@primrose"
       # magnolia (XPS 13)
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJc7mssoZiJ3laDCNTU6/C404j4g7nEjHDNbqrkazb7a ella@magnolia"
     ];
@@ -348,7 +348,7 @@ in
         # ginkgo (Desktop)
         "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIG8Rt9FfbktkJgZYJE7xMh7gXT3D0MfCEpVNMByC8dZl ella@ginkgo"
         # trillium (iPhone)
-        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJfe2kyaRYcyo4CnzpJYiR/w6wXJV8QhHU5FqVAR1kxF edunbar02@gmail.com"
+        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJfe2kyaRYcyo4CnzpJYiR/w6wXJV8QhHU5FqVAR1kxF ella@primrose"
         # magnolia (XPS 13)
         "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJc7mssoZiJ3laDCNTU6/C404j4g7nEjHDNbqrkazb7a ella@magnolia"
       ];
