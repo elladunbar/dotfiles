@@ -255,6 +255,12 @@ in
     ${pkgs.util-linux}/bin/runuser -u ella -- \
       env HOME=/home/ella nix flake update --commit-lock-file
   '';
+  # the build itself runs as root, and libgit2 (like git) refuses to open a
+  # repo owned by another user, so trust ella's dotfiles system-wide
+  programs.git = {
+    enable = true;
+    config.safe.directory = "/home/ella/.config/dotfiles";
+  };
   nixpkgs.config = {
     allowUnfree = true;
     allowUnsupportedSystem = false;
