@@ -440,6 +440,9 @@
         KbdInteractiveAuthentication no
       '';
       system.defaults.CustomUserPreferences = {
+        "com.apple.desktopservices" = {
+          DSDontWriteNetworkStores = true;
+        };
         "org.hammerspoon.Hammerspoon" = {
           MJConfigFile = "~/.config/hammerspoon/init.lua";
         };
