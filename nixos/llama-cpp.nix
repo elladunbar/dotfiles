@@ -103,6 +103,9 @@
       # mealie are still allowed
       cors-origins = "http://river-birch.nodes.elladunbar.com:5678";
       models-max = 1;
+      # the router hands this to each model's process, which frees the model
+      # after 15 idle minutes and loads it again on the next request
+      sleep-idle-seconds = 900;
       flash-attn = "on";
       fit = "on";
       fit-target = 256;
