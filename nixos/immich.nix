@@ -61,8 +61,9 @@
 
       # sso through authelia (see authelia.nix). the first sso login is linked
       # to the existing account with the same email, so the email in lldap
-      # must match it. password login stays on as a fallback, and nobody
-      # without an account already can get one through sso
+      # must match it. anyone authelia lets through without an account gets
+      # one, as a regular user with no quota. password login stays on as a
+      # fallback
       oauth = {
         enabled = true;
         issuerUrl = "https://auth.elladunbar.com";
@@ -70,7 +71,7 @@
         clientSecret._secret = config.sops.secrets."immich/oidc-client-secret".path;
         tokenEndpointAuthMethod = "client_secret_basic";
         buttonText = "Log in with SSO";
-        autoRegister = false;
+        autoRegister = true;
       };
 
       # welcome, album invite and album update mail, through the migadu

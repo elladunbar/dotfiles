@@ -88,13 +88,25 @@ in
         ];
       };
 
+      # immich creates an account for anyone it lets in (see immich.nix), so
+      # only members of the lldap group photos are let through to it
+      identity_providers.oidc.authorization_policies.photos = {
+        default_policy = "deny";
+        rules = [
+          {
+            policy = "two_factor";
+            subject = "group:photos";
+          }
+        ];
+      };
+
       identity_providers.oidc.clients = [
         {
           client_id = "immich";
           client_name = "Immich";
           client_secret = credential "immich-client-digest";
           public = false;
-          authorization_policy = "two_factor";
+          authorization_policy = "photos";
           require_pkce = true;
           pkce_challenge_method = "S256";
           redirect_uris = [
