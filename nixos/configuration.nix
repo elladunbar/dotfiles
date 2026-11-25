@@ -185,11 +185,22 @@ in
     # openFirewall would re-open it on every interface, including public v6
     openFirewall = false;
     ports = [ 17227 ];
+    # the default list also has an rsa key; keep the ed25519 and pq ones
+    hostKeys = [
+      { type = "ed25519"; path = "/etc/ssh/ssh_host_ed25519_key"; }
+      { type = "mldsa44-ed25519"; path = "/etc/ssh/ssh_host_mldsa44_ed25519_key"; }
+    ];
     settings = {
       KbdInteractiveAuthentication = false;
       PermitRootLogin = "no";
       PasswordAuthentication = false;
       X11Forwarding = true;
+      # post-quantum hybrid key exchange only
+      KexAlgorithms = [
+        "mlkem768x25519-sha256"
+        "sntrup761x25519-sha512"
+        "sntrup761x25519-sha512@openssh.com"
+      ];
     };
   };
 
