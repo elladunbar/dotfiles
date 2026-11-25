@@ -33,11 +33,13 @@
       # the client rather than pine
       rproxy = -1;
 
-      # files.elladunbar.com is behind authelia, and nginx passes the signed-in
-      # user here; "ella" from lldap gets the "ella" account's access.
-      # dav.elladunbar.com strips the header, so webdav clients (finder) log
-      # in with the copyparty password as before
+      # files.elladunbar.com is behind authelia (members of the lldap group
+      # files only), and nginx passes the signed-in user and their lldap
+      # groups here; "ella" from lldap gets the "ella" account's access.
+      # dav.elladunbar.com strips both headers, so webdav clients (rclone on
+      # dogwood) log in with the copyparty password as before
       idp-h-usr = "remote-user";
+      idp-h-grp = "remote-groups";
       idp-logout = "https://auth.elladunbar.com/logout";
 
       usernames = true;
@@ -57,9 +59,27 @@
 
     accounts.ella.passwordFile = config.sops.secrets.copyparty-ella-password.path;
 
-    volumes."/" = {
-      path = "/var/lib/copyparty/data";
-      access.A = "ella";
+    # nested volumes replace the access of the volume they sit in, so ella
+    # can't see into anyone else's folder. \${u} is copyparty's, not nix's:
+    # one private folder per user at the top, created when copyparty first
+    # sees them. usernames and top-level folders share one namespace, so a
+    # user named after a folder in / (like "shared") would be given it
+    volumes = {
+      "/" = {
+        path = "/var/lib/copyparty/data";
+        access.A = "ella";
+      };
+      "/shared" = {
+        path = "/var/lib/copyparty/data/shared";
+        access = {
+          A = "ella";
+          rw = "@files";
+        };
+      };
+      "/\${u}" = {
+        path = "/var/lib/copyparty/data/\${u}";
+        access.A = "\${u}";
+      };
     };
   };
 

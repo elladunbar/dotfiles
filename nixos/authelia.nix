@@ -81,9 +81,11 @@ in
       access_control = {
         default_policy = "deny";
         rules = [
+          # copyparty (see copyparty.nix), for members of the lldap group files
           {
             domain = "files.${domain}";
             policy = "two_factor";
+            subject = "group:files";
           }
         ];
       };

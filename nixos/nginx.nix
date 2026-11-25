@@ -171,12 +171,15 @@ in
             + ''
               auth_request     /internal/authelia/authz;
               auth_request_set $user $upstream_http_remote_user;
+              auth_request_set $groups $upstream_http_remote_groups;
               auth_request_set $redirection_url $upstream_http_location;
               error_page 401 =302 $redirection_url;
 
-              # copyparty logs in whoever this names, so it must only ever
-              # come from authelia; this replaces any client-sent value
+              # copyparty logs in whoever these name, with their groups'
+              # access, so they must only ever come from authelia; this
+              # replaces any client-sent values
               proxy_set_header Remote-User $user;
+              proxy_set_header Remote-Groups $groups;
             '';
         };
         listen = [
@@ -197,8 +200,9 @@ in
             # nginx
             + ''
               # an empty value drops the header, so a client can't send its
-              # own and be logged in as anyone
+              # own and be logged in as anyone, or given a group's access
               proxy_set_header Remote-User "";
+              proxy_set_header Remote-Groups "";
             '';
         };
         listen = [
